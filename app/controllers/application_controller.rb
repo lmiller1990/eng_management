@@ -5,7 +5,12 @@ class ApplicationController < ActionController::Base
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
-  def index
-    "Hello world"
+  # Require authentication for all pages
+  before_action :authenticate
+
+  private
+
+  def authenticate
+    rodauth.require_authentication
   end
 end

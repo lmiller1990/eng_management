@@ -8,6 +8,7 @@ A Ruby on Rails application with Tailwind CSS for engineering management.
 * PostgreSQL 17 (Docker)
 * Tailwind CSS
 * Turbo & Stimulus (Hotwire)
+* Rodauth (Authentication)
 
 ## Setup
 
@@ -42,6 +43,25 @@ rails db:migrate
 
 Visit http://localhost:3000
 
+## Authentication
+
+The app uses [Rodauth](https://github.com/janko/rodauth-rails) for email/password authentication with the following features:
+
+* Email/password login and registration
+* Password reset via email
+* Remember me (persistent sessions)
+* All pages require authentication by default
+
+**Available routes:**
+* `/login` - Sign in
+* `/create-account` - Sign up
+* `/reset-password-request` - Reset password
+* `/logout` - Sign out
+
+**Development notes:**
+* Password reset emails are logged to console in development mode
+* First user: visit `/create-account` to register
+
 ## Database Management
 
 ```bash
@@ -57,7 +77,7 @@ docker exec -it eng-management-postgres psql -U postgres -d eng_management_devel
 
 ## Next Steps
 
-- [ ] Create application controller and home page
+- [x] Create application controller and home page
+- [x] Add authentication
 - [ ] Build core features
-- [ ] Add authentication
 - [ ] Deploy to production
