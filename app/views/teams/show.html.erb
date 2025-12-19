@@ -1,0 +1,120 @@
+<% content_for :title, @team.name %>
+
+<div class="w-full">
+  <% if notice.present? %>
+    <div class="alert alert-success mb-5">
+      <span><%= notice %></span>
+    </div>
+  <% end %>
+
+  <% if alert.present? %>
+    <div class="alert alert-error mb-5">
+      <span><%= alert %></span>
+    </div>
+  <% end %>
+
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-4xl font-bold"><%= @team.name %></h1>
+      <% if @team.description.present? %>
+        <p class="text-lg opacity-70 mt-2"><%= @team.description %></p>
+      <% end %>
+    </div>
+    <% membership = @team.team_memberships.find_by(account: rodauth.account) %>
+    <% if membership&.admin? || membership&.owner? %>
+      <%= link_to "Edit team", edit_team_path(@team), class: "btn btn-ghost" %>
+    <% end %>
+  </div>
+
+  <!-- Team Members -->
+  <div class="card bg-base-100 shadow mb-6">
+    <div class="card-body">
+      <h2 class="card-title mb-4">Team Members (<%= @team_memberships.count %>)</h2>
+
+      <div class="space-y-2">
+        <% @team_memberships.each do |membership| %>
+          <div class="flex justify-between items-center p-3 hover:bg-base-200 rounded-lg">
+            <div>
+              <p class="font-medium"><%= membership.account.email %></p>
+              <% if membership.owner? %>
+                <span class="badge badge-primary badge-sm">Owner</span>
+              <% elsif membership.admin? %>
+                <span class="badge badge-secondary badge-sm">Admin</span>
+              <% else %>
+                <span class="badge badge-ghost badge-sm">Member</span>
+              <% end %>
+            </div>
+
+            <% current_membership = @team.team_memberships.find_by(account: rodauth.account) %>
+            <% can_remove = (current_membership&.admin? || current_membership&.owner?) || membership.account == rodauth.account %>
+
+            <% if can_remove && @team.team_memberships.where(role: 'owner').count > 1 || (!membership.owner? && can_remove) %>
+              <%= button_to "Remove", team_membership_path(@team, membership),
+                  method: :delete,
+                  class: "btn btn-sm btn-error",
+                  data: { turbo_confirm: membership.account == rodauth.account ? "Are you sure you want to leave this team?" : "Are you sure you want to remove this member?" } %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invite Member Form -->
+  <div class="card bg-base-100 shadow mb-6">
+    <div class="card-body">
+      <h2 class="card-title mb-4">Invite Member</h2>
+
+      <%= form_with model: TeamInvitation.new, url: team_invitations_path(@team), method: :post, class: "flex gap-2" do |form| %>
+        <div class="form-control flex-1">
+          <%= form.email_field :email,
+              placeholder: "Email address",
+              required: true,
+              class: "input input-bordered w-full" %>
+        </div>
+        <%= form.submit "Send Invite", class: "btn btn-primary" %>
+      <% end %>
+
+      <p class="text-sm opacity-70 mt-2">
+        If the user already has an account, they'll be added immediately.
+        Otherwise, we'll send them an email invitation.
+      </p>
+    </div>
+  </div>
+
+  <!-- Pending Invitations -->
+  <% if @pending_invitations.any? %>
+    <div class="card bg-base-100 shadow mb-6">
+      <div class="card-body">
+        <h2 class="card-title mb-4">Pending Invitations (<%= @pending_invitations.count %>)</h2>
+
+        <div class="space-y-2">
+          <% @pending_invitations.each do |invitation| %>
+            <div class="flex justify-between items-center p-3 hover:bg-base-200 rounded-lg">
+              <div>
+                <p class="font-medium"><%= invitation.email %></p>
+                <p class="text-sm opacity-70">
+                  Invited by <%= invitation.inviter.email %>
+                  <%= time_ago_in_words(invitation.created_at) %> ago
+                  <% if invitation.expired? %>
+                    <span class="badge badge-error badge-sm ml-2">Expired</span>
+                  <% else %>
+                    <span class="opacity-50 ml-2">(expires <%= time_ago_in_words(invitation.expires_at) %> from now)</span>
+                  <% end %>
+                </p>
+              </div>
+              <%= button_to "Cancel", team_invitation_path(@team, invitation),
+                  method: :delete,
+                  class: "btn btn-sm btn-ghost",
+                  data: { turbo_confirm: "Are you sure you want to cancel this invitation?" } %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="flex gap-2">
+    <%= link_to "Back to Teams", teams_path, class: "btn btn-ghost" %>
+  </div>
+</div>

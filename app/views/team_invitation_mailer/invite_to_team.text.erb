@@ -1,0 +1,17 @@
+Hi there!
+
+<%= @inviter.email %> has invited you to join the team "<%= @team.name %>" on Engineering Management.
+<% if @team.description.present? %>
+
+About this team:
+<%= @team.description %>
+<% end %>
+
+To accept this invitation, please click the link below:
+<%= @accept_url %>
+
+This invitation will expire in 7 days.
+
+If you already have an account, you'll be added to the team immediately. If not, you'll be able to create an account and join the team in one step.
+
+If you didn't expect this invitation, you can safely ignore this email.

@@ -1,0 +1,53 @@
+<% content_for :title, "Teams" %>
+
+<div class="w-full">
+  <% if notice.present? %>
+    <div class="alert alert-success mb-5">
+      <span><%= notice %></span>
+    </div>
+  <% end %>
+
+  <% if alert.present? %>
+    <div class="alert alert-error mb-5">
+      <span><%= alert %></span>
+    </div>
+  <% end %>
+
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-4xl font-bold">Teams</h1>
+    <%= link_to "New team", new_team_path, class: "btn btn-primary" %>
+  </div>
+
+  <div id="teams" class="space-y-4">
+    <% if @teams.any? %>
+      <% @teams.each do |team| %>
+        <div class="card bg-base-100 shadow">
+          <div class="card-body">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <h2 class="card-title"><%= team.name %></h2>
+                <% if team.description.present? %>
+                  <p class="text-sm opacity-70 mt-1"><%= team.description %></p>
+                <% end %>
+                <p class="text-sm opacity-50 mt-1"><%= pluralize(team.accounts.count, 'member') %></p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <%= link_to "View", team, class: "btn btn-sm btn-ghost" %>
+                <% membership = team.team_memberships.find_by(account: rodauth.account) %>
+                <% if membership&.admin? || membership&.owner? %>
+                  <%= link_to "Edit", edit_team_path(team), class: "btn btn-sm btn-ghost" %>
+                  <%= button_to "Delete", team, method: :delete, class: "btn btn-sm btn-error", data: { turbo_confirm: "Are you sure? This will remove all members and delete the team." } %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="text-center py-10">
+        <p>You're not a member of any teams yet.</p>
+        <p class="text-sm opacity-70 mt-2">Create a team to get started!</p>
+      </div>
+    <% end %>
+  </div>
+</div>
