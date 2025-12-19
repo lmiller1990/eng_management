@@ -9,8 +9,7 @@
 
   <%= render @memo %>
 
-lement
-   <div class="element"></div>
+   <div class="tiptap"></div>
 
 <script type="module">
 
@@ -19,7 +18,7 @@ lement
      import { Editor } from 'https://esm.sh/@tiptap/core'
       import StarterKit from 'https://esm.sh/@tiptap/starter-kit'
       const editor = new Editor({
-        element: document.querySelector('.element'),
+        element: document.querySelector('.tiptap'),
         extensions: [StarterKit],
         content: '<p>Hello World!</p>',
       })
@@ -27,5 +26,92 @@ lement
 
 
   <%= link_to "Edit this memo", edit_memo_path(@memo), class: "btn btn-ghost btn-sm" %>
+  <!--
   <%= button_to "Destroy this memo", @memo, method: :delete, class: "btn btn-sm btn-error", data: { turbo_confirm: "Are you sure?" } %>
+  -->
 </div>
+
+<style>
+  /* Basic editor styles */
+.tiptap {
+  @apply text-base;
+}
+
+.tiptap :first-child {
+  @apply mt-0;
+}
+
+/* List styles */
+.tiptap ul,
+.tiptap ol {
+  @apply list-inside pl-0 my-5;
+}
+
+.tiptap ul li p,
+.tiptap ol li p {
+  @apply my-1;
+}
+
+/* Heading styles */
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  @apply leading-tight mt-10;
+  text-wrap: pretty;
+}
+
+.tiptap h1,
+.tiptap h2 {
+  @apply mt-14 mb-6;
+}
+
+.tiptap h1 {
+  @apply text-[1.4rem];
+}
+
+.tiptap h2 {
+  @apply text-[1.2rem];
+}
+
+.tiptap h3 {
+  @apply text-[1.1rem];
+}
+
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  @apply text-base;
+}
+
+/* Code and preformatted text styles */
+.tiptap code {
+  @apply rounded-md text-[0.85rem] px-[0.3em] py-[0.25em];
+  background-color: var(--purple-light);
+  color: var(--black);
+}
+
+.tiptap pre {
+  @apply rounded-lg my-6 px-4 py-3 text-white;
+  background-color: var(--black);
+  font-family: 'JetBrainsMono', monospace;
+}
+
+.tiptap pre code {
+  @apply bg-transparent text-inherit text-[0.8rem] p-0;
+}
+
+/* Blockquote */
+.tiptap blockquote {
+  @apply border-l-[3px] my-6 pl-4;
+  border-color: var(--gray-3);
+}
+
+/* Horizontal rule */
+.tiptap hr {
+  @apply border-0 border-t my-8;
+  border-color: var(--gray-2);
+}
+</style>
