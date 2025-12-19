@@ -92,6 +92,8 @@ Platform for Engineering Managers to manage meetings with their team members, in
 **MeetingParticipant**
 - Join table between Meetings and Accounts
 - Tracks who participated in each meeting
+- Meeting creator is automatically added as a participant
+- Unique constraint prevents duplicate participants
 
 **Note**
 - Meeting notes with rich text content (JSON format for tiptap editor)
@@ -102,12 +104,28 @@ Platform for Engineering Managers to manage meetings with their team members, in
 - Belongs to a Meeting and an Account (assignee)
 - Has a title field
 
+### Workflow
+
+1. User signs up via `/create-account`
+2. User creates a meeting (automatically becomes a participant)
+3. User adds other participants to the meeting
+4. Within a meeting, users can:
+   - Create and edit notes
+   - Create and assign action items
+   - Add/remove participants
+
 ### Available Routes
 
-* `/meetings` - Meeting management
-* `/meeting_participants` - Participant management
-* `/notes` - Note management
-* `/action_items` - Action item management
+**Meetings:**
+* `/meetings` - List all meetings
+* `/meetings/:id` - View meeting details (shows all participants, notes, and action items)
+
+**Nested Resources (accessed through meetings):**
+* `/meetings/:meeting_id/participants` - Add/remove meeting participants (inline on meeting show page)
+* `/meetings/:meeting_id/notes` - Create/edit meeting notes
+* `/meetings/:meeting_id/action_items` - Create/edit action items
+
+All notes, action items, and participants are managed within their parent meeting context.
 
 ## DB
 

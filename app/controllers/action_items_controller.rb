@@ -1,32 +1,30 @@
 class ActionItemsController < ApplicationController
-  before_action :set_action_item, only: %i[ show edit update destroy ]
+  before_action :set_meeting
+  before_action :set_action_item, only: %i[ edit update destroy ]
 
-  # GET /action_items or /action_items.json
+  # GET /meetings/:meeting_id/action_items
   def index
-    @action_items = ActionItem.all
+    @action_items = @meeting.action_items
   end
 
-  # GET /action_items/1 or /action_items/1.json
-  def show
-  end
-
-  # GET /action_items/new
+  # GET /meetings/:meeting_id/action_items/new
   def new
-    @action_item = ActionItem.new
+    @action_item = @meeting.action_items.build
   end
 
-  # GET /action_items/1/edit
+  # GET /meetings/:meeting_id/action_items/:id/edit
   def edit
   end
 
-  # POST /action_items or /action_items.json
+  # POST /meetings/:meeting_id/action_items
   def create
-    @action_item = ActionItem.new(action_item_params)
+    @action_item = @meeting.action_items.build(action_item_params)
+    @action_item.account = rodauth.account
 
     respond_to do |format|
       if @action_item.save
-        format.html { redirect_to @action_item, notice: "Action item was successfully created." }
-        format.json { render :show, status: :created, location: @action_item }
+        format.html { redirect_to @meeting, notice: "Action item was successfully created." }
+        format.json { render :show, status: :created, location: [@meeting, @action_item] }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @action_item.errors, status: :unprocessable_entity }
@@ -34,12 +32,12 @@ class ActionItemsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /action_items/1 or /action_items/1.json
+  # PATCH/PUT /meetings/:meeting_id/action_items/:id
   def update
     respond_to do |format|
       if @action_item.update(action_item_params)
-        format.html { redirect_to @action_item, notice: "Action item was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @action_item }
+        format.html { redirect_to @meeting, notice: "Action item was successfully updated.", status: :see_other }
+        format.json { render :show, status: :ok, location: [@meeting, @action_item] }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @action_item.errors, status: :unprocessable_entity }
@@ -47,24 +45,26 @@ class ActionItemsController < ApplicationController
     end
   end
 
-  # DELETE /action_items/1 or /action_items/1.json
+  # DELETE /meetings/:meeting_id/action_items/:id
   def destroy
     @action_item.destroy!
 
     respond_to do |format|
-      format.html { redirect_to action_items_path, notice: "Action item was successfully destroyed.", status: :see_other }
+      format.html { redirect_to @meeting, notice: "Action item was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_action_item
-      @action_item = ActionItem.find(params.expect(:id))
+    def set_meeting
+      @meeting = Meeting.find(params[:meeting_id])
     end
 
-    # Only allow a list of trusted parameters through.
+    def set_action_item
+      @action_item = @meeting.action_items.find(params[:id])
+    end
+
     def action_item_params
-      params.expect(action_item: [ :meeting_id, :account_id, :title ])
+      params.expect(action_item: [ :title ])
     end
 end

@@ -8,6 +8,10 @@ class MeetingsController < ApplicationController
 
   # GET /meetings/1 or /meetings/1.json
   def show
+    @notes = @meeting.notes.order(created_at: :desc)
+    @action_items = @meeting.action_items.order(created_at: :desc)
+    @meeting_participants = @meeting.meeting_participants.includes(:account)
+    @meeting_participant = @meeting.meeting_participants.build
   end
 
   # GET /meetings/new

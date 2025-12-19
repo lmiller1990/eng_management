@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  resources :action_items
-  resources :notes
-  resources :meeting_participants
-  resources :meetings
+  resources :meetings do
+    resources :notes, only: [ :index, :new, :create, :edit, :update, :destroy ]
+    resources :action_items, only: [ :index, :new, :create, :edit, :update, :destroy ]
+    resources :participants, controller: "meeting_participants", only: [ :create, :destroy ]
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
