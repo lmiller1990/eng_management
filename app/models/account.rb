@@ -6,12 +6,13 @@ class Account < ApplicationRecord
   has_many :meetings, through: :meeting_participants
   has_many :notes, dependent: :destroy
   has_many :action_items, dependent: :destroy
+  has_many :memos
 
   # Team relationships
   has_many :team_memberships, dependent: :destroy
   has_many :teams, through: :team_memberships
-  has_many :owned_teams, class_name: 'Team', foreign_key: 'owner_id', dependent: :destroy
-  has_many :sent_team_invitations, class_name: 'TeamInvitation', foreign_key: 'inviter_id', dependent: :nullify
+  has_many :owned_teams, class_name: "Team", foreign_key: "owner_id", dependent: :destroy
+  has_many :sent_team_invitations, class_name: "TeamInvitation", foreign_key: "inviter_id", dependent: :nullify
 
   # Check for pending team invitations after account creation
   after_create :accept_pending_team_invitations
@@ -19,6 +20,10 @@ class Account < ApplicationRecord
   private
 
   def accept_pending_team_invitations
+    # Only auto-accept invitations if the account has a password set
+    # This prevents auto-accepting for accounts created via invitation workflow
+    return unless password_hash.present?
+
     TeamInvitation.pending.where(email: email).find_each do |invitation|
       invitation.accept!(self)
     end

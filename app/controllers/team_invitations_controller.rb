@@ -118,14 +118,29 @@ class TeamInvitationsController < ApplicationController
       return
     end
 
-    # Use Rodauth's password hashing
-    password_hash = rodauth.send(:password_hash, password)
+    # Hash the password using BCrypt (same as Rodauth)
+    require 'bcrypt'
+    password_hash = BCrypt::Password.create(password, cost: BCrypt::Engine::DEFAULT_COST)
     account.update!(password_hash: password_hash, status: :verified)
 
     # Accept the invitation
     if @invitation.accept!(account)
-      # Log the user in manually
+      # Log the user in by setting session
       session[:account_id] = account.id
+
+      # Create remember token if remember feature is enabled
+      if defined?(rodauth) && rodauth.respond_to?(:remember_login)
+        begin
+          rodauth.instance_exec do
+            @account = account
+            remember_login
+          end
+        rescue => e
+          # If remember fails, that's okay, user is still logged in
+          Rails.logger.warn("Failed to set remember token: #{e.message}")
+        end
+      end
+
       redirect_to @invitation.team, notice: "Welcome to #{@invitation.team.name}!"
     else
       redirect_to root_path, alert: "Could not accept invitation."

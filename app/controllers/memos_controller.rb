@@ -22,6 +22,7 @@ class MemosController < ApplicationController
   # POST /memos or /memos.json
   def create
     @memo = Memo.new(memo_params)
+    @memo.account = current_account
 
     respond_to do |format|
       if @memo.save
