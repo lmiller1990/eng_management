@@ -81,4 +81,3 @@ pin "prosemirror-dropcursor" # @1.8.2
 pin "prosemirror-gapcursor" # @1.4.0
 pin "prosemirror-history" # @1.5.0
 pin "rope-sequence" # @1.3.4
-pin "@rails/actioncable", to: "@rails--actioncable.js" # @8.1.100

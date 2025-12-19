@@ -33,33 +33,51 @@
 <% end %>
 
 <script type="module">
-import { Editor } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
-import { ListItem } from '@tiptap/extension-list-item'
-import { Color } from '@tiptap/extension-color'
-import { TextStyle } from '@tiptap/extension-text-style'
-import { Collaboration } from '@tiptap/extension-collaboration'
-import * as Y from 'yjs'
-import { ActioncableProvider } from '@y-rb/actioncable'
-import { createConsumer } from '@rails/actioncable'
+import { Editor } from 'https://esm.sh/@tiptap/core@3.13.0'
+import StarterKit from 'https://esm.sh/@tiptap/starter-kit@3.13.0'
+import { ListItem } from 'https://esm.sh/@tiptap/extension-list-item@3.13.0'
+import { Color } from 'https://esm.sh/@tiptap/extension-color@3.13.0'
+import { TextStyle } from 'https://esm.sh/@tiptap/extension-text-style@3.13.0'
+import { Collaboration } from 'https://esm.sh/@tiptap/extension-collaboration@3.13.0'
+import * as Y from 'https://esm.sh/yjs@13.6.27'
+import {WebsocketProvider} from "@y-rb/actioncable";
+import { createConsumer } from "@rails/actioncable";
+
+const ydoc = new Y.Doc()
+const consumer = createConsumer();
+
+const provider = new WebsocketProvider(
+  ydoc,
+  consumer,
+  "SyncChannel",
+  {id: "1"}
+);
 
 const hiddenField = document.querySelector("#memo_content")
 const editorElement = document.querySelector("#tiptap-editor")
 const documentId = editorElement.dataset.documentId
 
+console.log('[Collab] Initializing collaboration for document:', documentId)
+
 // Create Y.js document
-const ydoc = new Y.Doc()
+console.log('[Collab] Y.js document created')
 
-// Create ActionCable consumer
-const cable = createConsumer()
 
-// Create ActionCable provider for Y.js
-const provider = new ActioncableProvider(
-  ydoc,
-  cable,
-  'DocumentSyncChannel',
-  { document_id: documentId }
-)
+// Log provider status events
+provider.on('status', (event) => {
+  console.log('[Collab] Status changed:', event.status)
+})
+
+provider.on('sync', (isSynced) => {
+  console.log('[Collab] Sync status:', isSynced ? 'synced' : 'syncing')
+})
+
+// Log Y.js document updates
+ydoc.on('update', (update) => {
+  console.log('[Collab] Y.js document updated, size:', update.length, 'bytes')
+})
+
+console.log('[Collab] ActionCable provider initialized')
 
 const existingContent = `
 <h2>
@@ -111,14 +129,24 @@ const editor = new Editor({
   ],
   content: existingContent,
   onUpdate: ({ editor }) => {
+    console.log('[Collab] Editor updated')
     // Sync content back to hidden field whenever it changes
     hiddenField.value = editor.getHTML()
+  },
+  onCreate: () => {
+    console.log('[Collab] Editor created and ready')
   }
+})
+
+// Log ActionCable connection events
+cable.subscriptions.subscriptions.forEach((subscription) => {
+  console.log('[Collab] ActionCable subscription:', subscription.identifier)
 })
 
 // Also sync on form submit to ensure we have the latest content
 const form = hiddenField.closest('form')
 form.addEventListener('submit', () => {
+  console.log('[Collab] Form submitting, saving content')
   hiddenField.value = editor.getHTML()
 })
 </script>

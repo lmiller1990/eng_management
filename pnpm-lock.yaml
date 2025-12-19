@@ -17,6 +17,9 @@ importers:
       '@tiptap/starter-kit':
         specifier: ^3.14.0
         version: 3.14.0
+      '@y-rb/actioncable':
+        specifier: ^0.3.0
+        version: 0.3.0
 
 packages:
 
@@ -158,6 +161,10 @@ packages:
   '@types/mdurl@2.0.0':
     resolution: {integrity: sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg==}
 
+  '@y-rb/actioncable@0.3.0':
+    resolution: {integrity: sha512-fMMt6wYe2bZyD9aUJlcn+01ua40hHhnc3vh2OEUQoUYerTDdkf+Dk+VtoP6c6C1uYz4dbmN2FbVBDUlrx1DW/A==}
+    engines: {node: '>= 18.14.1', yarn: '>= 1.22.19'}
+
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
@@ -171,6 +178,14 @@ packages:
   escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+
+  isomorphic.js@0.2.5:
+    resolution: {integrity: sha512-PIeMbHqMt4DnUP3MA/Flc0HElYjMXArsw1qwJZcm9sqR8mq3l8NYizFMty0pWwE/tzIGH3EKK5+jes5mAr85yw==}
+
+  lib0@0.2.115:
+    resolution: {integrity: sha512-noaW4yNp6hCjOgDnWWxW0vGXE3kZQI5Kqiwz+jIWXavI9J9WyfJ9zjsbQlQlgjIbHBrvlA/x3TSIXBUJj+0L6g==}
+    engines: {node: '>=16'}
+    hasBin: true
 
   linkify-it@5.0.0:
     resolution: {integrity: sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==}
@@ -258,6 +273,16 @@ packages:
 
   w3c-keyname@2.2.8:
     resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
+
+  y-protocols@1.0.7:
+    resolution: {integrity: sha512-YSVsLoXxO67J6eE/nV4AtFtT3QEotZf5sK5BHxFBXso7VDUT3Tx07IfA6hsu5Q5OmBdMkQVmFZ9QOA7fikWvnw==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
+    peerDependencies:
+      yjs: ^13.0.0
+
+  yjs@13.6.28:
+    resolution: {integrity: sha512-EgnDOXs8+hBVm6mq3/S89Kiwzh5JRbn7w2wXwbrMRyKy/8dOFsLvuIfC+x19ZdtaDc0tA9rQmdZzbqqNHG44wA==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
 
 snapshots:
 
@@ -418,6 +443,12 @@ snapshots:
 
   '@types/mdurl@2.0.0': {}
 
+  '@y-rb/actioncable@0.3.0':
+    dependencies:
+      lib0: 0.2.115
+      y-protocols: 1.0.7(yjs@13.6.28)
+      yjs: 13.6.28
+
   argparse@2.0.1: {}
 
   crelt@1.0.6: {}
@@ -425,6 +456,12 @@ snapshots:
   entities@4.5.0: {}
 
   escape-string-regexp@4.0.0: {}
+
+  isomorphic.js@0.2.5: {}
+
+  lib0@0.2.115:
+    dependencies:
+      isomorphic.js: 0.2.5
 
   linkify-it@5.0.0:
     dependencies:
@@ -555,3 +592,12 @@ snapshots:
   uc.micro@2.1.0: {}
 
   w3c-keyname@2.2.8: {}
+
+  y-protocols@1.0.7(yjs@13.6.28):
+    dependencies:
+      lib0: 0.2.115
+      yjs: 13.6.28
+
+  yjs@13.6.28:
+    dependencies:
+      lib0: 0.2.115

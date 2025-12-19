@@ -16,15 +16,17 @@ Implementation:
    - Documents identified by memo_id (e.g., "memo_123")
 
 2. Frontend (app/views/memos/_form.html.erb)
-   - Uses importmap for all JS dependencies (no CDN)
+   - TipTap and Y.js packages loaded from esm.sh CDN (bundles dependencies)
+   - ActionCable loaded via importmap
    - Y.js document synced via ActioncableProvider
    - TipTap editor with Collaboration extension
    - StarterKit history disabled (Y.js handles undo/redo)
+   - Console logging added for debugging connection status
 
-3. Dependencies pinned via importmap:
-   - yjs, @y-rb/actioncable, @rails/actioncable
-   - @tiptap/extension-collaboration
-   - @tiptap/starter-kit and other TipTap extensions
+3. Dependencies:
+   - esm.sh CDN: yjs, @y-rb/actioncable, @tiptap packages
+   - importmap: @rails/actioncable
+   - Note: importmap pin command created files but JSPM chunking caused 404s, so using CDN instead
 
 Testing:
 Open same memo in multiple browser windows to see real-time sync.
