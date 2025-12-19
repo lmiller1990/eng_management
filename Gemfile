@@ -64,6 +64,7 @@ group :development do
   gem "web-console"
   gem "rails-erd", group: :development
   gem "letter_opener", group: :development
+  gem "erb_lint", require: false
 end
 
 group :test do
