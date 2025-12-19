@@ -1,0 +1,13 @@
+<% content_for :title, "New Team" %>
+
+<div class="w-full">
+  <div class="mb-6">
+    <h1 class="text-4xl font-bold">New Team</h1>
+  </div>
+
+  <div class="card bg-base-100 shadow max-w-2xl">
+    <div class="card-body">
+      <%= render "form", team: @team %>
+    </div>
+  </div>
+</div>

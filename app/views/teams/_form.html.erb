@@ -1,0 +1,35 @@
+<%= form_with(model: team, class: "space-y-4") do |form| %>
+  <% if team.errors.any? %>
+    <div class="alert alert-error">
+      <div>
+        <h2 class="font-bold"><%= pluralize(team.errors.count, "error") %> prohibited this team from being saved:</h2>
+        <ul class="list-disc list-inside mt-2">
+          <% team.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-control">
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name,
+        class: "input input-bordered w-full",
+        placeholder: "Engineering Team",
+        required: true %>
+  </div>
+
+  <div class="form-control">
+    <%= form.label :description, class: "label" %>
+    <%= form.text_area :description,
+        rows: 4,
+        class: "textarea textarea-bordered w-full",
+        placeholder: "What is this team for?" %>
+  </div>
+
+  <div class="flex gap-2">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", team.persisted? ? team : teams_path, class: "btn btn-ghost" %>
+  </div>
+<% end %>

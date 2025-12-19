@@ -2,34 +2,40 @@
 
 <div class="w-full">
   <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+    <div class="alert alert-success mb-5">
+      <span><%= notice %></span>
+    </div>
   <% end %>
 
   <div class="flex justify-between items-center mb-6">
-    <h1 class="font-bold text-4xl">Notes for Meeting #<%= @meeting.id %></h1>
-    <%= link_to "New note", new_meeting_note_path(@meeting), class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    <h1 class="text-4xl font-bold">Notes for Meeting #<%= @meeting.id %></h1>
+    <%= link_to "New note", new_meeting_note_path(@meeting), class: "btn btn-primary" %>
   </div>
 
-  <div id="notes" class="min-w-full divide-y divide-gray-200 space-y-5">
+  <div id="notes" class="space-y-4">
     <% if @notes.any? %>
       <% @notes.each do |note| %>
-        <div class="p-4 bg-gray-50 rounded-md">
-          <div class="flex justify-between items-start mb-2">
-            <span class="text-sm text-gray-600"><%= note.created_at.strftime("%B %d, %Y") %></span>
-            <div class="flex gap-2">
-              <%= link_to "Edit", edit_meeting_note_path(@meeting, note), class: "text-sm rounded-md px-2 py-1 bg-gray-200 hover:bg-gray-300 font-medium" %>
-              <%= button_to "Delete", meeting_note_path(@meeting, note), method: :delete,
-                  class: "text-sm rounded-md px-2 py-1 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer",
-                  data: { turbo_confirm: "Are you sure?" } %>
+        <div class="card bg-base-100 shadow">
+          <div class="card-body">
+            <div class="flex justify-between items-start mb-2">
+              <span class="text-sm opacity-60"><%= note.created_at.strftime("%B %d, %Y") %></span>
+              <div class="flex gap-2">
+                <%= link_to "Edit", edit_meeting_note_path(@meeting, note), class: "btn btn-sm btn-ghost" %>
+                <%= button_to "Delete", meeting_note_path(@meeting, note), method: :delete,
+                    class: "btn btn-sm btn-error",
+                    data: { turbo_confirm: "Are you sure?" } %>
+              </div>
             </div>
+            <p class="whitespace-pre-wrap"><%= note.content %></p>
           </div>
-          <p class="text-gray-800 whitespace-pre-wrap"><%= note.content %></p>
         </div>
       <% end %>
     <% else %>
-      <p class="text-center my-10">No notes found for this meeting.</p>
+      <div class="text-center py-10">
+        <p>No notes found for this meeting.</p>
+      </div>
     <% end %>
   </div>
 
-  <%= link_to "Back to meeting", @meeting, class: "mt-6 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <%= link_to "Back to meeting", @meeting, class: "btn btn-ghost mt-6" %>
 </div>

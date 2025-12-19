@@ -1,22 +1,23 @@
-<%= form_with(model: [@meeting, action_item], class: "contents") do |form| %>
+<%= form_with(model: [@meeting, action_item], class: "space-y-4") do |form| %>
   <% if action_item.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(action_item.errors.count, "error") %> prohibited this action_item from being saved:</h2>
-
-      <ul class="list-disc ml-6">
-        <% action_item.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="alert alert-error">
+      <div>
+        <h2 class="font-bold"><%= pluralize(action_item.errors.count, "error") %> prohibited this action_item from being saved:</h2>
+        <ul class="list-disc ml-6 mt-2">
+          <% action_item.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :title %>
-    <%= form.text_field :title, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": action_item.errors[:title].none?, "border-red-400 focus:outline-red-600": action_item.errors[:title].any?}] %>
+  <div class="form-control">
+    <%= form.label :title, class: "label" %>
+    <%= form.text_field :title, class: "input input-bordered w-full #{action_item.errors[:title].any? ? 'input-error' : ''}" %>
   </div>
 
-  <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  <div>
+    <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>

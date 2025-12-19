@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  resources :team, only: [ :index ]
+
+  resources :teams do
+    resources :memberships, controller: "team_memberships", only: [ :destroy ]
+    resources :invitations, controller: "team_invitations", only: [ :create, :destroy ]
+  end
+
+  # Public invitation acceptance route (no auth required)
+  get "/invitations/:token/accept", to: "team_invitations#accept", as: :accept_team_invitation
+
   resources :meetings do
     resources :notes, only: [ :index, :new, :create, :edit, :update, :destroy ]
     resources :action_items, only: [ :index, :new, :create, :edit, :update, :destroy ]

@@ -50,10 +50,15 @@ class RodauthMain < Rodauth::Rails::Auth
     login_param "email"
     login_confirm_param "email-confirm"
     # password_confirm_param "confirm_password"
+    require_login_confirmation? false
+    require_password_confirmation? false
 
     # Redirect back to originally requested location after authentication.
-    # login_return_to_requested_location? true
+    login_return_to_requested_location? true
     # two_factor_auth_return_to_requested_location? true # if using MFA
+
+    # Set the error message for when login is required
+    require_login_error_flash "Please log in to access this page"
 
     # Autologin the user after they have reset their password.
     # reset_password_autologin? true
@@ -125,9 +130,18 @@ class RodauthMain < Rodauth::Rails::Auth
     # end
 
     # Perform additional actions after the account is created.
-    # after_create_account do
-    #   Profile.create!(account_id: account_id, name: param("name"))
-    # end
+    after_create_account do
+      # Handle team invitations stored in session
+      if session[:team_invitation_token]
+        invitation = TeamInvitation.find_by(token: session[:team_invitation_token])
+        if invitation&.pending?
+          invitation.accept!(account)
+          # Store team name for success message
+          session[:team_joined] = invitation.team.name
+        end
+        session.delete(:team_invitation_token)
+      end
+    end
 
     # Do additional cleanup after the account is closed.
     # after_close_account do

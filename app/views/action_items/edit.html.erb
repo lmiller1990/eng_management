@@ -1,9 +1,9 @@
 <% content_for :title, "Editing action item" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl mb-5">Editing action item for Meeting #<%= @meeting.id %></h1>
+<div class="max-w-2xl">
+  <h1 class="text-4xl font-bold mb-6">Editing action item for Meeting #<%= @meeting.id %></h1>
 
   <%= render "form", action_item: @action_item, meeting: @meeting %>
 
-  <%= link_to "Back to meeting", @meeting, class: "mt-4 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <%= link_to "Back to meeting", @meeting, class: "btn btn-ghost mt-4" %>
 </div>
