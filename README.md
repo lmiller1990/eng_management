@@ -131,4 +131,9 @@ All notes, action items, and participants are managed within their parent meetin
 
 ```
 docker exec -it eng-management-postgres psql -U postgres
+
+# erd
+bundle exec erd
 ```
+
+
