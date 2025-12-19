@@ -25,6 +25,9 @@ class MeetingsController < ApplicationController
 
     respond_to do |format|
       if @meeting.save
+        # Automatically add the current user as a participant
+        @meeting.meeting_participants.create(account: rodauth.account)
+
         format.html { redirect_to @meeting, notice: "Meeting was successfully created." }
         format.json { render :show, status: :created, location: @meeting }
       else
