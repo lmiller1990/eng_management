@@ -50,7 +50,14 @@ class TeamInvitationsController < ApplicationController
     end
 
     if rodauth.logged_in?
-      # User is logged in, accept invitation
+      # User is logged in, check if invitation is for this user
+      if current_account.email != @invitation.email
+        Rails.logger.warn("Account #{current_account.id} (#{current_account.email}) attempted to accept invitation for #{@invitation.email}")
+        redirect_to root_path, alert: "This invitation is for a different account."
+        return
+      end
+
+      # Accept invitation
       if @invitation.accept!(current_account)
         redirect_to @invitation.team, notice: "You have joined #{@invitation.team.name}!"
       else
