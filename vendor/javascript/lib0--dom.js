@@ -1,0 +1,4 @@
+// lib0/dom@0.2.114 downloaded from https://ga.jspm.io/npm:lib0@0.2.114/dom.js
+
+import"./_/39Y1qLDZ.js";import"./_/BtkFwSuw.js";export{G as CDATA_SECTION_NODE,H as COMMENT_NODE,K as DOCUMENT_FRAGMENT_NODE,I as DOCUMENT_NODE,J as DOCUMENT_TYPE_NODE,E as ELEMENT_NODE,T as TEXT_NODE,a as addEventListener,y as addEventListeners,l as append,h as appendChild,A as canvas,c as checkNodeType,o as createDocumentFragment,j as createElement,s as createTextNode,n as doc,u as domParser,k as element,e as emitCustomEvent,i as fragment,D as getElementById,F as insertBefore,L as isParentOf,m as mapToStyleString,B as pairToStyleString,C as pairsToStyleString,p as parseElement,f as parseFragment,q as querySelector,b as querySelectorAll,r as remove,x as removeEventListener,z as removeEventListeners,g as replaceWith,v as setAttributes,w as setAttributesMap,t as text}from"./_/vQcksUoQ.js";
+

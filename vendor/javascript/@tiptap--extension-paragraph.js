@@ -1,0 +1,4 @@
+// @tiptap/extension-paragraph@3.13.0 downloaded from https://ga.jspm.io/npm:@tiptap/extension-paragraph@3.13.0/dist/index.js
+
+import{Node as r,mergeAttributes as e}from"@tiptap/core";var t=r.create({name:"paragraph",priority:1e3,addOptions(){return{HTMLAttributes:{}}},group:"block",content:"inline*",parseHTML(){return[{tag:"p"}]},renderHTML({HTMLAttributes:r}){return["p",e(this.options.HTMLAttributes,r),0]},parseMarkdown:(r,e)=>{const t=r.tokens||[];return t.length===1&&t[0].type==="image"?e.parseChildren([t[0]]):e.createNode("paragraph",void 0,e.parseInline(t))},renderMarkdown:(r,e)=>r&&Array.isArray(r.content)?e.renderChildren(r.content):"",addCommands(){return{setParagraph:()=>({commands:r})=>r.setNode(this.name)}},addKeyboardShortcuts(){return{"Mod-Alt-0":()=>this.editor.commands.setParagraph()}}});var a=t;export{t as Paragraph,a as default};
+
