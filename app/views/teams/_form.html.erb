@@ -13,15 +13,13 @@
   <% end %>
 
   <div class="form-control">
-    <%= form.label :name, class: "label" %>
     <%= form.text_field :name,
         class: "input input-bordered w-full",
-        placeholder: "Engineering Team",
+        placeholder: "Team name",
         required: true %>
   </div>
 
   <div class="form-control">
-    <%= form.label :description, class: "label" %>
     <%= form.text_area :description,
         rows: 4,
         class: "textarea textarea-bordered w-full",
@@ -29,7 +27,6 @@
   </div>
 
   <div class="flex gap-2">
-    <%= form.submit class: "btn btn-primary" %>
-    <%= link_to "Cancel", team.persisted? ? team : teams_path, class: "btn btn-ghost" %>
+    <%= form.submit class: "btn btn-primary btn-sm" %>
   </div>
 <% end %>

@@ -1,21 +1,21 @@
 class TeamInvitationsController < ApplicationController
-  before_action :set_team, only: [:create, :destroy]
-  before_action :authorize_team_member, only: [:create, :destroy]
-  skip_before_action :authenticate, only: [:accept]
+  before_action :set_team, only: [ :create, :destroy ]
+  before_action :authorize_team_member, only: [ :create, :destroy ]
+  skip_before_action :authenticate, only: [ :accept ]
 
   def create
     @invitation = @team.team_invitations.build(invitation_params)
-    @invitation.inviter = rodauth.account
+    @invitation.inviter = current_account
 
     # Check if account with this email already exists
-    existing_account = Account.where(status: [:verified, :unverified]).find_by(email: @invitation.email)
+    existing_account = Account.where(status: [ :verified, :unverified ]).find_by(email: @invitation.email)
 
     if existing_account
       # Account exists, add them directly to the team
       if @team.accounts.include?(existing_account)
         redirect_to @team, alert: "#{@invitation.email} is already a member of this team."
       else
-        @team.team_memberships.create!(account: existing_account, role: 'member')
+        @team.team_memberships.create!(account: existing_account, role: "member")
         redirect_to @team, notice: "#{@invitation.email} has been added to the team."
       end
     else
@@ -24,7 +24,7 @@ class TeamInvitationsController < ApplicationController
         TeamInvitationMailer.invite_to_team(@invitation).deliver_later
         redirect_to @team, notice: "Invitation sent to #{@invitation.email}."
       else
-        redirect_to @team, alert: @invitation.errors.full_messages.join(', ')
+        redirect_to @team, alert: @invitation.errors.full_messages.join(", ")
       end
     end
   end
@@ -51,7 +51,7 @@ class TeamInvitationsController < ApplicationController
 
     if rodauth.logged_in?
       # User is logged in, accept invitation
-      if @invitation.accept!(rodauth.account)
+      if @invitation.accept!(current_account)
         redirect_to @invitation.team, notice: "You have joined #{@invitation.team.name}!"
       else
         redirect_to root_path, alert: "Could not accept invitation."
@@ -74,7 +74,7 @@ class TeamInvitationsController < ApplicationController
   end
 
   def authorize_team_member
-    unless @team.accounts.include?(rodauth.account)
+    unless @team.accounts.include?(current_account)
       redirect_to teams_path, alert: "You don't have access to this team."
     end
   end

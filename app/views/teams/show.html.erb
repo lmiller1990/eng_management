@@ -20,9 +20,9 @@
         <p class="text-lg opacity-70 mt-2"><%= @team.description %></p>
       <% end %>
     </div>
-    <% membership = @team.team_memberships.find_by(account: rodauth.account) %>
+    <% membership = @team.team_memberships.find_by(account: current_account) %>
     <% if membership&.admin? || membership&.owner? %>
-      <%= link_to "Edit team", edit_team_path(@team), class: "btn btn-ghost" %>
+      <%= link_to "Edit team", edit_team_path(@team), class: "btn btn-ghost btn-sm" %>
     <% end %>
   </div>
 
@@ -45,14 +45,14 @@
               <% end %>
             </div>
 
-            <% current_membership = @team.team_memberships.find_by(account: rodauth.account) %>
-            <% can_remove = (current_membership&.admin? || current_membership&.owner?) || membership.account == rodauth.account %>
+            <% current_membership = @team.team_memberships.find_by(account: current_account) %>
+            <% can_remove = (current_membership&.admin? || current_membership&.owner?) || membership.account == current_account %>
 
             <% if can_remove && @team.team_memberships.where(role: 'owner').count > 1 || (!membership.owner? && can_remove) %>
               <%= button_to "Remove", team_membership_path(@team, membership),
                   method: :delete,
                   class: "btn btn-sm btn-error",
-                  data: { turbo_confirm: membership.account == rodauth.account ? "Are you sure you want to leave this team?" : "Are you sure you want to remove this member?" } %>
+                  data: { turbo_confirm: membership.account == current_account ? "Are you sure you want to leave this team?" : "Are you sure you want to remove this member?" } %>
             <% end %>
           </div>
         <% end %>
@@ -70,9 +70,9 @@
           <%= form.email_field :email,
               placeholder: "Email address",
               required: true,
-              class: "input input-bordered w-full" %>
+              class: "input input-bordered w-full input-sm" %>
         </div>
-        <%= form.submit "Send Invite", class: "btn btn-primary" %>
+        <%= form.submit "Send Invite", class: "btn btn-primary btn-sm" %>
       <% end %>
 
       <p class="text-sm opacity-70 mt-2">
@@ -113,8 +113,4 @@
       </div>
     </div>
   <% end %>
-
-  <div class="flex gap-2">
-    <%= link_to "Back to Teams", teams_path, class: "btn btn-ghost" %>
-  </div>
 </div>
