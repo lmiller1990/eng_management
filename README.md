@@ -75,10 +75,37 @@ docker stop eng-management-postgres
 docker exec -it eng-management-postgres psql -U postgres -d eng_management_development
 ```
 
-## Next Steps
+## Domain Model
 
-- [x] Create application controller and home page
-- [x] Add authentication
-- [ ] Build core features
-- [ ] Deploy to production
-# eng_management
+Platform for Engineering Managers to manage meetings with their team members, including note-taking and action item tracking.
+
+### Core Entities
+
+**Account** (existing via Rodauth)
+- Authentication and user management
+
+**Meeting**
+- Represents a meeting session
+- Many-to-many relationship with Accounts via MeetingParticipants
+- Has many Notes and ActionItems
+
+**MeetingParticipant**
+- Join table between Meetings and Accounts
+- Tracks who participated in each meeting
+
+**Note**
+- Meeting notes with rich text content (JSON format for tiptap editor)
+- Belongs to a Meeting and an Account (author)
+
+**ActionItem**
+- Tasks created during meetings
+- Belongs to a Meeting and an Account (assignee)
+- Has a title field
+
+### Available Routes
+
+* `/meetings` - Meeting management
+* `/meeting_participants` - Participant management
+* `/notes` - Note management
+* `/action_items` - Action item management
+
