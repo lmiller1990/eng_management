@@ -38,3 +38,5 @@
 !/app/assets/builds/.keep
 erd.pdf
 node_modules
+
+/node_modules
