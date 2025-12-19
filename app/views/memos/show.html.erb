@@ -2,7 +2,9 @@
 
 <div class="md:w-2/3 w-full">
   <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <div class="toast toast-top toast-end">
+    <p class="alert alert-success" id="notice"><%= notice %></p>
+    </div>
   <% end %>
 
   <h1 class="font-bold text-4xl">Showing memo</h1>
@@ -13,14 +15,47 @@
 
 <script type="module">
 
-    // import { Editor } from '@tiptap/core'
-    //   import StarterKit from '@tiptap/starter-kit'
+        import { ListItem } from 'https://esm.sh/@tiptap/extension-list'
+import { Color, TextStyle } from 'https://esm.sh/@tiptap/extension-text-style'
      import { Editor } from 'https://esm.sh/@tiptap/core'
       import StarterKit from 'https://esm.sh/@tiptap/starter-kit'
+      
       const editor = new Editor({
         element: document.querySelector('.tiptap'),
-        extensions: [StarterKit],
-        content: '<p>Hello World!</p>',
+        extensions: [
+                Color.configure({ types: [TextStyle.name, ListItem.name] }),
+        TextStyle.configure({ types: [ListItem.name] }),
+          StarterKit],
+        content: `
+           <h2>
+          Hi there,
+        </h2>
+        <p>
+          this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
+        </p>
+        <ul>
+          <li>
+            That’s a bullet list with one …
+          </li>
+          <li>
+            … or two list items.
+          </li>
+        </ul>
+        <p>
+          Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
+        </p>
+        <pre><code class="language-css">body {
+  display: none;
+}</code></pre>
+        <p>
+          I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
+        </p>
+        <blockquote>
+          Wow, that’s amazing. Good work, boy! 👏
+          <br />
+          — Mom
+        </blockquote>
+        `,
       })
   </script>
 
@@ -32,86 +67,94 @@
 </div>
 
 <style>
-  /* Basic editor styles */
-.tiptap {
-  @apply text-base;
+@scope (.tiptap) {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* List styles */
+  ul,
+  ol {
+    list-style-type: disc;
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  /* Heading styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  /* Code and preformatted text styles */
+  code {
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
+  }
+
+  pre {
+    border-radius: 0.5rem;
+    color: black;
+    font-family: monospace;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
+    background-color: #f6f8fa;
+
+    code {
+      color: inherit;
+      font-size: 0.8rem;
+      padding: 0;
+    }
+  }
+
+  blockquote {
+    border-left: 3px solid var(--gray-3);
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    margin: 2rem 0;
+  }
 }
 
-.tiptap :first-child {
-  @apply mt-0;
-}
-
-/* List styles */
-.tiptap ul,
-.tiptap ol {
-  @apply list-inside pl-0 my-5;
-}
-
-.tiptap ul li p,
-.tiptap ol li p {
-  @apply my-1;
-}
-
-/* Heading styles */
-.tiptap h1,
-.tiptap h2,
-.tiptap h3,
-.tiptap h4,
-.tiptap h5,
-.tiptap h6 {
-  @apply leading-tight mt-10;
-  text-wrap: pretty;
-}
-
-.tiptap h1,
-.tiptap h2 {
-  @apply mt-14 mb-6;
-}
-
-.tiptap h1 {
-  @apply text-[1.4rem];
-}
-
-.tiptap h2 {
-  @apply text-[1.2rem];
-}
-
-.tiptap h3 {
-  @apply text-[1.1rem];
-}
-
-.tiptap h4,
-.tiptap h5,
-.tiptap h6 {
-  @apply text-base;
-}
-
-/* Code and preformatted text styles */
-.tiptap code {
-  @apply rounded-md text-[0.85rem] px-[0.3em] py-[0.25em];
-  background-color: var(--purple-light);
-  color: var(--black);
-}
-
-.tiptap pre {
-  @apply rounded-lg my-6 px-4 py-3 text-white;
-  background-color: var(--black);
-  font-family: 'JetBrainsMono', monospace;
-}
-
-.tiptap pre code {
-  @apply bg-transparent text-inherit text-[0.8rem] p-0;
-}
-
-/* Blockquote */
-.tiptap blockquote {
-  @apply border-l-[3px] my-6 pl-4;
-  border-color: var(--gray-3);
-}
-
-/* Horizontal rule */
-.tiptap hr {
-  @apply border-0 border-t my-8;
-  border-color: var(--gray-2);
-}
 </style>
