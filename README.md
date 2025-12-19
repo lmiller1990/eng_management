@@ -109,3 +109,8 @@ Platform for Engineering Managers to manage meetings with their team members, in
 * `/notes` - Note management
 * `/action_items` - Action item management
 
+## DB
+
+```
+docker exec -it eng-management-postgres psql -U postgres
+```
