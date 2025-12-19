@@ -166,36 +166,40 @@ For debugging or data inspection:
 ## Real-Time Collaboration Considerations
 
 ### ActionCable Configuration
-- Redis adapter in production (required for multi-instance deployments)
+- Solid Cable adapter in production (database-backed, works across multi-instance deployments)
 - Sticky sessions on ALB ensure WebSocket connection stability
-- Connection pool sizing: configure Redis connections per Puma worker
+- Database polling interval: 1-3 seconds (configurable in cable.yml)
+- Database connection pool sizing: ensure sufficient connections for ActionCable + application queries
 
 ### Scaling
 - Horizontal scaling via Auto Scaling Group
-- Redis pub/sub broadcasts editing events across all application instances
-- Monitor Redis memory usage as concurrent editing sessions grow
+- Database polling broadcasts editing events across all application instances
+- All instances poll shared RDS for new messages
+- Trade-off: 1-3 second latency vs infrastructure simplicity (acceptable for meeting notes collaboration)
 
 ### Monitoring
-- CloudWatch metrics: WebSocket connection count, Redis memory
+- CloudWatch metrics: WebSocket connection count, RDS connection count
 - Application metrics: Active ActionCable connections
-- Alert on Redis CPU > 75% or memory > 80%
+- Alert on RDS connection count > 80% of max_connections
+- Monitor RDS CPU during peak ActionCable activity
 
 ## Cost Optimization
 
 ### Staging Environment
 - Single t3.small Spot instance (70% cost savings)
 - db.t4g.micro with minimal provisioned IOPS
-- cache.t4g.micro Redis instance
 - No CloudFront distribution
 
 ### Production Environment
 - Reserved instances for baseline capacity (2 instances)
 - Spot instances in Auto Scaling Group for burst capacity
 - S3 lifecycle policies to transition old attachments to Glacier
+- Cost savings: No ElastiCache needed (~$30-50/month savings)
 
 ## Future Considerations
 
-- Add Sidekiq for background job processing (reuse Redis instance)
+- Add Sidekiq for background job processing (would require adding Redis/ElastiCache, or use SolidQueue for database-backed jobs)
 - CloudWatch Logs Insights for centralized log analysis
 - AWS Backup for point-in-time recovery across all resources
 - Consider Aurora PostgreSQL if database becomes bottleneck (not needed initially)
+- Evaluate Redis/ElastiCache later if sub-second real-time latency becomes critical
