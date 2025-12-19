@@ -1,10 +1,10 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_team_access, only: [:show]
-  before_action :authorize_team_admin, only: [:edit, :update, :destroy]
+  before_action :set_team, only: [ :show, :edit, :update, :destroy ]
+  before_action :authorize_team_access, only: [ :show ]
+  before_action :authorize_team_admin, only: [ :edit, :update, :destroy ]
 
   def index
-    @teams = rodauth.account.teams.order(created_at: :desc)
+    @teams = current_account.teams.order(created_at: :desc)
   end
 
   def show
@@ -18,7 +18,7 @@ class TeamsController < ApplicationController
 
   def create
     @team = Team.new(team_params)
-    @team.owner = rodauth.account
+    @team.owner = current_account
 
     if @team.save
       redirect_to @team, notice: "Team was successfully created."
@@ -54,13 +54,13 @@ class TeamsController < ApplicationController
   end
 
   def authorize_team_access
-    unless @team.accounts.include?(rodauth.account)
+    unless @team.accounts.include?(current_account)
       redirect_to teams_path, alert: "You don't have access to this team."
     end
   end
 
   def authorize_team_admin
-    membership = @team.team_memberships.find_by(account: rodauth.account)
+    membership = @team.team_memberships.find_by(account: current_account)
     unless membership&.admin? || membership&.owner?
       redirect_to @team, alert: "You don't have permission to perform this action."
     end

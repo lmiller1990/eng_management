@@ -19,12 +19,12 @@ class NotesController < ApplicationController
   # POST /meetings/:meeting_id/notes
   def create
     @note = @meeting.notes.build(note_params)
-    @note.account = rodauth.account
+    @note.account = current_account
 
     respond_to do |format|
       if @note.save
         format.html { redirect_to @meeting, notice: "Note was successfully created." }
-        format.json { render :show, status: :created, location: [@meeting, @note] }
+        format.json { render :show, status: :created, location: [ @meeting, @note ] }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @note.errors, status: :unprocessable_entity }
@@ -37,7 +37,7 @@ class NotesController < ApplicationController
     respond_to do |format|
       if @note.update(note_params)
         format.html { redirect_to @meeting, notice: "Note was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: [@meeting, @note] }
+        format.json { render :show, status: :ok, location: [ @meeting, @note ] }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @note.errors, status: :unprocessable_entity }

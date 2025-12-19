@@ -19,12 +19,12 @@ class ActionItemsController < ApplicationController
   # POST /meetings/:meeting_id/action_items
   def create
     @action_item = @meeting.action_items.build(action_item_params)
-    @action_item.account = rodauth.account
+    @action_item.account = current_account
 
     respond_to do |format|
       if @action_item.save
         format.html { redirect_to @meeting, notice: "Action item was successfully created." }
-        format.json { render :show, status: :created, location: [@meeting, @action_item] }
+        format.json { render :show, status: :created, location: [ @meeting, @action_item ] }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @action_item.errors, status: :unprocessable_entity }
@@ -37,7 +37,7 @@ class ActionItemsController < ApplicationController
     respond_to do |format|
       if @action_item.update(action_item_params)
         format.html { redirect_to @meeting, notice: "Action item was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: [@meeting, @action_item] }
+        format.json { render :show, status: :ok, location: [ @meeting, @action_item ] }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @action_item.errors, status: :unprocessable_entity }
