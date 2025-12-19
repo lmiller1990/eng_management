@@ -40,13 +40,28 @@
     <% end %>
 
     <div class="drawer lg:drawer-open">
-      <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+      <input id="my-drawer-4" type="checkbox" class="drawer-toggle"/>
       <div class="drawer-content">
         <!-- Navbar -->
         <nav class="navbar w-full bg-base-300">
-          <label for="my-drawer-4" aria-label="open sidebar" class="btn btn-square btn-ghost">
+          <label
+            for="my-drawer-4"
+            aria-label="open sidebar"
+            class="btn btn-square btn-ghost"
+          >
             <!-- Sidebar toggle icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor" class="my-1.5 inline-block size-4"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="2"
+              fill="none"
+              stroke="currentColor"
+              class="my-1.5 inline-block size-4"
+            ><path
+                d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"
+              ></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
           </label>
           <div class="px-4">Eng Management</div>
         </nav>
@@ -58,26 +73,60 @@
 
       <div class="drawer-side is-drawer-close:overflow-visible">
         <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
-        <div class="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
+        <div
+          class="
+            flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14
+            is-drawer-open:w-64
+          "
+        >
           <!-- Sidebar content here -->
           <ul class="menu w-full grow">
             <!-- List item -->
-
             <li>
-              <a href="/memos" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Memos">
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-</svg>
+              <a
+                href="/memos"
+                class="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Memos"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                  />
+                </svg>
 
                 <span class="is-drawer-close:hidden">Memos</span>
               </a>
             </li>
 
             <li>
-              <a href="/teams" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Team">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-</svg>
+              <a
+                href="/teams"
+                class="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Team"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                </svg>
 
                 <span class="is-drawer-close:hidden">1 on 1s</span>
               </a>

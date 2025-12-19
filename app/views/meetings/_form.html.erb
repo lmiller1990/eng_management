@@ -2,7 +2,8 @@
   <% if meeting.errors.any? %>
     <div class="alert alert-error">
       <div>
-        <h2 class="font-bold"><%= pluralize(meeting.errors.count, "error") %> prohibited this meeting from being saved:</h2>
+        <h2 class="font-bold"><%= pluralize(meeting.errors.count, "error") %>
+          prohibited this meeting from being saved:</h2>
         <ul class="list-disc ml-6 mt-2">
           <% meeting.errors.each do |error| %>
             <li><%= error.full_message %></li>

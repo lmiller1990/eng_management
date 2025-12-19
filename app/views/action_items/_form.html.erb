@@ -2,7 +2,8 @@
   <% if action_item.errors.any? %>
     <div class="alert alert-error">
       <div>
-        <h2 class="font-bold"><%= pluralize(action_item.errors.count, "error") %> prohibited this action_item from being saved:</h2>
+        <h2 class="font-bold"><%= pluralize(action_item.errors.count, "error") %>
+          prohibited this action_item from being saved:</h2>
         <ul class="list-disc ml-6 mt-2">
           <% action_item.errors.each do |error| %>
             <li><%= error.full_message %></li>
@@ -14,7 +15,9 @@
 
   <div class="form-control">
     <%= form.label :title, class: "label" %>
-    <%= form.text_field :title, class: "input input-bordered w-full #{action_item.errors[:title].any? ? 'input-error' : ''}" %>
+    <%= form.text_field :title,
+                    class:
+                      "input input-bordered w-full #{action_item.errors[:title].any? ? "input-error" : ""}" %>
   </div>
 
   <div>
