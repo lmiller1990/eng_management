@@ -64,7 +64,6 @@ group :development do
   gem "web-console"
   gem "rails-erd", group: :development
   gem "letter_opener", group: :development
-  gem "erb_lint", require: false
 end
 
 group :test do
@@ -74,3 +73,5 @@ group :test do
 end
 
 gem "heroicons-rails", "~> 1.2"
+
+gem "erb-formatter", "~> 0.7.3"

@@ -2,8 +2,8 @@
 
 <div class="md:w-2/3 w-full">
   <% if notice.present? %>
-  <div class="toast toast-top toast-end">
-    <p class="alert alert-success" id="notice"><%= notice %></p>
+    <div class="toast toast-top toast-end">
+      <p class="alert alert-success" id="notice"><%= notice %></p>
     </div>
   <% end %>
 
@@ -11,58 +11,68 @@
 
   <%= render @memo %>
 
-   <div class="tiptap"></div>
+  <div class="tiptap"></div>
 
-<script type="module">
+  <script type="module">
 
-        import { ListItem } from 'https://esm.sh/@tiptap/extension-list'
+import { ListItem } from 'https://esm.sh/@tiptap/extension-list'
 import { Color, TextStyle } from 'https://esm.sh/@tiptap/extension-text-style'
-     import { Editor } from 'https://esm.sh/@tiptap/core'
-      import StarterKit from 'https://esm.sh/@tiptap/starter-kit'
-      
-      const editor = new Editor({
-        element: document.querySelector('.tiptap'),
-        extensions: [
-                Color.configure({ types: [TextStyle.name, ListItem.name] }),
-        TextStyle.configure({ types: [ListItem.name] }),
-          StarterKit],
-        content: `
-           <h2>
-          Hi there,
-        </h2>
-        <p>
-          this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-        </p>
-        <ul>
-          <li>
-            That’s a bullet list with one …
-          </li>
-          <li>
-            … or two list items.
-          </li>
-        </ul>
-        <p>
-          Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-        </p>
-        <pre><code class="language-css">body {
-  display: none;
-}</code></pre>
-        <p>
-          I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-        </p>
-        <blockquote>
-          Wow, that’s amazing. Good work, boy! 👏
-          <br />
-          — Mom
-        </blockquote>
-        `,
-      })
-  </script>
+import { Editor } from 'https://esm.sh/@tiptap/core'
+import StarterKit from 'https://esm.sh/@tiptap/starter-kit'
 
+const editor = new Editor({
+  element: document.querySelector('.tiptap'),
+  extensions: [
+          Color.configure({ types: [TextStyle.name, ListItem.name] }),
+  TextStyle.configure({ types: [ListItem.name] }),
+    StarterKit],
+  content: `
+<h2>
+Hi there,
+</h2>
+<p>
+this is a
+<em>basic</em>
+example of
+<strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect
+from a text editor. But wait until you see the lists:
+</p>
+<ul>
+<li>
+  That’s a bullet list with one …
+</li>
+<li>
+  … or two list items.
+</li>
+</ul>
+<p>
+Isn’t that great? And all of that is editable. But wait, there’s more.
+Let’s try a code block:
+</p>
+<pre><code class="language-css">body { display: none; }</code></pre>
+<p>
+I know, I know, this is impressive. It’s only the tip of the iceberg
+though. Give it a try and click a little bit around. Don’t forget to
+check the other examples too.
+</p>
+<blockquote>
+Wow, that’s amazing. Good work, boy! 👏
+<br/>
+— Mom
+</blockquote>
+  `,
+})
+</script>
 
   <%= link_to "Edit this memo", edit_memo_path(@memo), class: "btn btn-ghost btn-sm" %>
   <!--
-  <%= button_to "Destroy this memo", @memo, method: :delete, class: "btn btn-sm btn-error", data: { turbo_confirm: "Are you sure?" } %>
+  <%= button_to "Destroy this memo",
+  @memo,
+  method: :delete,
+  class: "btn btn-sm btn-error",
+  data: {
+    turbo_confirm: "Are you sure?",
+  } %>
   -->
 </div>
 
@@ -156,5 +166,4 @@ import { Color, TextStyle } from 'https://esm.sh/@tiptap/extension-text-style'
     margin: 2rem 0;
   }
 }
-
 </style>

@@ -9,7 +9,9 @@
 
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-4xl font-bold">Action items for Meeting #<%= @meeting.id %></h1>
-    <%= link_to "New action item", new_meeting_action_item_path(@meeting), class: "btn btn-primary" %>
+    <%= link_to "New action item",
+    new_meeting_action_item_path(@meeting),
+    class: "btn btn-primary" %>
   </div>
 
   <div id="action_items" class="space-y-4">
@@ -20,13 +22,20 @@
             <div class="flex justify-between items-center">
               <div>
                 <span class="font-medium"><%= action_item.title %></span>
-                <span class="text-sm opacity-60 ml-2">- Assigned to <%= action_item.account.email %></span>
+                <span class="text-sm opacity-60 ml-2">- Assigned to
+                  <%= action_item.account.email %></span>
               </div>
               <div class="flex gap-2">
-                <%= link_to "Edit", edit_meeting_action_item_path(@meeting, action_item), class: "btn btn-sm btn-ghost" %>
-                <%= button_to "Delete", meeting_action_item_path(@meeting, action_item), method: :delete,
-                    class: "btn btn-sm btn-error",
-                    data: { turbo_confirm: "Are you sure?" } %>
+                <%= link_to "Edit",
+                edit_meeting_action_item_path(@meeting, action_item),
+                class: "btn btn-sm btn-ghost" %>
+                <%= button_to "Delete",
+                meeting_action_item_path(@meeting, action_item),
+                method: :delete,
+                class: "btn btn-sm btn-error",
+                data: {
+                  turbo_confirm: "Are you sure?",
+                } %>
               </div>
             </div>
           </div>

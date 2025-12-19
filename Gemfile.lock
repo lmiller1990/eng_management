@@ -81,13 +81,6 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.2)
-    better_html (2.2.0)
-      actionview (>= 7.0)
-      activesupport (>= 7.0)
-      ast (~> 2.0)
-      erubi (~> 1.4)
-      parser (>= 2.4)
-      smart_properties
     bigdecimal (4.0.1)
     bindex (0.8.1)
     bootsnap (1.19.0)
@@ -121,13 +114,8 @@ GEM
     drb (2.2.3)
     ed25519 (1.4.0)
     erb (6.0.1)
-    erb_lint (0.9.0)
-      activesupport
-      better_html (>= 2.0.1)
-      parser (>= 2.7.1.4)
-      rainbow
-      rubocop (>= 1)
-      smart_properties
+    erb-formatter (0.7.3)
+      syntax_tree (~> 6.0)
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
@@ -243,6 +231,7 @@ GEM
     pg (1.6.2-x86_64-linux-musl)
     pp (0.6.3)
       prettyprint
+    prettier_print (1.2.1)
     prettyprint (0.2.0)
     prism (1.6.0)
     propshaft (1.3.1)
@@ -369,7 +358,6 @@ GEM
     sequel-activerecord_connection (2.0.1)
       activerecord (>= 5.1)
       sequel (~> 5.38)
-    smart_properties (1.17.0)
     solid_cable (3.0.12)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -394,6 +382,8 @@ GEM
       net-ssh (>= 2.8.0)
       ostruct
     stringio (3.2.0)
+    syntax_tree (6.3.0)
+      prettier_print (>= 1.2.0)
     tailwindcss-rails (4.4.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
@@ -453,7 +443,7 @@ DEPENDENCIES
   bundler-audit
   capybara
   debug
-  erb_lint
+  erb-formatter (~> 0.7.3)
   heroicons-rails (~> 1.2)
   image_processing (~> 1.2)
   importmap-rails
