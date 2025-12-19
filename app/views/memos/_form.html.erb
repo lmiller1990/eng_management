@@ -12,18 +12,8 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :title %>
-    <%= form.text_field :title, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": memo.errors[:title].none?, "border-red-400 focus:outline-red-600": memo.errors[:title].any?}] %>
-  </div>
-
-  <div class="my-5">
     <%= form.label :content %>
     <%= form.textarea :content, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": memo.errors[:content].none?, "border-red-400 focus:outline-red-600": memo.errors[:content].any?}] %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :account_id %>
-    <%= form.text_field :account_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": memo.errors[:account_id].none?, "border-red-400 focus:outline-red-600": memo.errors[:account_id].any?}] %>
   </div>
 
   <div class="inline">
