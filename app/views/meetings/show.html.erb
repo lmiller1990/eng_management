@@ -1,15 +1,115 @@
-<% content_for :title, "Showing meeting" %>
+<% content_for :title, "Meeting Details" %>
 
 <div class="md:w-2/3 w-full">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <h1 class="font-bold text-4xl">Showing meeting</h1>
+  <% if alert.present? %>
+    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-md inline-block" id="alert"><%= alert %></p>
+  <% end %>
 
-  <%= render @meeting %>
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="font-bold text-4xl">Meeting #<%= @meeting.id %></h1>
+    <div class="flex gap-2">
+      <%= link_to "Edit", edit_meeting_path(@meeting), class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+      <%= button_to "Delete", @meeting, method: :delete, class: "rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure? This will delete all notes, action items, and participants." } %>
+    </div>
+  </div>
 
-  <%= link_to "Edit this meeting", edit_meeting_path(@meeting), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to meetings", meetings_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= button_to "Destroy this meeting", @meeting, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+  <!-- Participants Section -->
+  <div class="mb-8 border rounded-lg p-6 bg-white shadow-sm">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-bold text-2xl">Participants</h2>
+    </div>
+
+    <!-- Add Participant Form -->
+    <div class="mb-4 p-4 bg-gray-50 rounded-md">
+      <%= form_with(model: @meeting_participant, url: meeting_participants_path(@meeting), class: "flex gap-2 items-end") do |form| %>
+        <div class="flex-1">
+          <%= form.label :account_id, "Add Participant" %>
+          <%= form.collection_select :account_id, Account.where(status: :verified).order(:email), :id, :email,
+              { prompt: "Select a user..." },
+              class: "block shadow-sm rounded-md border border-gray-400 px-3 py-2 mt-2 w-full focus:outline-blue-600" %>
+        </div>
+        <%= form.submit "Add Participant", class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium cursor-pointer" %>
+      <% end %>
+    </div>
+
+    <!-- Participants List -->
+    <% if @meeting_participants.any? %>
+      <div class="space-y-2">
+        <% @meeting_participants.each do |participant| %>
+          <div class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+            <span class="font-medium"><%= participant.account.email %></span>
+            <%= button_to "Remove", meeting_participant_path(@meeting, participant), method: :delete,
+                class: "rounded-md px-3 py-1.5 text-sm text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer",
+                data: { turbo_confirm: "Remove this participant?" } %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500 italic">No participants yet.</p>
+    <% end %>
+  </div>
+
+  <!-- Notes Section -->
+  <div class="mb-8 border rounded-lg p-6 bg-white shadow-sm">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-bold text-2xl">Notes</h2>
+      <%= link_to "Add Note", new_meeting_note_path(@meeting), class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
+    </div>
+
+    <% if @notes.any? %>
+      <div class="space-y-4">
+        <% @notes.each do |note| %>
+          <div class="p-4 bg-gray-50 rounded-md">
+            <div class="flex justify-between items-start mb-2">
+              <span class="text-sm text-gray-600">By <%= note.account.email %> on <%= note.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+              <div class="flex gap-2">
+                <%= link_to "Edit", edit_meeting_note_path(@meeting, note), class: "text-sm rounded-md px-2 py-1 bg-gray-200 hover:bg-gray-300 font-medium" %>
+                <%= button_to "Delete", meeting_note_path(@meeting, note), method: :delete,
+                    class: "text-sm rounded-md px-2 py-1 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer",
+                    data: { turbo_confirm: "Delete this note?" } %>
+              </div>
+            </div>
+            <p class="text-gray-800 whitespace-pre-wrap"><%= note.content %></p>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500 italic">No notes yet.</p>
+    <% end %>
+  </div>
+
+  <!-- Action Items Section -->
+  <div class="mb-8 border rounded-lg p-6 bg-white shadow-sm">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-bold text-2xl">Action Items</h2>
+      <%= link_to "Add Action Item", new_meeting_action_item_path(@meeting), class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
+    </div>
+
+    <% if @action_items.any? %>
+      <div class="space-y-2">
+        <% @action_items.each do |action_item| %>
+          <div class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+            <div>
+              <span class="font-medium"><%= action_item.title %></span>
+              <span class="text-sm text-gray-600 ml-2">- Assigned to <%= action_item.account.email %></span>
+            </div>
+            <div class="flex gap-2">
+              <%= link_to "Edit", edit_meeting_action_item_path(@meeting, action_item), class: "text-sm rounded-md px-2 py-1 bg-gray-200 hover:bg-gray-300 font-medium" %>
+              <%= button_to "Delete", meeting_action_item_path(@meeting, action_item), method: :delete,
+                  class: "text-sm rounded-md px-2 py-1 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer",
+                  data: { turbo_confirm: "Delete this action item?" } %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500 italic">No action items yet.</p>
+    <% end %>
+  </div>
+
+  <%= link_to "Back to meetings", meetings_path, class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
 </div>
