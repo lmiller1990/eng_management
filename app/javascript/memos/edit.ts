@@ -61,7 +61,7 @@ const editor = new Editor({
             provider,
             user: {
                 name: "User",
-                color: getRandomColor()
+                // color: getRandomColor()
             }
         })
     ],
@@ -78,5 +78,3 @@ if (form) {
         hiddenField.value = editor.getHTML()
     })
 }
-
-
