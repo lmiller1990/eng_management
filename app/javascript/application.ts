@@ -2,7 +2,7 @@
 import "@hotwired/turbo-rails"
 
 // TypeScript Hello World Example
-const message: string = "Hello World from TypeScript with jsbundling-rails!"
+const message: string = "Hello World from TypeScript with jsbundling-rails"
 console.log(message)
 
 // Type-safe example
