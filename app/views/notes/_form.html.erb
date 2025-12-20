@@ -2,7 +2,8 @@
   <% if note.errors.any? %>
     <div class="alert alert-error">
       <div>
-        <h2 class="font-bold"><%= pluralize(note.errors.count, "error") %> prohibited this note from being saved:</h2>
+        <h2 class="font-bold"><%= pluralize(note.errors.count, "error") %>
+          prohibited this note from being saved:</h2>
         <ul class="list-disc ml-6 mt-2">
           <% note.errors.each do |error| %>
             <li><%= error.full_message %></li>
@@ -14,7 +15,10 @@
 
   <div class="form-control">
     <%= form.label :content, class: "label" %>
-    <%= form.text_area :content, rows: 8, class: "textarea textarea-bordered w-full #{note.errors[:content].any? ? 'textarea-error' : ''}" %>
+    <%= form.text_area :content,
+                   rows: 8,
+                   class:
+                     "textarea textarea-bordered w-full #{note.errors[:content].any? ? "textarea-error" : ""}" %>
   </div>
 
   <div>
