@@ -16,7 +16,11 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.text_field :title,  type: "text", id: "memo_title", placeholder: "Title...", class: "input" %>
+    <%= form.text_field :title,
+                    type: "text",
+                    id: "memo_title",
+                    placeholder: "Title...",
+                    class: "input" %>
     <%= form.hidden_field :content, id: "memo_content" %>
     <div
       id="tiptap-editor"
