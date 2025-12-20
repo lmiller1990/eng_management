@@ -17,6 +17,7 @@ class MemosController < ApplicationController
 
   # GET /memos/1/edit
   def edit
+    @initial_yjs_state = encode_yjs_state(@memo.yjs_state)
   end
 
   # POST /memos or /memos.json
@@ -67,5 +68,11 @@ class MemosController < ApplicationController
     # Only allow a list of trusted parameters through.
     def memo_params
       params.expect(memo: [ :title, :content, :account_id ])
+    end
+
+    def encode_yjs_state(state)
+      return "" if state.nil?
+
+      Y::Lib0::Encoding.encode_uint8_array_to_base64(state.unpack("C*"))
     end
 end

@@ -6,75 +6,66 @@ import StarterKit from '@tiptap/starter-kit'
 import { WebsocketProvider } from "@y-rb/actioncable";
 import { createConsumer } from "@rails/actioncable";
 import Collaboration from '@tiptap/extension-collaboration'
+import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import * as Y from 'yjs'
+import { fromBase64 } from 'lib0/buffer'
 
-const existingContent = `
-<h2>
-Hi there,
-</h2>
-<p>
-this is a
-<em>basic</em>
-example of
-<strong>Tiptap</strong>. Sure, there are all kind of basic text styles you'd probably expect
-from a text editor. But wait until you see the lists:
-</p>
-<ul>
-<li>
-  That's a bullet list with one …
-</li>
-<li>
-  … or two list items.
-</li>
-</ul>
-<p>
-Isn't that great? And all of that is editable. But wait, there's more.
-Let's try a code block:
-</p>
-<pre><code class="language-css">body { display: none; }</code></pre>
-<p>
-I know, I know, this is impressive. It's only the tip of the iceberg
-though. Give it a try and click a little bit around. Don't forget to
-check the other examples too.
-</p>
-<blockquote>
-Wow, that's amazing. Good work, boy! 👏
-<br/>
-— Mom
-</blockquote>
-`
+// Get memo ID and initial state from DOM
+const editorElement = document.querySelector("#tiptap-editor") as HTMLElement
+const memoId = editorElement?.dataset.memoId
+const initialState = editorElement?.dataset.initialState || ""
 
+if (!memoId) {
+  throw new Error("Memo ID not found in editor element")
+}
 
+// Initialize Y.js document
 const doc = new Y.Doc();
+
+// Apply initial state if exists
+if (initialState.length > 0) {
+  const decodedState = fromBase64(initialState)
+  Y.applyUpdate(doc, decodedState)
+}
+
+// Setup ActionCable consumer and provider
 const consumer = createConsumer();
-
-
 const provider = new WebsocketProvider(
     doc,
     consumer,
     "SyncChannel",
-    { id: "1" }
+    { id: memoId }
 );
 
-const hiddenField = document.querySelector("#memo_content")
-const editorElement = document.querySelector("#tiptap-editor")
+// Get form elements
+const hiddenField = document.querySelector("#memo_content") as HTMLInputElement
 
+// Helper function for cursor colors
+function getRandomColor(): string {
+  const colors = ["#ff901f", "#ff2975", "#f222ff", "#8c1eff"]
+  return colors[Math.floor(Math.random() * colors.length)]
+}
+
+// Initialize TipTap editor
 const editor = new Editor({
     element: editorElement,
     extensions: [
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
         TextStyle.configure({ types: [ListItem.name] }),
-        StarterKit,
-        Collaboration.configure({
-            document: provider.doc, // Configure Y.Doc for collaboration
-            provider
+        StarterKit.configure({
+            history: false // Disable history when using collaboration
         }),
-        // CollaborationCursor.configure({
-        // provider,
-        // user: { name: "Hannes", color: "#ff0000" }
-        // })
+        Collaboration.configure({
+            document: doc
+        }),
+        CollaborationCursor.configure({
+            provider,
+            user: {
+                name: "User",
+                color: getRandomColor()
+            }
+        })
     ],
-    content: existingContent,
     onUpdate: ({ editor }) => {
         // Sync content back to hidden field whenever it changes
         hiddenField.value = editor.getHTML()
@@ -83,8 +74,10 @@ const editor = new Editor({
 
 // Also sync on form submit to ensure we have the latest content
 const form = hiddenField.closest('form')
-form.addEventListener('submit', () => {
-    hiddenField.value = editor.getHTML()
-})
+if (form) {
+    form.addEventListener('submit', () => {
+        hiddenField.value = editor.getHTML()
+    })
+}
 
 

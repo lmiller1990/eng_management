@@ -17,6 +17,7 @@
     "@rails/actioncable": "^8.1.100",
     "@tiptap/core": "^3.14.0",
     "@tiptap/extension-collaboration": "^3.14.0",
+    "@tiptap/extension-collaboration-cursor": "3.0.0",
     "@tiptap/extension-list": "^3.14.0",
     "@tiptap/extension-text-style": "^3.14.0",
     "@tiptap/pm": "^3.14.0",
