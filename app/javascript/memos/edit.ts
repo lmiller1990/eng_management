@@ -84,3 +84,7 @@ if (form) {
     })
 }
 
+async function saveChanges() {
+    // TODO: I want to save the form async for a "real time" edit / save feeling
+}
+
