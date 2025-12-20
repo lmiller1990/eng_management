@@ -22,7 +22,8 @@
           <tr>
             <th></th>
             <th>Title</th>
-            <th>Content</th>
+            <th>Created</th>
+            <th>Last Updated</th>
             <th>Owner</th>
             <th>Editors</th>
             <th>Actions</th>
@@ -33,8 +34,11 @@
             <tr>
               <th><%= index + 1 %></th>
               <td><%= memo.title %></td>
-              <td><%= memo.content %></td>
-              <td><%= memo.owner.email %></td>
+              <td><%= time_ago_in_words(memo.created_at) %>
+                ago</td>
+              <td><%= time_ago_in_words(memo.updated_at) %>
+                ago</td>
+              <td><%= memo.owner.derive_name.full_name %></td>
               <td>
 
                 <% memo.editors.each do |editor| %>
