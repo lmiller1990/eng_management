@@ -1,12 +1,15 @@
 <% content_for :title, "Editing memo" %>
 
-<%= button_to "Destroy",
-@memo,
-method: :delete,
-class: "btn btn-error btn-xs",
-data: {
-  turbo_confirm: "Are you sure?",
-} %>
+<div class="flex justify-end">
+
+  <%= button_to "Destroy",
+  @memo,
+  method: :delete,
+  class: "btn btn-error btn-xs",
+  data: {
+    turbo_confirm: "Are you sure?",
+  } %>
+</div>
 
 <div class="w-full flex flex-col items-center">
 
@@ -38,6 +41,7 @@ data: {
                         data: {
                           controller: "autosave",
                           autosave_url_value: memo_path(@memo),
+                          autosave_field_value: "title",
                           autosave_target: "field",
                           action: "input->autosave#save",
                         } %>
@@ -52,10 +56,6 @@ data: {
         >
         </div>
       </div>
-    </div>
-
-    <div class="inline">
-      <%= form.submit class: "btn btn-sm" %>
     </div>
 
   <% end %>
