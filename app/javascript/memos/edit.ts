@@ -1,12 +1,12 @@
 import { ListItem } from '@tiptap/extension-list'
-import { Color, TextStyle } from '@tiptap/extension-text-style'
+import { Color, TextStyle, TextStyleKit } from '@tiptap/extension-text-style'
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
 import { WebsocketProvider } from "@y-rb/actioncable";
 import { createConsumer } from "@rails/actioncable";
 import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import * as Y from 'yjs'
 import { fromBase64 } from 'lib0/buffer'
 
@@ -51,21 +51,19 @@ const editor = new Editor({
     element: editorElement,
     extensions: [
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
-        TextStyle.configure({ types: [ListItem.name] }),
-        StarterKit.configure({
-            history: false // Disable history when using collaboration
-        }),
+        // TextStyleKit,
+        StarterKit.configure({ undoRedo: false }),
         Collaboration.configure({
             document: doc,
             provider
         }),
-        // CollaborationCursor.configure({
-        //     provider,
-        //     user: {
-        //         name: "User",
-        //         color: getRandomColor()
-        //     }
-        // })
+        CollaborationCaret.configure({
+            provider,
+            user: {
+                name: "User",
+                color: getRandomColor()
+            }
+        })
     ],
     onUpdate: ({ editor }) => {
         // Sync content back to hidden field whenever it changes
