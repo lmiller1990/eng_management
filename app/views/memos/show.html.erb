@@ -2,17 +2,25 @@
 
 <div class="w-full">
   <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+    <p
+      class="
+        py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block
+      "
+      id="notice"
+    ><%= notice %></p>
   <% end %>
 
   <div class="flex justify-between items-center mb-4">
-    <h1 class="font-bold text-3xl">Invite Editors</h1>
+    <h1 class="font-bold text-xl">Invite Editors</h1>
     <%= link_to "Back to Memos", memos_path, class: "btn btn-sm btn-ghost" %>
   </div>
 
   <%= form_with url: memo_invitations_path(@memo), method: :post, class: "flex gap-2 mb-6" do |f| %>
-    <%= text_field_tag :email, "", placeholder: "email@example.com", class: "input input-bordered flex-1" %>
-    <%= f.submit "Send Invitation", class: "btn btn-primary btn-sm" %>
+    <%= text_field_tag :email,
+    "",
+    placeholder: "email@example.com",
+    class: "input input-bordered flex-1 max-w-[500px]" %>
+    <%= f.submit "Send Invitation", class: "btn btn-primary" %>
   <% end %>
 
   <h2 class="font-bold text-xl mb-4">Pending Invitations</h2>
@@ -32,9 +40,13 @@
           <% pending.each do |invitation| %>
             <tr>
               <td><%= invitation.email %></td>
-              <td><%= time_ago_in_words(invitation.expires_at) %> from now</td>
+              <td><%= time_ago_in_words(invitation.expires_at) %>
+                from now</td>
               <td>
-                <%= button_to "Cancel", memo_invitation_path(@memo, invitation), method: :delete, class: "btn btn-error btn-xs" %>
+                <%= button_to "Cancel",
+                memo_invitation_path(@memo, invitation),
+                method: :delete,
+                class: "btn btn-error btn-xs" %>
               </td>
             </tr>
           <% end %>
