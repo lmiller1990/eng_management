@@ -1,6 +1,12 @@
 import { ListItem } from '@tiptap/extension-list'
 import { Color, TextStyle, TextStyleKit } from '@tiptap/extension-text-style'
-import { Editor } from '@tiptap/core'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import { TableKit } from '@tiptap/extension-table'
+import Text from '@tiptap/extension-text'
+import { Placeholder } from '@tiptap/extensions'
+
+import { Editor, } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
 import { WebsocketProvider } from "@y-rb/actioncable";
@@ -51,12 +57,13 @@ const editor = new Editor({
     element: editorElement,
     extensions: [
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
-        // TextStyleKit,
+        TableKit,
         StarterKit.configure({ undoRedo: false }),
         Collaboration.configure({
             document: doc,
             provider
         }),
+        Placeholder.configure({ placeholder: "Enter some text..." })
         // CollaborationCaret.configure({
         //     provider,
         //     user: {
@@ -65,7 +72,6 @@ const editor = new Editor({
         // })
     ],
     onUpdate: ({ editor }) => {
-        // Sync content back to hidden field whenever it changes
         hiddenField.value = editor.getHTML()
     }
 })
@@ -77,3 +83,8 @@ if (form) {
         hiddenField.value = editor.getHTML()
     })
 }
+
+async function saveChanges() {
+    // TODO: I want to save the form async for a "real time" edit / save feeling
+}
+
