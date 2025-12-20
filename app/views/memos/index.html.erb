@@ -18,35 +18,49 @@
       "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
   </div>
 
-  <div id="memos" class="min-w-full divide-y divide-gray-200 space-y-5">
+  <div id="memos" class="overflow-x-auto">
     <% if @memos.any? %>
-      <% @memos.each do |memo| %>
-        <div
-          class="
-            flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0
-          "
-        >
-          <%= render memo %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show",
-            memo,
-            class:
-              "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit",
-            edit_memo_path(memo),
-            class:
-              "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy",
-            memo,
-            method: :delete,
-            class:
-              "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer",
-            data: {
-              turbo_confirm: "Are you sure?",
-            } %>
-          </div>
-        </div>
-      <% end %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Owner</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @memos.each_with_index do |memo, index| %>
+            <tr>
+              <th><%= index + 1 %></th>
+              <td><%= memo.title %></td>
+              <td><%= memo.content %></td>
+              <td><%= memo.owner.email %></td>
+              <td>
+                <div class="flex space-x-2">
+                  <%= link_to "Show",
+                  memo,
+                  class:
+                    "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+                  <%= link_to "Edit",
+                  edit_memo_path(memo),
+                  class:
+                    "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+                  <%= button_to "Destroy",
+                  memo,
+                  method: :delete,
+                  class:
+                    "rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer",
+                  data: {
+                    turbo_confirm: "Are you sure?",
+                  } %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     <% else %>
       <p class="text-center my-10">No memos found.</p>
     <% end %>
