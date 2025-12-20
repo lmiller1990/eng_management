@@ -16,7 +16,7 @@ const memoId = editorElement?.dataset.memoId
 const initialState = editorElement?.dataset.initialState || ""
 
 if (!memoId) {
-  throw new Error("Memo ID not found in editor element")
+    throw new Error("Memo ID not found in editor element")
 }
 
 // Initialize Y.js document
@@ -24,8 +24,8 @@ const doc = new Y.Doc();
 
 // Apply initial state if exists
 if (initialState.length > 0) {
-  const decodedState = fromBase64(initialState)
-  Y.applyUpdate(doc, decodedState)
+    const decodedState = fromBase64(initialState)
+    Y.applyUpdate(doc, decodedState)
 }
 
 // Setup ActionCable consumer and provider
@@ -42,8 +42,8 @@ const hiddenField = document.querySelector("#memo_content") as HTMLInputElement
 
 // Helper function for cursor colors
 function getRandomColor(): string {
-  const colors = ["#ff901f", "#ff2975", "#f222ff", "#8c1eff"]
-  return colors[Math.floor(Math.random() * colors.length)]
+    const colors = ["#ff901f", "#ff2975", "#f222ff", "#8c1eff"]
+    return colors[Math.floor(Math.random() * colors.length)]
 }
 
 // Initialize TipTap editor
@@ -56,15 +56,16 @@ const editor = new Editor({
             history: false // Disable history when using collaboration
         }),
         Collaboration.configure({
-            document: doc
+            document: doc,
+            provider
         }),
-        CollaborationCursor.configure({
-            provider,
-            user: {
-                name: "User",
-                color: getRandomColor()
-            }
-        })
+        // CollaborationCursor.configure({
+        //     provider,
+        //     user: {
+        //         name: "User",
+        //         color: getRandomColor()
+        //     }
+        // })
     ],
     onUpdate: ({ editor }) => {
         // Sync content back to hidden field whenever it changes
