@@ -2,25 +2,20 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static values = {
-    url: String
+    url: String,
+    field: String
   }
 
   static targets = ["field"]
 
   declare readonly urlValue: string
+  declare readonly fieldValue: string
   declare readonly fieldTarget: HTMLInputElement
 
   save() {
-    const fieldName = this.fieldTarget.name.match(/\[([^\]]+)\]$/)?.[1]
-
-    if (!fieldName) {
-      console.error("Could not extract field name from input")
-      return
-    }
-
     const body = JSON.stringify({
       memo: {
-        [fieldName]: this.fieldTarget.value
+        [this.fieldValue]: this.fieldTarget.value
       }
     })
 
