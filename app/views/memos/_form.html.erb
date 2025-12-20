@@ -17,17 +17,17 @@
 
   <div class="my-5">
     <%= form.hidden_field :content, id: "memo_content" %>
-    <div id="tiptap-editor"
-         class="<%= memo.errors[:content].any? ? 'tiptap-error' : '' %>"
-         data-has-errors="<%= memo.errors[:content].any? %>">
+    <div
+      id="tiptap-editor"
+      class="<%= memo.errors[:content].any? ? 'tiptap-error' : '' %>"
+      data-has-errors="<%= memo.errors[:content].any? %>"
+    >
     </div>
   </div>
 
   <div class="inline">
-    <%= form.submit class:
-                  "btn btn-sm" %>
+    <%= form.submit class: "btn btn-sm" %>
   </div>
-
 
 <% end %>
 
