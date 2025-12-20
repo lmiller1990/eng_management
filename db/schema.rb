@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_20_033421) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_20_032319) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -82,6 +82,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_033421) do
     t.index ["memo_id"], name: "index_memo_editors_on_memo_id"
   end
 
+<<<<<<< HEAD
   create_table "memo_invitations", force: :cascade do |t|
     t.datetime "accepted_at"
     t.datetime "created_at", null: false
@@ -98,6 +99,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_033421) do
     t.index ["token"], name: "index_memo_invitations_on_token", unique: true
   end
 
+=======
+>>>>>>> origin/main
   create_table "memos", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.text "content"
@@ -165,8 +168,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_033421) do
   add_foreign_key "meeting_participants", "meetings"
   add_foreign_key "memo_editors", "accounts"
   add_foreign_key "memo_editors", "memos"
+<<<<<<< HEAD
   add_foreign_key "memo_invitations", "accounts", column: "inviter_id"
   add_foreign_key "memo_invitations", "memos"
+=======
+>>>>>>> origin/main
   add_foreign_key "memos", "accounts"
   add_foreign_key "notes", "accounts"
   add_foreign_key "notes", "meetings"
