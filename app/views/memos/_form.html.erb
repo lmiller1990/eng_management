@@ -21,6 +21,8 @@
       id="tiptap-editor"
       class="<%= memo.errors[:content].any? ? 'tiptap-error' : '' %>"
       data-has-errors="<%= memo.errors[:content].any? %>"
+      data-memo-id="<%= memo.id %>"
+      data-initial-state="<%= local_assigns[:initial_yjs_state] || '' %>"
     >
     </div>
   </div>
@@ -84,14 +86,6 @@
   h5,
   h6 {
     font-size: 1rem;
-  }
-
-  /* Code and preformatted text styles */
-  code {
-    border-radius: 0.4rem;
-    color: var(--black);
-    font-size: 0.85rem;
-    padding: 0.25em 0.3em;
   }
 
   pre {
