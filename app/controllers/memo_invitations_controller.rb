@@ -1,17 +1,16 @@
 class MemoInvitationsController < ApplicationController
-  skip_before_action :authenticate, only: [:accept, :setup_password, :complete_setup]
-  layout "authentication", only: [:setup_password]
+  skip_before_action :authenticate, only: [ :accept, :setup_password, :complete_setup ]
+  layout "authentication", only: [ :setup_password ]
 
-  before_action :set_memo, only: [:create, :destroy]
-  before_action :authorize_memo_owner!, only: [:create, :destroy]
-  before_action :set_invitation_by_token, only: [:accept, :setup_password, :complete_setup]
+  before_action :set_memo, only: [ :create, :destroy ]
+  before_action :set_invitation_by_token, only: [ :accept, :setup_password, :complete_setup ]
 
   # POST /memos/:memo_id/invitations
   def create
     email = params[:email]&.downcase&.strip
 
     # Check if account already exists
-    existing_account = Account.where(status: [:verified, :unverified]).find_by(email: email)
+    existing_account = Account.where(status: [ :verified, :unverified ]).find_by(email: email)
 
     if existing_account
       # Check if already an editor
@@ -100,7 +99,7 @@ class MemoInvitationsController < ApplicationController
     @account = Account.find_by(email: @invitation.email)
     if @account.nil? || @account.password_hash.present?
       redirect_to accept_memo_invitation_path(@invitation.token)
-      return
+      nil
     end
   end
 
@@ -155,12 +154,6 @@ class MemoInvitationsController < ApplicationController
 
   def set_memo
     @memo = Memo.find(params[:memo_id])
-  end
-
-  def authorize_memo_owner!
-    unless @memo.can_manage_editors?(current_account)
-      redirect_to @memo, alert: "Only the memo owner can manage editors."
-    end
   end
 
   def set_invitation_by_token
