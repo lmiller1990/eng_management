@@ -3,8 +3,10 @@ import { Color, TextStyle } from '@tiptap/extension-text-style'
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
-const hiddenField = document.querySelector("#memo_content")
-const editorElement = document.querySelector("#tiptap-editor")
+import { WebsocketProvider } from "@y-rb/actioncable";
+import { createConsumer } from "@rails/actioncable";
+import Collaboration from '@tiptap/extension-collaboration'
+import * as Y from 'yjs'
 
 const existingContent = `
 <h2>
@@ -42,12 +44,35 @@ Wow, that's amazing. Good work, boy! 👏
 </blockquote>
 `
 
+
+const doc = new Y.Doc();
+const consumer = createConsumer();
+
+
+const provider = new WebsocketProvider(
+    doc,
+    consumer,
+    "SyncChannel",
+    { id: "1" }
+);
+
+const hiddenField = document.querySelector("#memo_content")
+const editorElement = document.querySelector("#tiptap-editor")
+
 const editor = new Editor({
     element: editorElement,
     extensions: [
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
         TextStyle.configure({ types: [ListItem.name] }),
-        StarterKit
+        StarterKit,
+        Collaboration.configure({
+            document: provider.doc, // Configure Y.Doc for collaboration
+            provider
+        }),
+        // CollaborationCursor.configure({
+        // provider,
+        // user: { name: "Hannes", color: "#ff0000" }
+        // })
     ],
     content: existingContent,
     onUpdate: ({ editor }) => {
