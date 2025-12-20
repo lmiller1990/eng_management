@@ -81,3 +81,5 @@ gem "erb-formatter", "~> 0.7.3"
 gem "y-rb_actioncable", "~> 0.1.7"
 
 gem "minitest", "~> 5.0"
+
+gem "pundit", "~> 2.5"
