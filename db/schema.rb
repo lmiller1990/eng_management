@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_20_011928) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_20_032319) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -70,6 +70,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_011928) do
     t.datetime "created_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "memo_editors", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "memo_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_memo_editors_on_account_id"
+    t.index ["memo_id", "account_id"], name: "index_memo_editors_on_memo_id_and_account_id", unique: true
+    t.index ["memo_id"], name: "index_memo_editors_on_memo_id"
   end
 
   create_table "memos", force: :cascade do |t|
@@ -137,6 +147,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_011928) do
   add_foreign_key "action_items", "meetings"
   add_foreign_key "meeting_participants", "accounts"
   add_foreign_key "meeting_participants", "meetings"
+  add_foreign_key "memo_editors", "accounts"
+  add_foreign_key "memo_editors", "memos"
   add_foreign_key "memos", "accounts"
   add_foreign_key "notes", "accounts"
   add_foreign_key "notes", "meetings"
