@@ -12,7 +12,10 @@ class MemosController < ApplicationController
 
   # GET /memos/new
   def new
-    @memo = Memo.new
+    @memo = Memo.new(title: "")
+    @memo.owner = current_account
+    @memo.save!
+    redirect_to edit_memo_path(@memo)
   end
 
   # GET /memos/1/edit
