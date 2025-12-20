@@ -17,37 +17,48 @@
     <h1 class="text-4xl font-bold"><%= @meeting.title.present? ? @meeting.title : "Meeting ##{@meeting.id}" %></h1>
     <div class="flex gap-2">
       <%= link_to "Edit", edit_meeting_path(@meeting), class: "btn btn-ghost" %>
-      <%= button_to "Delete", @meeting, method: :delete, class: "btn btn-error", data: { turbo_confirm: "Are you sure? This will delete all notes, action items, and participants." } %>
+      <%= button_to "Delete",
+      @meeting,
+      method: :delete,
+      class: "btn btn-error",
+      data: {
+        turbo_confirm:
+          "Are you sure? This will delete all notes, action items, and participants.",
+      } %>
     </div>
   </div>
-
   <!-- Participants Section -->
   <div class="card bg-base-100 shadow mb-8">
     <div class="card-body">
       <h2 class="card-title">Participants</h2>
-
       <!-- Add Participant Form -->
       <div class="bg-base-200 rounded-lg p-4 mb-4">
         <%= form_with(model: @meeting_participant, url: meeting_participants_path(@meeting), class: "flex gap-2 items-end") do |form| %>
           <div class="form-control flex-1">
             <%= form.label :account_id, "Add Participant", class: "label" %>
-            <%= form.collection_select :account_id, Account.where(status: :verified).order(:email), :id, :email,
-                { prompt: "Select a user..." },
-                class: "select select-bordered w-full" %>
+            <%= form.collection_select :account_id,
+                                   Account.where(status: :verified).order(:email),
+                                   :id,
+                                   :email,
+                                   { prompt: "Select a user..." },
+                                   class: "select select-bordered w-full" %>
           </div>
           <%= form.submit "Add Participant", class: "btn btn-primary" %>
         <% end %>
       </div>
-
       <!-- Participants List -->
       <% if @meeting_participants.any? %>
         <div class="space-y-2">
           <% @meeting_participants.each do |participant| %>
             <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
               <span class="font-medium"><%= participant.account.email %></span>
-              <%= button_to "Remove", meeting_participant_path(@meeting, participant), method: :delete,
-                  class: "btn btn-sm btn-error",
-                  data: { turbo_confirm: "Remove this participant?" } %>
+              <%= button_to "Remove",
+              meeting_participant_path(@meeting, participant),
+              method: :delete,
+              class: "btn btn-sm btn-error",
+              data: {
+                turbo_confirm: "Remove this participant?",
+              } %>
             </div>
           <% end %>
         </div>
@@ -56,7 +67,6 @@
       <% end %>
     </div>
   </div>
-
   <!-- Notes Section -->
   <div class="card bg-base-100 shadow mb-8">
     <div class="card-body">
@@ -70,12 +80,21 @@
           <% @notes.each do |note| %>
             <div class="p-4 bg-base-200 rounded-lg">
               <div class="flex justify-between items-start mb-2">
-                <span class="text-sm opacity-60">By <%= note.account.email %> on <%= note.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+                <span class="text-sm opacity-60">By
+                  <%= note.account.email %>
+                  on
+                  <%= note.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
                 <div class="flex gap-2">
-                  <%= link_to "Edit", edit_meeting_note_path(@meeting, note), class: "btn btn-sm btn-ghost" %>
-                  <%= button_to "Delete", meeting_note_path(@meeting, note), method: :delete,
-                      class: "btn btn-sm btn-error",
-                      data: { turbo_confirm: "Delete this note?" } %>
+                  <%= link_to "Edit",
+                  edit_meeting_note_path(@meeting, note),
+                  class: "btn btn-sm btn-ghost" %>
+                  <%= button_to "Delete",
+                  meeting_note_path(@meeting, note),
+                  method: :delete,
+                  class: "btn btn-sm btn-error",
+                  data: {
+                    turbo_confirm: "Delete this note?",
+                  } %>
                 </div>
               </div>
               <p class="whitespace-pre-wrap"><%= note.content %></p>
@@ -87,13 +106,14 @@
       <% end %>
     </div>
   </div>
-
   <!-- Action Items Section -->
   <div class="card bg-base-100 shadow mb-8">
     <div class="card-body">
       <div class="flex justify-between items-center mb-4">
         <h2 class="card-title">Action Items</h2>
-        <%= link_to "Add Action Item", new_meeting_action_item_path(@meeting), class: "btn btn-primary" %>
+        <%= link_to "Add Action Item",
+        new_meeting_action_item_path(@meeting),
+        class: "btn btn-primary" %>
       </div>
 
       <% if @action_items.any? %>
@@ -102,13 +122,20 @@
             <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
               <div>
                 <span class="font-medium"><%= action_item.title %></span>
-                <span class="text-sm opacity-60 ml-2">- Assigned to <%= action_item.account.email %></span>
+                <span class="text-sm opacity-60 ml-2">- Assigned to
+                  <%= action_item.account.email %></span>
               </div>
               <div class="flex gap-2">
-                <%= link_to "Edit", edit_meeting_action_item_path(@meeting, action_item), class: "btn btn-sm btn-ghost" %>
-                <%= button_to "Delete", meeting_action_item_path(@meeting, action_item), method: :delete,
-                    class: "btn btn-sm btn-error",
-                    data: { turbo_confirm: "Delete this action item?" } %>
+                <%= link_to "Edit",
+                edit_meeting_action_item_path(@meeting, action_item),
+                class: "btn btn-sm btn-ghost" %>
+                <%= button_to "Delete",
+                meeting_action_item_path(@meeting, action_item),
+                method: :delete,
+                class: "btn btn-sm btn-error",
+                data: {
+                  turbo_confirm: "Delete this action item?",
+                } %>
               </div>
             </div>
           <% end %>
