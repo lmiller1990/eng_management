@@ -1,65 +1,59 @@
-<% content_for :title, "Showing memo" %>
+<% content_for :title, "Manage Invitations" %>
 
-<% if notice.present? %>
-  <div class="toast toast-top toast-end">
-    <p class="alert alert-success" id="notice"><%= notice %></p>
+<div class="w-full">
+  <% if notice.present? %>
+    <p
+      class="
+        py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block
+      "
+      id="notice"
+    ><%= notice %></p>
+  <% end %>
+
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="font-bold text-xl">Invite Editors</h1>
+    <%= link_to "Back to Memos", memos_path, class: "btn btn-sm btn-ghost" %>
   </div>
-<% end %>
 
-<%= link_to "Edit this memo", edit_memo_path(@memo), class: "btn btn-ghost btn-sm" %>
-
-<h2 class="text-xl font-bold mb-4">Editors</h2>
-
-<div class="mb-4">
-  <h3 class="font-semibold mb-2">Current Editors</h3>
-  <ul class="list-disc list-inside">
-    <li><strong><%= @memo.owner.email %></strong>
-      (Owner)</li>
-    <% @memo.editors.each do |editor| %>
-      <li>
-        <%= editor.email %>
-        <% unless editor == @memo.owner %>
-          <%= button_to "Remove",
-          memo_invitation_path(@memo, editor.memo_editors.find_by(memo: @memo)),
-          method: :delete,
-          class: "text-red-600 text-sm" %>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-</div>
-
-<div>
-  <h3 class="font-semibold mb-2">Invite Editor</h3>
-  <%= form_with url: memo_invitations_path(@memo), method: :post, class: "flex gap-2" do |f| %>
+  <%= form_with url: memo_invitations_path(@memo), method: :post, class: "flex gap-2 mb-6" do |f| %>
     <%= text_field_tag :email,
     "",
     placeholder: "email@example.com",
-    class: "border rounded px-3 py-2 flex-1" %>
-    <%= f.submit "Send Invitation",
-             class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+    class: "input input-bordered flex-1 max-w-[500px]" %>
+    <%= f.submit "Send Invitation", class: "btn btn-primary" %>
   <% end %>
-</div>
 
-<div class="mt-4">
-  <h3 class="font-semibold mb-2">Pending Invitations</h3>
-  <% pending = @memo.memo_invitations.pending %>
-  <% if pending.any? %>
-    <ul class="list-disc list-inside">
-      <% pending.each do |invitation| %>
-        <li>
-          <%= invitation.email %>
-          (expires
-          <%= time_ago_in_words(invitation.expires_at) %>
-          from now)
-          <%= button_to "Cancel",
-          memo_invitation_path(@memo, invitation),
-          method: :delete,
-          class: "text-red-600 text-sm" %>
-        </li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p class="text-gray-500">No pending invitations</p>
-  <% end %>
+  <h2 class="font-bold text-xl mb-4">Pending Invitations</h2>
+
+  <div class="overflow-x-auto">
+    <% pending = @memo.memo_invitations.pending %>
+    <% if pending.any? %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Expires</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% pending.each do |invitation| %>
+            <tr>
+              <td><%= invitation.email %></td>
+              <td><%= time_ago_in_words(invitation.expires_at) %>
+                from now</td>
+              <td>
+                <%= button_to "Cancel",
+                memo_invitation_path(@memo, invitation),
+                method: :delete,
+                class: "btn btn-error btn-xs" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="text-center my-10 text-gray-500">No pending invitations</p>
+    <% end %>
+  </div>
 </div>
