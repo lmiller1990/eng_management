@@ -18,9 +18,7 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%#= javascript_importmap_tags %>
     <%= javascript_include_tag "application",
     "data-turbo-track": "reload",
     type: "module" %>
@@ -46,27 +44,49 @@
       <input id="my-drawer-4" type="checkbox" class="drawer-toggle"/>
       <div class="drawer-content">
         <!-- Navbar -->
-        <nav class="navbar w-full bg-base-300">
-          <label
-            for="my-drawer-4"
-            aria-label="open sidebar"
-            class="btn btn-square btn-ghost"
-          >
-            <!-- Sidebar toggle icon -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              stroke-linejoin="round"
-              stroke-linecap="round"
-              stroke-width="2"
-              fill="none"
-              stroke="currentColor"
-              class="my-1.5 inline-block size-4"
-            ><path
-                d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"
-              ></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
-          </label>
-          <div class="px-4">Eng Management</div>
+        <nav class="navbar w-full bg-base-300 flex items-center justify-between">
+          <div>
+            <div class="flex items-center">
+              <label
+                for="my-drawer-4"
+                aria-label="open sidebar"
+                class="btn btn-square btn-ghost"
+              >
+                <!-- Sidebar toggle icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                  stroke-width="2"
+                  fill="none"
+                  stroke="currentColor"
+                  class="my-1.5 inline-block size-4"
+                ><path
+                    d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"
+                  ></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
+              </label>
+              <div class="px-4">Eng Management</div>
+
+            </div>
+          </div>
+          <div>
+
+            <div class="dropdown dropdown-end">
+              <div tabindex="0" role="button" class="btn m-1 btn-circle">
+                LM
+              </div>
+              <ul
+                tabindex="-1"
+                class="
+                  dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm
+                "
+              >
+                <li><a href="/logout" data-turbo-method="post">Log out</a></li>
+              </ul>
+            </div>
+
+          </div>
         </nav>
         <!-- Page content here -->
         <div class="p-4">
