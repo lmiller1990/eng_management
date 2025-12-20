@@ -21,4 +21,9 @@ class ApplicationController < ActionController::Base
   def authenticate
     rodauth.require_authentication
   end
+
+  # Tell Pundit to use current_account instead of current_user
+  def pundit_user
+    current_account
+  end
 end
