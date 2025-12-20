@@ -8,8 +8,4 @@ class Memo < ApplicationRecord
 
   # Invitations
   has_many :memo_invitations, dependent: :destroy
-
-  def can_manage_editors?(account)
-    owner == account
-  end
 end
