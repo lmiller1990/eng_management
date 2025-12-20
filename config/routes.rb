@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :memos
+  resources :memos do
+    resources :invitations, controller: "memo_invitations", only: [ :create, :destroy ]
+  end
   resources :team, only: [ :index ]
 
   resources :teams do
@@ -11,6 +13,11 @@ Rails.application.routes.draw do
   get "/invitations/:token/accept", to: "team_invitations#accept", as: :accept_team_invitation
   get "/invitations/:token/setup-password", to: "team_invitations#setup_password", as: :setup_password_team_invitation
   post "/invitations/:token/complete-setup", to: "team_invitations#complete_setup", as: :complete_setup_team_invitation
+
+  # Public memo invitation acceptance routes (no auth required)
+  get "/memo-invitations/:token/accept", to: "memo_invitations#accept", as: :accept_memo_invitation
+  get "/memo-invitations/:token/setup-password", to: "memo_invitations#setup_password", as: :setup_password_memo_invitation
+  post "/memo-invitations/:token/complete-setup", to: "memo_invitations#complete_setup", as: :complete_setup_memo_invitation
 
   resources :meetings do
     resources :notes, only: [ :index, :new, :create, :edit, :update, :destroy ]
