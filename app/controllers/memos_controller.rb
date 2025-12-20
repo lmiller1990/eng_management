@@ -1,18 +1,22 @@
 class MemosController < ApplicationController
   before_action :set_memo, only: %i[ show edit update destroy ]
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
 
   # GET /memos or /memos.json
   def index
-    @memos = Memo.all
+    @memos = policy_scope(Memo)
   end
 
   # GET /memos/1 or /memos/1.json
   def show
+    authorize @memo
   end
 
   # GET /memos/new
   def new
     @memo = Memo.new(title: "")
+    authorize @memo
     @memo.owner = current_account
     @memo.save!
     redirect_to edit_memo_path(@memo)
@@ -20,12 +24,14 @@ class MemosController < ApplicationController
 
   # GET /memos/1/edit
   def edit
+    authorize @memo
     @initial_yjs_state = encode_yjs_state(@memo.yjs_state)
   end
 
   # POST /memos or /memos.json
   def create
     @memo = Memo.new(memo_params)
+    authorize @memo
     @memo.owner = current_account
 
     respond_to do |format|
@@ -41,6 +47,7 @@ class MemosController < ApplicationController
 
   # PATCH/PUT /memos/1 or /memos/1.json
   def update
+    authorize @memo
     respond_to do |format|
       if @memo.update(memo_params)
         format.html { redirect_to @memo, notice: "Memo was successfully updated.", status: :see_other }
@@ -54,6 +61,7 @@ class MemosController < ApplicationController
 
   # DELETE /memos/1 or /memos/1.json
   def destroy
+    authorize @memo
     @memo.destroy!
 
     respond_to do |format|
