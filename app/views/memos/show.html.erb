@@ -10,4 +10,53 @@
   <h1 class="font-bold text-4xl">Showing memo</h1>
 
   <%= link_to "Edit this memo", edit_memo_path(@memo), class: "btn btn-ghost btn-sm" %>
+
+  <% if @memo.can_manage_editors?(current_account) %>
+    <div class="mt-8 border-t pt-8">
+      <h2 class="text-xl font-bold mb-4">Editors</h2>
+
+      <div class="mb-4">
+        <h3 class="font-semibold mb-2">Current Editors</h3>
+        <ul class="list-disc list-inside">
+          <li><strong><%= @memo.owner.email %></strong> (Owner)</li>
+          <% @memo.editors.each do |editor| %>
+            <li>
+              <%= editor.email %>
+              <% unless editor == @memo.owner %>
+                <%= button_to "Remove", memo_invitation_path(@memo, editor.memo_editors.find_by(memo: @memo)),
+                    method: :delete, class: "text-red-600 text-sm" %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-semibold mb-2">Invite Editor</h3>
+        <%= form_with url: memo_invitations_path(@memo), method: :post, class: "flex gap-2" do |f| %>
+          <%= text_field_tag :email, "", placeholder: "email@example.com",
+              class: "border rounded px-3 py-2 flex-1" %>
+          <%= f.submit "Send Invitation", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+        <% end %>
+      </div>
+
+      <div class="mt-4">
+        <h3 class="font-semibold mb-2">Pending Invitations</h3>
+        <% pending = @memo.memo_invitations.pending %>
+        <% if pending.any? %>
+          <ul class="list-disc list-inside">
+            <% pending.each do |invitation| %>
+              <li>
+                <%= invitation.email %> (expires <%= time_ago_in_words(invitation.expires_at) %> from now)
+                <%= button_to "Cancel", memo_invitation_path(@memo, invitation),
+                    method: :delete, class: "text-red-600 text-sm" %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-gray-500">No pending invitations</p>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>
