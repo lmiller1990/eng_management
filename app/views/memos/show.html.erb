@@ -18,13 +18,16 @@
       <div class="mb-4">
         <h3 class="font-semibold mb-2">Current Editors</h3>
         <ul class="list-disc list-inside">
-          <li><strong><%= @memo.owner.email %></strong> (Owner)</li>
+          <li><strong><%= @memo.owner.email %></strong>
+            (Owner)</li>
           <% @memo.editors.each do |editor| %>
             <li>
               <%= editor.email %>
               <% unless editor == @memo.owner %>
-                <%= button_to "Remove", memo_invitation_path(@memo, editor.memo_editors.find_by(memo: @memo)),
-                    method: :delete, class: "text-red-600 text-sm" %>
+                <%= button_to "Remove",
+                memo_invitation_path(@memo, editor.memo_editors.find_by(memo: @memo)),
+                method: :delete,
+                class: "text-red-600 text-sm" %>
               <% end %>
             </li>
           <% end %>
@@ -34,9 +37,12 @@
       <div>
         <h3 class="font-semibold mb-2">Invite Editor</h3>
         <%= form_with url: memo_invitations_path(@memo), method: :post, class: "flex gap-2" do |f| %>
-          <%= text_field_tag :email, "", placeholder: "email@example.com",
-              class: "border rounded px-3 py-2 flex-1" %>
-          <%= f.submit "Send Invitation", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+          <%= text_field_tag :email,
+          "",
+          placeholder: "email@example.com",
+          class: "border rounded px-3 py-2 flex-1" %>
+          <%= f.submit "Send Invitation",
+                   class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
         <% end %>
       </div>
 
@@ -47,9 +53,14 @@
           <ul class="list-disc list-inside">
             <% pending.each do |invitation| %>
               <li>
-                <%= invitation.email %> (expires <%= time_ago_in_words(invitation.expires_at) %> from now)
-                <%= button_to "Cancel", memo_invitation_path(@memo, invitation),
-                    method: :delete, class: "text-red-600 text-sm" %>
+                <%= invitation.email %>
+                (expires
+                <%= time_ago_in_words(invitation.expires_at) %>
+                from now)
+                <%= button_to "Cancel",
+                memo_invitation_path(@memo, invitation),
+                method: :delete,
+                class: "text-red-600 text-sm" %>
               </li>
             <% end %>
           </ul>
