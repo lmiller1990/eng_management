@@ -81,8 +81,17 @@ Platform for Engineering Managers to manage meetings with their team members, in
 
 ### Core Entities
 
-**Account** (existing via Rodauth)
-- Authentication and user management
+**Account**
+- Authentication and user management via Rodauth
+- Email stored as citext (case-insensitive) with email validation constraint
+- Status enum: unverified (1), verified (2), closed (3)
+- **Name Derivation**: Can derive first_name, last_name, and initials from email on-demand
+  - Use `account.derive_name` to get a DerivedName struct with computed values
+  - Supports custom derivation functions via optional parameter
+  - Default strategy splits on dots/underscores (e.g., "john.doe@example.com" → "John Doe", initials "JD")
+  - See `app/models/account.rb:57` for usage examples
+- Automatically accepts pending team and memo invitations after creation (when password is set)
+- Location: `app/models/account.rb`, tests: `test/models/account_test.rb`
 
 **Meeting**
 - Represents a meeting session
