@@ -1,26 +1,18 @@
 // Import Turbo for SPA-like navigation
 import "@hotwired/turbo-rails"
 
-// TypeScript Hello World Example
-const message: string = "Hello World from TypeScript with jsbundling-rails"
-console.log(message)
+// Import and start Stimulus
+import { Application } from "@hotwired/stimulus"
 
-// Type-safe example
-interface GreetingConfig {
-  name: string
-  timestamp: Date
-}
+const application = Application.start()
 
-function greet(config: GreetingConfig): string {
-  return `Hello ${config.name}! Current time: ${config.timestamp.toLocaleString()}`
-}
+// Configure Stimulus development experience
+application.debug = false
+window.Stimulus = application
 
-const greeting = greet({
-  name: "Rails Developer",
-  timestamp: new Date()
-})
+// Import controllers
+import AutosaveController from "./controllers/autosave_controller"
+import TiptapEditorController from "./controllers/tiptap_editor_controller"
 
-console.log(greeting)
-
-// Log to confirm TypeScript is working
-console.log("✅ TypeScript is successfully configured!")
+application.register("autosave", AutosaveController)
+application.register("tiptap-editor", TiptapEditorController)
