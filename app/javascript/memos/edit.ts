@@ -57,13 +57,12 @@ const editor = new Editor({
             document: doc,
             provider
         }),
-        CollaborationCaret.configure({
-            provider,
-            user: {
-                name: "User",
-                // color: getRandomColor()
-            }
-        })
+        // CollaborationCaret.configure({
+        //     provider,
+        //     user: {
+        //         name: "User",
+        //     }
+        // })
     ],
     onUpdate: ({ editor }) => {
         // Sync content back to hidden field whenever it changes
