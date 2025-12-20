@@ -23,7 +23,7 @@ class MemosController < ApplicationController
   # POST /memos or /memos.json
   def create
     @memo = Memo.new(memo_params)
-    @memo.account = current_account
+    @memo.owner = current_account
 
     respond_to do |format|
       if @memo.save
@@ -67,7 +67,7 @@ class MemosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def memo_params
-      params.expect(memo: [ :title, :content, :account_id ])
+      params.expect(memo: [ :title, :content ])
     end
 
     def encode_yjs_state(state)
