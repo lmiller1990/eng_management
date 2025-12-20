@@ -4,6 +4,14 @@
 "data-turbo-track": "reload",
 type: "module" %>
 
+<%= button_to "Destroy",
+@memo,
+method: :delete,
+class: "btn btn-error btn-xs",
+data: {
+  turbo_confirm: "Are you sure?",
+} %>
+
 <div class="md:w-2/3 w-full">
   <h1 class="font-bold text-4xl">Editing memo</h1>
 
