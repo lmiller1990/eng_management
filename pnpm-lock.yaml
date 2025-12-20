@@ -11,6 +11,9 @@ importers:
       '@hotwired/stimulus':
         specifier: ^3.2.2
         version: 3.2.2
+      '@hotwired/turbo':
+        specifier: ^8.0.20
+        version: 8.0.20
       '@hotwired/turbo-rails':
         specifier: ^8.0.20
         version: 8.0.20
@@ -56,6 +59,9 @@ importers:
       '@tiptap/y-tiptap':
         specifier: ^3.0.1
         version: 3.0.1(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.4)(y-protocols@1.0.7(yjs@13.6.28))(yjs@13.6.28)
+      '@types/hotwired__turbo':
+        specifier: ^8.0.4
+        version: 8.0.4
       '@types/rails__actioncable':
         specifier: ^8.0.3
         version: 8.0.3
@@ -417,6 +423,9 @@ packages:
       prosemirror-view: ^1.9.10
       y-protocols: ^1.0.1
       yjs: ^13.5.38
+
+  '@types/hotwired__turbo@8.0.4':
+    resolution: {integrity: sha512-kgEKOms0taywPxPQvXUh90+G7M+phBHTiUw95Dosw0FU/we86iFerMfgBGcf3eQcAGs5pTNYnLMhiIlfRw/AfA==}
 
   '@types/linkify-it@5.0.0':
     resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
@@ -838,6 +847,8 @@ snapshots:
       prosemirror-view: 1.41.4
       y-protocols: 1.0.7(yjs@13.6.28)
       yjs: 13.6.28
+
+  '@types/hotwired__turbo@8.0.4': {}
 
   '@types/linkify-it@5.0.0': {}
 
