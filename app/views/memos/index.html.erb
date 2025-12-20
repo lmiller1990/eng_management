@@ -27,6 +27,7 @@
             <th>Title</th>
             <th>Content</th>
             <th>Owner</th>
+            <th>Invitees</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -37,6 +38,13 @@
               <td><%= memo.title %></td>
               <td><%= memo.content %></td>
               <td><%= memo.owner.email %></td>
+              <td>
+                <% if memo.memo_invitations.any? %>
+                  <%= memo.memo_invitations.map(&:email).join(", ") %>
+                <% else %>
+                  <span class="text-gray-400">None</span>
+                <% end %>
+              </td>
               <td>
                 <div class="flex space-x-2">
                   <%= link_to "Show",
