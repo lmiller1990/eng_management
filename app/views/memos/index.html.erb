@@ -1,6 +1,10 @@
 <% content_for :title, "Memos" %>
 
-<div class="w-full">
+<div
+  class="w-full"
+  data-controller="keyboard-shortcuts"
+  data-keyboard-shortcuts-page-value="memos-index"
+>
   <% if notice.present? %>
     <p
       class="

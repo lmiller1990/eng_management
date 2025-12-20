@@ -14,6 +14,7 @@
   "packageManager": "pnpm@10.26.0",
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo": "^8.0.20",
     "@hotwired/turbo-rails": "^8.0.20",
     "@rails/actioncable": "^8.1.100",
     "@tiptap/core": "^3.14.0",
@@ -29,6 +30,7 @@
     "@tiptap/pm": "^3.14.0",
     "@tiptap/starter-kit": "^3.14.0",
     "@tiptap/y-tiptap": "^3.0.1",
+    "@types/hotwired__turbo": "^8.0.4",
     "@types/rails__actioncable": "^8.0.3",
     "@y-rb/actioncable": "^0.3.0",
     "lib0": "^0.2.115",

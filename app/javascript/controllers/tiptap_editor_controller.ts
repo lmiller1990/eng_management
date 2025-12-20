@@ -79,6 +79,7 @@ export default class extends Controller {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         "X-CSRF-Token": this.csrfToken()
       },
       body: JSON.stringify({
