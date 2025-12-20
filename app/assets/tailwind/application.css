@@ -8,3 +8,7 @@
 @plugin "./daisyui-theme.mjs"{
   /* custom theme here */
 }
+
+.ProseMirror:focus, input {
+  outline: none;
+}

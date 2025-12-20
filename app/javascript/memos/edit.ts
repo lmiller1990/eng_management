@@ -1,6 +1,11 @@
 import { ListItem } from '@tiptap/extension-list'
 import { Color, TextStyle, TextStyleKit } from '@tiptap/extension-text-style'
-import { Editor } from '@tiptap/core'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import { Placeholder } from '@tiptap/extensions'
+
+import { Editor, } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
 import { WebsocketProvider } from "@y-rb/actioncable";
@@ -57,6 +62,7 @@ const editor = new Editor({
             document: doc,
             provider
         }),
+        Placeholder.configure({ placeholder: "Enter some text..." })
         // CollaborationCaret.configure({
         //     provider,
         //     user: {
@@ -77,3 +83,4 @@ if (form) {
         hiddenField.value = editor.getHTML()
     })
 }
+
