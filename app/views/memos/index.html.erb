@@ -37,7 +37,7 @@
           <% @memos.each_with_index do |memo, index| %>
             <tr>
               <th><%= index + 1 %></th>
-              <td><%= memo.title %></td>
+              <td><a href="<%= memo_path(memo) %>" class="link"><%= memo.title %></a></td>
               <td><%= time_ago_in_words(memo.created_at) %>
                 ago</td>
               <td><%= time_ago_in_words(memo.updated_at) %>
