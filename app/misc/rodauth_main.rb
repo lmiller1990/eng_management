@@ -141,6 +141,16 @@ class RodauthMain < Rodauth::Rails::Auth
         end
         session.delete(:team_invitation_token)
       end
+
+      # Handle memo invitations stored in session
+      if session[:memo_invitation_token]
+        invitation = MemoInvitation.find_by(token: session[:memo_invitation_token])
+        if invitation&.pending?
+          invitation.accept!(account)
+          session[:memo_invitation_succeeded] = true
+        end
+        session.delete(:memo_invitation_token)
+      end
     end
 
     # Do additional cleanup after the account is closed.

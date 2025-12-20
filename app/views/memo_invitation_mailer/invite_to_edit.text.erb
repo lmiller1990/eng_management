@@ -1,0 +1,15 @@
+Hello!
+
+<%= @inviter.email %> has invited you to edit a memo: "<%= @memo.title %>"
+
+To accept this invitation and start editing, click the link below:
+
+<%= @accept_url %>
+
+This invitation will expire in 7 days (<%= @invitation.expires_at.strftime("%B %d, %Y at %I:%M %p") %>).
+
+If you don't have an account yet, you'll be able to create one when you click the link.
+If you already have an account, just log in and you'll be added as an editor.
+
+---
+This email was sent because <%= @inviter.email %> invited you to collaborate on a memo.
