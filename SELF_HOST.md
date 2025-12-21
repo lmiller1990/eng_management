@@ -73,3 +73,34 @@ Plan for running the app stack on personal hardware with minimal ops, plus a not
 - Capture the above as code: use Ansible to apply base hardening, packages, Docker, Caddy, systemd units, backup timers; keep inventories for `home` and `vps` targets.
 - Terraform/CLI for provider-specific provisioning (e.g., Hetzner server + volume), then run Ansible with host-specific vars (IPs, DNS, whether to install Tailscale).
 - Apps and Caddyfile templated from vars so moving hosts is updating DNS + running the same playbook.
+
+## Notes
+
+Clean re-run commands (in order)
+```bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y curl git htop ncdu tmux smartmontools fail2ban unattended-upgrades needrestart
+sudo dpkg-reconfigure -plow unattended-upgrades
+sudo timedatectl set-timezone Australia/Brisbane
+
+# Firewall
+sudo ufw default deny incoming
+sudo ufw allow 22/tcp
+sudo ufw allow 80,443/tcp
+sudo ufw enable
+
+# App/data dirs
+sudo mkdir -p /opt/apps /var/lib/apps
+sudo chown -R $USER:$USER /opt/apps /var/lib/apps
+
+# Docker
+curl -fsSL https://get.docker.com | sudo sh
+sudo usermod -aG docker $USER
+
+# Caddy
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo tee /usr/share/keyrings/caddy-stable-archive-keyring.asc
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update && sudo apt install -y caddy
+```

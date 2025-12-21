@@ -1,0 +1,6 @@
+# Fill these from the bootstrap stack outputs before running terraform init
+bucket         = "notae-terraform-state"
+key            = "ses/terraform.tfstate"
+region         = "ap-southeast-2"
+dynamodb_table = "notae-terraform-locks"
+encrypt        = true
