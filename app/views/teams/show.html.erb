@@ -27,81 +27,79 @@
   </div>
 
   <!-- Team Members -->
-  <div class="card bg-base-100 shadow mb-6">
-    <div class="card-body">
-      <h2 class="card-title mb-4">Team Members (<%= @team_memberships.count %>)</h2>
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="font-bold text-2xl">Team Members (<%= @team_memberships.count %>)</h2>
+  </div>
 
-      <div class="overflow-x-auto">
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Member</th>
-              <th>Role</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% current_membership = @team.team_memberships.find_by(account: current_account) %>
+  <div class="overflow-x-auto mb-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Member</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% current_membership = @team.team_memberships.find_by(account: current_account) %>
 
-            <% @team_memberships.each_with_index do |membership, index| %>
-              <tr>
-                <th><%= index + 1 %></th>
+        <% @team_memberships.each_with_index do |membership, index| %>
+          <tr>
+            <th><%= index + 1 %></th>
 
-                <td>
-                  <div class="font-medium"><%= membership.account.email %></div>
-                </td>
+            <td>
+              <div class="font-medium"><%= membership.account.email %></div>
+            </td>
 
-                <td>
-                  <% if membership.owner? %>
-                    <span class="badge badge-primary badge-sm">Owner</span>
-                  <% elsif membership.admin? %>
-                    <span class="badge badge-secondary badge-sm">Admin</span>
-                  <% else %>
-                    <span class="badge badge-ghost badge-sm">Member</span>
-                  <% end %>
-                </td>
+            <td>
+              <% if membership.owner? %>
+                <span class="badge badge-primary badge-sm">Owner</span>
+              <% elsif membership.admin? %>
+                <span class="badge badge-secondary badge-sm">Admin</span>
+              <% else %>
+                <span class="badge badge-ghost badge-sm">Member</span>
+              <% end %>
+            </td>
 
-                <td>
-                  <div class="flex flex-wrap gap-2">
-                    <% if current_membership&.owner? && membership.account != current_account %>
-                      <%= link_to "View Notes",
-                      team_member_path(@team, membership.account),
-                      class: "btn btn-sm btn-ghost" %>
-                    <% elsif !current_membership&.owner? && membership.owner? %>
-                      <%= link_to "View Notes",
-                      team_member_path(@team, current_account),
-                      class: "btn btn-sm btn-ghost" %>
-                    <% end %>
+            <td>
+              <div class="flex flex-wrap gap-2">
+                <% if current_membership&.owner? && membership.account != current_account %>
+                  <%= link_to "View Notes",
+                  team_member_path(@team, membership.account),
+                  class: "btn btn-sm btn-ghost" %>
+                <% elsif !current_membership&.owner? && membership.owner? %>
+                  <%= link_to "View Notes",
+                  team_member_path(@team, current_account),
+                  class: "btn btn-sm btn-ghost" %>
+                <% end %>
 
-                    <% can_remove =
-                      (current_membership&.admin? || current_membership&.owner?) ||
-                        membership.account == current_account %>
+                <% can_remove =
+                  (current_membership&.admin? || current_membership&.owner?) ||
+                    membership.account == current_account %>
 
-                    <% if (can_remove && @team.team_memberships.where(role: 'owner').count > 1) || (!membership.owner? && can_remove) %>
-                      <%= button_to "Remove",
-                      team_membership_path(@team, membership),
-                      method: :delete,
-                      class: "btn btn-sm btn-error",
-                      data: {
-                        turbo_confirm:
-                          (
-                            if membership.account == current_account
-                              "Are you sure you want to leave this team?"
-                            else
-                              "Are you sure you want to remove this member?"
-                            end
-                          ),
-                      } %>
-                    <% end %>
-                  </div>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
+                <% if (can_remove && @team.team_memberships.where(role: 'owner').count > 1) || (!membership.owner? && can_remove) %>
+                  <%= button_to "Remove",
+                  team_membership_path(@team, membership),
+                  method: :delete,
+                  class: "btn btn-sm btn-error",
+                  data: {
+                    turbo_confirm:
+                      (
+                        if membership.account == current_account
+                          "Are you sure you want to leave this team?"
+                        else
+                          "Are you sure you want to remove this member?"
+                        end
+                      ),
+                  } %>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 
   <!-- Invite Member Form -->
@@ -128,67 +126,65 @@
 
   <!-- Pending Invitations -->
   <% if @pending_invitations.any? %>
-    <div class="card bg-base-100 shadow mb-6">
-      <div class="card-body">
-        <h2 class="card-title mb-4">Pending Invitations (<%= @pending_invitations.count %>)</h2>
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-bold text-2xl">Pending Invitations (<%= @pending_invitations.count %>)</h2>
+    </div>
 
-        <div class="overflow-x-auto">
-          <table class="table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Email</th>
-                <th>Invited</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @pending_invitations.each_with_index do |invitation, index| %>
-                <tr>
-                  <th><%= index + 1 %></th>
+    <div class="overflow-x-auto mb-6">
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Email</th>
+            <th>Invited</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @pending_invitations.each_with_index do |invitation, index| %>
+            <tr>
+              <th><%= index + 1 %></th>
 
-                  <td>
-                    <div class="font-medium"><%= invitation.email %></div>
-                  </td>
+              <td>
+                <div class="font-medium"><%= invitation.email %></div>
+              </td>
 
-                  <td>
-                    <div class="text-sm opacity-70">
-                      <span class="opacity-70">by</span>
-                      <%= invitation.inviter.email %>
-                      <span class="opacity-70">·</span>
-                      <%= time_ago_in_words(invitation.created_at) %>
-                      ago
-                    </div>
-                  </td>
+              <td>
+                <div class="text-sm opacity-70">
+                  <span class="opacity-70">by</span>
+                  <%= invitation.inviter.email %>
+                  <span class="opacity-70">·</span>
+                  <%= time_ago_in_words(invitation.created_at) %>
+                  ago
+                </div>
+              </td>
 
-                  <td>
-                    <% if invitation.expired? %>
-                      <span class="badge badge-error badge-sm">Expired</span>
-                    <% else %>
-                      <span class="text-sm opacity-70">
-                        Expires
-                        <%= time_ago_in_words(invitation.expires_at) %>
-                        from now
-                      </span>
-                    <% end %>
-                  </td>
+              <td>
+                <% if invitation.expired? %>
+                  <span class="badge badge-error badge-sm">Expired</span>
+                <% else %>
+                  <span class="text-sm opacity-70">
+                    Expires
+                    <%= time_ago_in_words(invitation.expires_at) %>
+                    from now
+                  </span>
+                <% end %>
+              </td>
 
-                  <td>
-                    <%= button_to "Cancel",
-                    team_invitation_path(@team, invitation),
-                    method: :delete,
-                    class: "btn btn-sm btn-ghost",
-                    data: {
-                      turbo_confirm: "Are you sure you want to cancel this invitation?",
-                    } %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
+              <td>
+                <%= button_to "Cancel",
+                team_invitation_path(@team, invitation),
+                method: :delete,
+                class: "btn btn-sm btn-ghost",
+                data: {
+                  turbo_confirm: "Are you sure you want to cancel this invitation?",
+                } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   <% end %>
 </div>
