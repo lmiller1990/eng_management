@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./tiptap.css";
 
 @source not "./daisyui{,*}.mjs";
 
@@ -7,95 +8,4 @@
 /* Optional for custom themes – Docs: https://daisyui.com/docs/themes/#how-to-add-a-new-custom-theme */
 @plugin "./daisyui-theme.mjs"{
   /* custom theme here */
-}
-
-.ProseMirror:focus, input {
-  outline: none;
-}
-
-@scope (.tiptap) {
-  :first-child {
-    margin-top: 0;
-  }
-
-  /* List styles */
-  ul,
-  ol {
-    list-style-type: disc;
-    padding: 0 1rem;
-    margin: 1.25rem 1rem 1.25rem 0.4rem;
-
-    li p {
-      margin-top: 0.25em;
-      margin-bottom: 0.25em;
-    }
-  }
-
-  /* Heading styles */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
-    text-wrap: pretty;
-  }
-
-  h1,
-  h2 {
-  }
-
-  h1 {
-    font-size: 1.4rem;
-  }
-
-  h2 {
-    font-size: 1.2rem;
-  }
-
-  h3 {
-    font-size: 1.1rem;
-  }
-
-  h4,
-  h5,
-  h6 {
-    font-size: 1rem;
-  }
-
-  pre {
-    border-radius: 0.5rem;
-    color: black;
-    font-family: monospace;
-    margin: 1.5rem 0;
-    padding: 0.75rem 1rem;
-    background-color: #f6f8fa;
-
-    code {
-      color: inherit;
-      font-size: 0.8rem;
-      padding: 0;
-    }
-  }
-
-  blockquote {
-    border-left: 3px solid var(--gray-3);
-    margin: 1.5rem 0;
-    padding-left: 1rem;
-  }
-
-  hr {
-    border: none;
-    border-top: 1px solid var(--gray-2);
-    margin: 2rem 0;
-  }
-}
-
-p.is-editor-empty:first-child::before {
-  @apply text-gray-400;
-  content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
 }
