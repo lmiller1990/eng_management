@@ -1,0 +1,9 @@
+one:
+  owner: one
+  name: "Engineering Team"
+  description: "Main engineering team"
+
+two:
+  owner: two
+  name: "Product Team"
+  description: "Product team"

@@ -27,8 +27,10 @@ class MemoPolicy < ApplicationPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      # Return memos that the account owns or can edit
-      scope.left_joins(:memo_editors)
+      # Return only shared memos that the account owns or can edit
+      # Excludes team_one_on_one memos (shown in dedicated location)
+      scope.shared
+           .left_joins(:memo_editors)
            .where("memos.account_id = ? OR memo_editors.account_id = ?", account.id, account.id)
            .distinct
     end
