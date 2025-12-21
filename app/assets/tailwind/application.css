@@ -9,3 +9,7 @@
 @plugin "./daisyui-theme.mjs"{
   /* custom theme here */
 }
+
+input {
+  @apply max-w-[500px];
+}
