@@ -13,44 +13,63 @@
     </div>
   <% end %>
 
-  <div id="teams" class="space-y-4">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="font-bold text-3xl">Your Teams</h1>
+    <%= link_to "New team", new_team_path, class: "btn btn-sm btn-primary" %>
+  </div>
+
+  <div id="teams" class="overflow-x-auto">
     <% if @teams.any? %>
-      <% @teams.each do |team| %>
-        <div class="card bg-base-100 shadow">
-          <div class="card-body">
-            <div
-              class="
-                flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4
-              "
-            >
-              <div>
-                <h2 class="card-title"><%= team.name %></h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Members</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @teams.each_with_index do |team, index| %>
+            <tr>
+              <th><%= index + 1 %></th>
+              <td>
+                <%= link_to team.name, team, class: "link" %>
+              </td>
+              <td>
                 <% if team.description.present? %>
-                  <p class="text-sm opacity-70 mt-1"><%= team.description %></p>
+                  <span class="opacity-70"><%= team.description %></span>
+                <% else %>
+                  <span class="opacity-50">—</span>
                 <% end %>
-                <p class="text-sm opacity-50 mt-1"><%= pluralize(team.accounts.count, "member") %></p>
-              </div>
-              <div class="flex flex-wrap gap-2">
-                <%= link_to "View", team, class: "btn btn-sm btn-ghost" %>
-                <% membership = team.team_memberships.find_by(account: current_account) %>
-                <% if membership&.admin? || membership&.owner? %>
-                  <%= link_to "Edit", edit_team_path(team), class: "btn btn-sm btn-ghost" %>
-                  <%= button_to "Delete",
-                  team,
-                  method: :delete,
-                  class: "btn btn-sm btn-error",
-                  data: {
-                    turbo_confirm:
-                      "Are you sure? This will remove all members and delete the team.",
-                  } %>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
+              </td>
+              <td>
+                <%= pluralize(team.accounts.count, "member") %>
+              </td>
+              <td>
+                <div class="flex flex-wrap gap-2">
+                  <%= link_to "View", team, class: "btn btn-sm btn-ghost" %>
+
+                  <% membership = team.team_memberships.find_by(account: current_account) %>
+                  <% if membership&.admin? || membership&.owner? %>
+                    <%= link_to "Edit", edit_team_path(team), class: "btn btn-sm btn-ghost" %>
+                    <%= button_to "Delete",
+                      team,
+                      method: :delete,
+                      class: "btn btn-sm btn-error",
+                      data: {
+                        turbo_confirm: "Are you sure? This will remove all members and delete the team."
+                      } %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     <% else %>
-      <div class="text-center pt-10 ">
+      <div class="text-center pt-10">
         <p class="mb-6">You're not a member of any teams yet. Create a team to get started!</p>
         <%= link_to "New team", new_team_path, class: "btn btn-sm btn-primary" %>
       </div>
