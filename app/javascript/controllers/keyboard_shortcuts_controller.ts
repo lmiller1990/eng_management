@@ -35,7 +35,7 @@ export default class extends Controller {
       return
     }
 
-    if (event.key === "p") {
+    if (event.key === "t") {
       event.preventDefault()
       visit("/teams")
       return

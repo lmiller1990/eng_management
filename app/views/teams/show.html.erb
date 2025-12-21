@@ -25,7 +25,6 @@
       <%= link_to "Edit team", edit_team_path(@team), class: "btn btn-ghost btn-sm" %>
     <% end %>
   </div>
-
   <!-- Team Members -->
   <div class="flex justify-between items-center mb-4">
     <h2 class="font-bold text-2xl">Team Members (<%= @team_memberships.count %>)</h2>
@@ -103,19 +102,16 @@
   </div>
 
   <div class="divider"></div>
-
   <!-- Invite Member Form -->
   <div class="flex justify-between items-center mb-4">
     <h2 class="font-bold text-2xl">Invite Member</h2>
   </div>
 
   <%= form_with model: TeamInvitation.new, url: team_invitations_path(@team), method: :post, class: "flex gap-2 mb-2" do |form| %>
-    <div class="form-control flex-1">
-      <%= form.email_field :email,
-                       placeholder: "Email address",
-                       required: true,
-                       class: "input input-bordered w-full input-sm" %>
-    </div>
+    <%= form.email_field :email,
+                     placeholder: "Email address",
+                     required: true,
+                     class: "input input-bordered flex-1 input-sm" %>
     <%= form.submit "Send Invite", class: "btn btn-primary btn-sm" %>
   <% end %>
 
@@ -123,7 +119,6 @@
     If the user already has an account, they'll be added immediately.
     Otherwise, we'll send them an email invitation.
   </p>
-
   <!-- Pending Invitations -->
   <% if @pending_invitations.any? %>
     <div class="divider"></div>

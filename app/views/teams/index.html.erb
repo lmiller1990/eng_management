@@ -55,12 +55,13 @@
                   <% if membership&.admin? || membership&.owner? %>
                     <%= link_to "Edit", edit_team_path(team), class: "btn btn-sm btn-ghost" %>
                     <%= button_to "Delete",
-                      team,
-                      method: :delete,
-                      class: "btn btn-sm btn-error",
-                      data: {
-                        turbo_confirm: "Are you sure? This will remove all members and delete the team."
-                      } %>
+                    team,
+                    method: :delete,
+                    class: "btn btn-sm btn-error",
+                    data: {
+                      turbo_confirm:
+                        "Are you sure? This will remove all members and delete the team.",
+                    } %>
                   <% end %>
                 </div>
               </td>

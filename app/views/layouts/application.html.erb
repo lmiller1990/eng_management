@@ -41,7 +41,15 @@
     <% end %>
 
     <div class="drawer lg:drawer-open">
-      <input id="my-drawer-4" type="checkbox" class="drawer-toggle"/>
+      <input
+        id="my-drawer-4"
+        type="checkbox"
+        class="drawer-toggle"
+        data-controller="drawer"
+        data-drawer-target="checkbox"
+        data-drawer-key-value="sidebar"
+        data-action="change->drawer#persist"
+      />
       <div class="drawer-content">
         <!-- Navbar -->
         <nav class="navbar w-full bg-base-300 flex items-center justify-between">
@@ -74,7 +82,7 @@
 
             <div class="dropdown dropdown-end">
               <div tabindex="0" role="button" class="btn m-1 btn-circle">
-                LM
+                <%= current_account.derive_name.initials %>
               </div>
               <ul
                 tabindex="-1"
