@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   resources :teams do
     resources :memberships, controller: "team_memberships", only: [ :destroy ]
     resources :invitations, controller: "team_invitations", only: [ :create, :destroy ]
+    resources :members, only: [ :show ], controller: "team_members"
   end
+
+  resources :accounts, only: [ :index ]
 
   # Public invitation acceptance routes (no auth required)
   get "/invitations/:token/accept", to: "team_invitations#accept", as: :accept_team_invitation

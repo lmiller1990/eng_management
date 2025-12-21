@@ -35,6 +35,12 @@ export default class extends Controller {
       return
     }
 
+    if (event.key === "p") {
+      event.preventDefault()
+      visit("/teams")
+      return
+    }
+
     // Page-specific shortcuts for memos index
     if (this.pageValue === "memos-index") {
       if (event.key === "n") {
