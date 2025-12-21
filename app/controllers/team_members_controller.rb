@@ -1,11 +1,16 @@
 class TeamMembersController < ApplicationController
+  # Simple struct to hold team and member for authorization
+  TeamMemberContext = Struct.new(:team, :member)
+
   before_action :set_team
   before_action :set_member
   after_action :verify_authorized
 
   def show
-    # Authorize using the team and explicitly specify the policy
-    authorize @team, policy_class: TeamMemberPolicy
+    # Authorize: pass both team and member to the policy
+    # Allows owner to view any member's notes, or members to view their own
+    context = TeamMemberContext.new(@team, @member)
+    authorize context, policy_class: TeamMemberPolicy
 
     # Find the memo associated with this member
     @memo = find_one_on_one_memo

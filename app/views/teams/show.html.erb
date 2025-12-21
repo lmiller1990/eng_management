@@ -49,6 +49,8 @@
 
               <% if current_membership&.owner? && membership.account != current_account %>
                 <%= link_to "View Notes", team_member_path(@team, membership.account), class: "btn btn-sm btn-ghost" %>
+              <% elsif !current_membership&.owner? && membership.owner? %>
+                <%= link_to "View Notes", team_member_path(@team, current_account), class: "btn btn-sm btn-ghost" %>
               <% end %>
 
               <% can_remove =
