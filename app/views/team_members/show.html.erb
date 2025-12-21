@@ -15,39 +15,20 @@
 
   <div class="flex justify-between items-center mb-6">
     <div>
-      <h1 class="text-3xl font-bold">1-on-1 Notes: <%= @member.email %></h1>
-      <p class="text-lg opacity-70 mt-1">Team: <%= @team.name %></p>
+      <h1 class="text-3xl font-bold">1-on-1 Notes:
+        <%= @member.email %></h1>
+      <p class="text-lg opacity-70 mt-1">Team:
+        <%= @team.name %></p>
     </div>
     <%= link_to "Back to Team", team_path(@team), class: "btn btn-ghost btn-sm" %>
   </div>
 
   <div class="w-full flex flex-col items-center">
     <%= form_with(model: @memo, class: "contents") do |form| %>
-      <div class="max-w-lg w-full">
-        <div class="my-5">
-          <%= form.text_field :title,
-                          type: "text",
-                          id: "memo_title",
-                          placeholder: "Title...",
-                          class: "input mb-4 w-full",
-                          data: {
-                            controller: "autosave",
-                            autosave_url_value: memo_path(@memo),
-                            autosave_field_value: "title",
-                            autosave_target: "field",
-                            action: "input->autosave#save",
-                          } %>
-          <%= form.hidden_field :content, id: "memo_content" %>
-          <div
-            id="tiptap-editor"
-            data-controller="tiptap-editor"
-            data-tiptap-editor-memo-id-value="<%= @memo.id %>"
-            data-tiptap-editor-initial-state-value="<%= @initial_yjs_state || '' %>"
-            data-tiptap-editor-url-value="<%= memo_path(@memo) %>"
-          >
-          </div>
-        </div>
-      </div>
+      <%= render "memos/editor_form",
+      form: form,
+      memo: @memo,
+      initial_yjs_state: @initial_yjs_state %>
     <% end %>
   </div>
 </div>

@@ -30,7 +30,9 @@
               <th><%= index + 1 %></th>
               <td><%= account.email %></td>
               <td>
-                <span class="badge <%= account.status == 'verified' ? 'badge-success' : 'badge-warning' %>">
+                <span
+                  class="badge <%= account.status == 'verified' ? 'badge-success' : 'badge-warning' %>"
+                >
                   <%= account.status %>
                 </span>
               </td>
