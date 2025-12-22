@@ -5,12 +5,10 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      vault:
-        condition: service_started
     environment:
       RAILS_ENV: production
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?Set RAILS_MASTER_KEY for Rails credentials}
-      DATABASE_URL: postgres://${POSTGRES_USER:-eng_app}:${POSTGRES_PASSWORD:-change_me}@postgres:5432/${POSTGRES_DB:-eng_app_db}
+      DATABASE_URL: postgres://${POSTGRES_USER:-eng_app}:${POSTGRES_PASSWORD:-change_me}@postgres:5432/${POSTGRES_DB:-eng_management_production}
     ports:
       - "3000:80"
     healthcheck:
@@ -37,37 +35,5 @@ services:
       timeout: 5s
       retries: 5
 
-  vault:
-    image: hashicorp/vault:1.15
-    restart: unless-stopped
-    cap_add:
-      - IPC_LOCK
-    environment:
-      VAULT_LOCAL_CONFIG: |
-        {
-          "ui": true,
-          "listener": [{
-            "tcp": {
-              "address": "0.0.0.0:8200",
-              "tls_disable": 1
-            }
-          }],
-          "storage": {
-            "file": {
-              "path": "/vault/file"
-            }
-          }
-        }
-    ports:
-      - "8200:8200"
-    volumes:
-      - vault-data:/vault/file
-    healthcheck:
-      test: ["CMD-SHELL", "vault status"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
-
 volumes:
   postgres-data:
-  vault-data:
