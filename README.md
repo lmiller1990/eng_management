@@ -5,43 +5,56 @@ A Ruby on Rails application with Tailwind CSS for engineering management.
 ## Tech Stack
 
 * Ruby on Rails 8.1.1
-* PostgreSQL 17 (Docker)
+* PostgreSQL 16 (Docker)
 * Tailwind CSS
 * Turbo & Stimulus (Hotwire)
 * Rodauth (Authentication)
+* Docker Compose (Postgres + Vault for secrets management)
 
 ## Setup
 
-### 1. Start PostgreSQL in Docker
+### 1. Start services with Docker Compose
 
 ```bash
-docker run --name eng-management-postgres \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=postgres \
-  -p 5432:5432 \
-  -d postgres:17
+docker compose up -d postgres vault
 ```
 
-### 2. Install Dependencies
+### 2. Install dependencies
 
 ```bash
 bundle install
 ```
 
-### 3. Create Database
+### 3. Create database
 
 ```bash
 rails db:create
 rails db:migrate
 ```
 
-### 4. Start Development Server
+### 4. Start development server
 
 ```bash
 ./bin/dev
 ```
 
 Visit http://localhost:3000
+
+### Running the app container (production image)
+
+Set `RAILS_MASTER_KEY` in your environment (or `.env`) and then:
+
+```bash
+docker compose up --build app
+```
+
+This runs the production image and maps container port 80 to host port 3000. For one-off tasks inside the image:
+
+```bash
+docker compose run --rm app ./bin/rails db:prepare
+```
+
+Environment variables are loaded from `.env` (see `.env.example` for defaults). Keep `RAILS_MASTER_KEY` secret and rotate the database password for real deployments.
 
 ## Authentication
 
@@ -65,14 +78,8 @@ The app uses [Rodauth](https://github.com/janko/rodauth-rails) for email/passwor
 ## Database Management
 
 ```bash
-# Start PostgreSQL
-docker start eng-management-postgres
-
-# Stop PostgreSQL
-docker stop eng-management-postgres
-
-# Connect with psql
-docker exec -it eng-management-postgres psql -U postgres -d eng_management_development
+# Connect with psql via Compose
+docker compose exec postgres psql -U eng_app -d eng_app_db
 ```
 
 ## Domain Model
@@ -136,13 +143,19 @@ Platform for Engineering Managers to manage meetings with their team members, in
 
 All notes, action items, and participants are managed within their parent meeting context.
 
-## DB
+## Vault (local usage)
 
+Vault runs in Docker Compose alongside Postgres. It is reachable at `http://127.0.0.1:8200` from the host and the Docker network only (keep the host firewalled; do not expose this publicly).
+
+1) Ensure Vault is running: `docker compose up -d vault`
+2) Point the CLI: `export VAULT_ADDR=http://127.0.0.1:8200`
+3) First-time init + unseal (store the unseal key and root token somewhere safe):
+
+```bash
+docker compose exec vault vault operator init -key-shares=1 -key-threshold=1
+docker compose exec vault vault operator unseal <unseal-key>
+export VAULT_TOKEN=<root-token>
+docker compose exec -e VAULT_TOKEN vault vault status
 ```
-docker exec -it eng-management-postgres psql -U postgres
 
-# erd
-bundle exec erd
-```
-
-
+Next steps: enable the database secrets engine, configure the Postgres connection, and create a role that mints short-lived app users. Keep `DATABASE_URL` env-driven so Rails can source credentials from Vault at boot. For production/staging, use auto-unseal (e.g., cloud KMS) and keep Vault internal-only.
