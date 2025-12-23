@@ -41,3 +41,7 @@ node_modules
 
 /node_modules
 .aider*
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+
