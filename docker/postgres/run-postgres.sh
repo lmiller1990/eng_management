@@ -10,7 +10,7 @@ POSTGRES_ADMIN_USER="${POSTGRES_ADMIN_USER:-postgres}"
 POSTGRES_ADMIN_PASSWORD="${POSTGRES_ADMIN_PASSWORD:?Error: POSTGRES_ADMIN_PASSWORD must be set}"
 POSTGRES_DATA_DIR="${POSTGRES_DATA_DIR:-/var/lib/postgresql-data}"
 POSTGRES_PORT="${POSTGRES_PORT:-5432}"
-CONTAINER_NAME="${CONTAINER_NAME:-eng-management-postgres}"
+CONTAINER_NAME=postgres
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -32,6 +32,7 @@ mkdir -p "${POSTGRES_DATA_DIR}"
 # Run PostgreSQL
 docker run -d \
     --name "${CONTAINER_NAME}" \
+    --network eng_net \
     --restart unless-stopped \
     -e POSTGRES_USER="${POSTGRES_ADMIN_USER}" \
     -e POSTGRES_PASSWORD="${POSTGRES_ADMIN_PASSWORD}" \
