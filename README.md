@@ -151,6 +151,8 @@ Vault runs in Docker Compose alongside Postgres. It is reachable at `http://127.
 2) Point the CLI: `export VAULT_ADDR=http://127.0.0.1:8200`
 3) First-time init + unseal (store the unseal key and root token somewhere safe):
 
+Rails Secret: `vault kv put secret/notae/rails master_key=$(openssl rand -hex 16)`
+
 ```bash
 docker compose exec vault vault operator init -key-shares=1 -key-threshold=1
 docker compose exec vault vault operator unseal <unseal-key>
