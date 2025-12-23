@@ -21,7 +21,7 @@
 
   <div id="memos" class="overflow-x-auto">
     <% if @memos.any? %>
-      <table class="table">
+      <table class="table" data-controller="memos-table">
         <thead>
           <tr>
             <th></th>
@@ -35,7 +35,11 @@
         </thead>
         <tbody>
           <% @memos.each_with_index do |memo, index| %>
-            <tr>
+            <tr
+              tabindex="0"
+              data-index="<%= index + 1 %>"
+              data-url="<%= edit_memo_path(memo) %>"
+            >
               <th><%= index + 1 %></th>
               <td><a href="<%= memo_path(memo) %>" class="link"><%= memo.title %></a></td>
               <td><%= time_ago_in_words(memo.created_at) %>

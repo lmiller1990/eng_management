@@ -15,8 +15,10 @@ import AutosaveController from "./controllers/autosave_controller"
 import TiptapEditorController from "./controllers/tiptap_editor_controller"
 import KeyboardShortcutsController from "./controllers/keyboard_shortcuts_controller"
 import DrawerController from "./controllers/drawer_controller"
+import MemosController from "./controllers/memos_controller"
 
 application.register("autosave", AutosaveController)
 application.register("tiptap-editor", TiptapEditorController)
 application.register("keyboard-shortcuts", KeyboardShortcutsController)
 application.register("drawer", DrawerController)
+application.register("memos-table", MemosController)

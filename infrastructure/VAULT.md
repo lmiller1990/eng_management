@@ -123,7 +123,7 @@ vault secrets enable -path=secret kv-v2
 ## Step 8: Create Your First Secret
 
 ```bash
-vault kv put secret/myapp/database \
+vault kv put secret/notae/database \
   username=dbuser \
   password=$(openssl rand -base64 32)
 ```
@@ -133,9 +133,9 @@ vault kv put secret/myapp/database \
 Create a policy for your application:
 
 ```bash
-vault policy write myapp-policy - <<EOF
+vault policy write notae-policy - <<EOF
 # Read secrets
-path "secret/data/myapp/*" {
+path "secret/data/notae/*" {
   capabilities = ["read", "list"]
 }
 EOF
@@ -150,16 +150,16 @@ AppRole is recommended for applications:
 vault auth enable approle
 
 # Create a role
-vault write auth/approle/role/myapp \
-  token_policies="myapp-policy" \
+vault write auth/approle/role/notae \
+  token_policies="notae-policy" \
   token_ttl=1h \
   token_max_ttl=4h
 
 # Get role ID (static)
-vault read auth/approle/role/myapp/role-id
+vault read auth/approle/role/notae/role-id
 
 # Generate secret ID (treat like a password)
-vault write -f auth/approle/role/myapp/secret-id
+vault write -f auth/approle/role/notae/secret-id
 ```
 
 Save the `role_id` and `secret_id` - your application will use these to authenticate.
@@ -177,7 +177,7 @@ VAULT_TOKEN=$(vault write -field=token auth/approle/login \
 export VAULT_TOKEN
 
 # Now read secrets
-vault kv get secret/myapp/database
+vault kv get secret/notae/database
 ```
 
 ## Useful Commands
@@ -189,18 +189,18 @@ vault status
 
 ### List Secrets
 ```bash
-vault kv list secret/myapp
+vault kv list secret/notae
 ```
 
 ### Read a Secret
 ```bash
-vault kv get secret/myapp/database
-vault kv get -field=password secret/myapp/database
+vault kv get secret/notae/database
+vault kv get -field=password secret/notae/database
 ```
 
 ### Update a Secret
 ```bash
-vault kv put secret/myapp/database \
+vault kv put secret/notae/database \
   username=dbuser \
   password=newpassword
 ```
