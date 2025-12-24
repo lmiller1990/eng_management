@@ -1,7 +1,6 @@
 <%= form_with url: rodauth.login_path, method: :post, data: { turbo: false }, class: "w-full max-w-sm space-y-4" do |form| %>
   <% if rodauth.skip_login_field_on_login? %>
     <div class="form-control">
-      <%= form.label "login", rodauth.login_label, class: "label" %>
       <%= form.email_field rodauth.login_param,
                        value: params[rodauth.login_param],
                        id: "login",
@@ -10,11 +9,11 @@
     </div>
   <% else %>
     <div class="form-control">
-      <%= form.label "login", rodauth.login_label, class: "label" %>
       <%= form.email_field rodauth.login_param,
                        value: params[rodauth.login_param],
                        id: "login",
                        autocomplete: rodauth.login_field_autocomplete_value,
+                       placeholder: "Work email",
                        required: true,
                        class:
                          "input input-bordered w-full #{rodauth.field_error(rodauth.login_param) ? "input-error" : ""}",
@@ -37,10 +36,10 @@
 
   <% unless rodauth.skip_password_field_on_login? %>
     <div class="form-control">
-      <%= form.label "password", rodauth.password_label, class: "label" %>
       <%= form.password_field rodauth.password_param,
                           value: "",
                           id: "password",
+                          placeholder: "Password",
                           autocomplete: rodauth.password_field_autocomplete_value,
                           required: true,
                           class:

@@ -19,10 +19,12 @@ export default class extends Controller {
       }
     })
 
+    console.log(body)
     fetch(this.urlValue, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         "X-CSRF-Token": this.csrfToken()
       },
       body

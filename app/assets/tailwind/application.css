@@ -13,3 +13,8 @@
 input {
   @apply max-w-[500px];
 }
+
+/* for memos index j/k bindings */
+.highlighted {
+  @apply bg-base-300;
+}
