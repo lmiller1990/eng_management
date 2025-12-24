@@ -17,7 +17,7 @@ services:
     container_name: eng_management
     command: ./bin/thrust ./bin/rails server
     ports:
-      - "3000:3000"
+      - "80:3000"
     environment:
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
       ENG_MANAGEMENT_DATABASE_PASSWORD: ${ENG_MANAGEMENT_DATABASE_PASSWORD}
