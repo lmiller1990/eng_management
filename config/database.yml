@@ -17,6 +17,7 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
+  host: postgres
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
@@ -71,23 +72,23 @@ production:
   primary:
     <<: *default
     database: eng_management_production
-    username: eng_management
+    username: notae
     password: <%= ENV["ENG_MANAGEMENT_DATABASE_PASSWORD"] %>
   cache:
     <<: *default
     database: eng_management_production_cache
-    username: eng_management
+    username: notae
     password: <%= ENV["ENG_MANAGEMENT_DATABASE_PASSWORD"] %>
     migrations_paths: db/cache_migrate
   queue:
     <<: *default
     database: eng_management_production_queue
-    username: eng_management
+    username: notae
     password: <%= ENV["ENG_MANAGEMENT_DATABASE_PASSWORD"] %>
     migrations_paths: db/queue_migrate
   cable:
     <<: *default
     database: eng_management_production_cable
-    username: eng_management
+    username: notae
     password: <%= ENV["ENG_MANAGEMENT_DATABASE_PASSWORD"] %>
     migrations_paths: db/cable_migrate
