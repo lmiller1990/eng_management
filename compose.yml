@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  migrate:
+    image: eng_management:latest
+    container_name: eng_management_migrate
+    command: bundle exec rails db:migrate
+    environment:
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      ENG_MANAGEMENT_DATABASE_PASSWORD: ${ENG_MANAGEMENT_DATABASE_PASSWORD}
+    networks:
+      - eng_net
+    restart: "no"
+
+  app:
+    image: eng_management:latest
+    container_name: eng_management
+    command: ./bin/thrust ./bin/rails server
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      ENG_MANAGEMENT_DATABASE_PASSWORD: ${ENG_MANAGEMENT_DATABASE_PASSWORD}
+    networks:
+      - eng_net
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+networks:
+  eng_net:
+    external: true
