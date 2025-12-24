@@ -1,33 +1,33 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus";
 
-const STORAGE_KEY = "drawer-open"
+const STORAGE_KEY = "drawer-open";
 
 export default class extends Controller {
-  static targets = ["checkbox"]
+  static targets = ["checkbox"];
   static values = {
-    key: String
-  }
+    key: String,
+  };
 
-  declare checkboxTarget: HTMLInputElement
-  declare readonly keyValue: string | undefined
+  declare checkboxTarget: HTMLInputElement;
+  declare readonly keyValue: string | undefined;
 
   connect() {
     // Restore persisted state; if nothing persisted, keep the default
-    const persisted = window.localStorage.getItem(this.storageKey)
+    const persisted = window.localStorage.getItem(this.storageKey);
     if (persisted !== null) {
-      this.checkboxTarget.checked = persisted === "true"
+      this.checkboxTarget.checked = persisted === "true";
     }
   }
 
   persist() {
     window.localStorage.setItem(
       this.storageKey,
-      this.checkboxTarget.checked ? "true" : "false"
-    )
+      this.checkboxTarget.checked ? "true" : "false",
+    );
   }
 
   private get storageKey() {
     // Prefer a provided key; fall back to the element id so multiple drawers can coexist
-    return `drawer-${this.keyValue || this.checkboxTarget.id || STORAGE_KEY}`
+    return `drawer-${this.keyValue || this.checkboxTarget.id || STORAGE_KEY}`;
   }
 }

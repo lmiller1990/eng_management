@@ -71,6 +71,9 @@ importers:
       lib0:
         specifier: ^0.2.115
         version: 0.2.115
+      prettier:
+        specifier: ^3.7.4
+        version: 3.7.4
       y-protocols:
         specifier: ^1.0.7
         version: 1.0.7(yjs@13.6.28)
@@ -488,6 +491,11 @@ packages:
 
   orderedmap@2.1.1:
     resolution: {integrity: sha512-TvAWxi0nDe1j/rtMcWcIj94+Ffe6n7zhow33h40SKxmsmozs6dz/e+EajymfoFcHd7sxNn8yHM8839uixMOV6g==}
+
+  prettier@3.7.4:
+    resolution: {integrity: sha512-v6UNi1+3hSlVvv8fSaoUbggEM5VErKmmpGA7Pl3HF8V6uKY7rvClBOJlH6yNwQtfTueNkGVpOv/mtWL9L4bgRA==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   prosemirror-changeset@2.3.1:
     resolution: {integrity: sha512-j0kORIBm8ayJNl3zQvD1TTPHJX3g042et6y/KQhZhnPrruO8exkTgG8X+NRpj7kIyMMEx74Xb3DyMIBtO0IKkQ==}
@@ -932,6 +940,8 @@ snapshots:
   mdurl@2.0.0: {}
 
   orderedmap@2.1.1: {}
+
+  prettier@3.7.4: {}
 
   prosemirror-changeset@2.3.1:
     dependencies:

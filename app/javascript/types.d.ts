@@ -1,9 +1,9 @@
-import { Application } from "@hotwired/stimulus"
+import { Application } from "@hotwired/stimulus";
 
 declare global {
   interface Window {
-    Stimulus: Application
+    Stimulus: Application;
   }
 }
 
-export {}
+export {};

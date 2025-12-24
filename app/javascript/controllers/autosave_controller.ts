@@ -1,51 +1,53 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static values = {
     url: String,
-    field: String
-  }
+    field: String,
+  };
 
-  static targets = ["field"]
+  static targets = ["field"];
 
-  declare readonly urlValue: string
-  declare readonly fieldValue: string
-  declare readonly fieldTarget: HTMLInputElement
+  declare readonly urlValue: string;
+  declare readonly fieldValue: string;
+  declare readonly fieldTarget: HTMLInputElement;
 
   save() {
     const body = JSON.stringify({
       memo: {
-        [this.fieldValue]: this.fieldTarget.value
-      }
-    })
+        [this.fieldValue]: this.fieldTarget.value,
+      },
+    });
 
-    console.log(body)
+    console.log(body);
     fetch(this.urlValue, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "X-CSRF-Token": this.csrfToken()
+        Accept: "application/json",
+        "X-CSRF-Token": this.csrfToken(),
       },
-      body
+      body,
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json()
+        return response.json();
       })
       .then(() => {
         // Optional: Show save indicator
-        console.log("Saved successfully")
+        console.log("Saved successfully");
       })
-      .catch(error => {
-        console.error("Save failed:", error)
-      })
+      .catch((error) => {
+        console.error("Save failed:", error);
+      });
   }
 
   private csrfToken(): string {
-    const meta = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
-    return meta?.content || ""
+    const meta = document.querySelector(
+      'meta[name="csrf-token"]',
+    ) as HTMLMetaElement;
+    return meta?.content || "";
   }
 }
