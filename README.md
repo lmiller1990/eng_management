@@ -145,4 +145,50 @@ docker exec -it eng-management-postgres psql -U postgres
 bundle exec erd
 ```
 
+## Deployment
 
+We self host and manage using systemd.
+
+```
+/etc/systemd/system/eng_management-update.service
+
+[Unit]
+Description=Update eng_management (pull, migrate, restart)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/apps/eng_management
+
+ExecStart=/usr/bin/docker compose pull
+ExecStart=/usr/bin/docker compose run --rm migrate
+ExecStart=/usr/bin/docker compose up -d app
+```
+
+And
+
+```
+/etc/systemd/system/eng_management-update.timer
+
+[Unit]
+Description=Periodic update check for eng_management
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=2min
+AccuracySec=30s
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+Run
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable --now eng_management-update.timer
+```
+
+Force to run it: sudo systemctl start eng_management-update.service
