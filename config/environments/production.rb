@@ -64,7 +64,9 @@ Rails.application.configure do
   }
 
   # Use AWS SES v2 SDK for email delivery
-  config.action_mailer.delivery_method = :ses_mailer
+
+  config.action_mailer.delivery_method = :ses_v2
+  config.action_mailer.ses_v2_settings = { region: "ap-southeast-2" }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
