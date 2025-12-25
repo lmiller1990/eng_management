@@ -29,10 +29,6 @@ resource "aws_ses_configuration_set" "main" {
   delivery_options {
     tls_policy = "Require"
   }
-
-  reputation_options {
-    reputation_metrics_enabled = true
-  }
 }
 
 # IAM User for SMTP Authentication
