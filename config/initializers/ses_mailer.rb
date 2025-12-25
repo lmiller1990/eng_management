@@ -11,7 +11,7 @@ class SesMailer
 
   def deliver!(mail)
     ses_client = Aws::SESV2::Client.new(
-      region: ENV["AWS_REGION"] || "us-east-1",
+      region: ENV["AWS_REGION"],
       access_key_id: ENV["AWS_ACCESS_KEY_ID"],
       secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
     )
@@ -73,12 +73,6 @@ class SesMailer
       mail.text_part.body.to_s
     elsif mail.body
       mail.body.to_s
-    else
-      # Fallback: strip HTML from the HTML part
-      require "cgi"
-      CGI.unescapeHTML(
-        mail.html_part&.body&.to_s&.gsub(/<[^>]*>/, "") || ""
-      )
     end
   end
 end
