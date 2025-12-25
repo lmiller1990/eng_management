@@ -59,6 +59,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem "aws-sdk-sesv2", "~> 1"
+  gem "aws-sdk-ssm", "~> 1"
 end
 
 group :development do
