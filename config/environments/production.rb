@@ -59,14 +59,17 @@ Rails.application.configure do
 
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = {
-    host: ENV.fetch("APP_HOST", "localhost:3000"),
-    protocol: ENV.fetch("APP_PROTOCOL", "https")
+    host: "notae.dev",
+    protocol: "https"
   }
 
   # Use AWS SES v2 SDK for email delivery
-
   config.action_mailer.delivery_method = :ses_v2
-  config.action_mailer.ses_v2_settings = { region: "ap-southeast-2" }
+  config.action_mailer.ses_v2_settings = {
+    region: ENV["AWS_REGION"],
+    access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+    secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
+  }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
