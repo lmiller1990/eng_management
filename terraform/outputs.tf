@@ -42,7 +42,7 @@ output "smtp_port" {
 
 output "configuration_set_name" {
   description = "Name of the SES configuration set"
-  value       = var.enable_configuration_set ? aws_ses_configuration_set.main[0].name : null
+  value       = aws_sesv2_configuration_set.main.configuration_set_name
 }
 
 output "dns_records_summary" {

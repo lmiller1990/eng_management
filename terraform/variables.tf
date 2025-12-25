@@ -23,7 +23,7 @@ variable "from_email_address" {
 }
 
 variable "enable_configuration_set" {
-  description = "Enable SES configuration set for tracking email events"
+  description = "[DEPRECATED] Configuration set is now always enabled for event tracking"
   type        = bool
   default     = true
 }
