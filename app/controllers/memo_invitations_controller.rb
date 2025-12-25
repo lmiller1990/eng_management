@@ -34,7 +34,7 @@ class MemoInvitationsController < ApplicationController
 
       if @invitation.save
         # Send invitation email
-        MemoInvitationMailer.invite_to_edit(@invitation).deliver_later
+        MemoInvitationMailer.invite_to_edit(@invitation).deliver_now
         redirect_to @memo, notice: "Invitation sent to #{email}."
       else
         account.destroy if account.persisted? && account.owned_memos.none? && account.editable_memos.none?
