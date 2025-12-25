@@ -22,12 +22,53 @@ resource "aws_ses_domain_mail_from" "main" {
 }
 
 # Configuration Set for tracking email events
-resource "aws_ses_configuration_set" "main" {
-  count = var.enable_configuration_set ? 1 : 0
-  name  = "${var.environment}-email-events"
+resource "aws_sesv2_configuration_set" "main" {
+  configuration_set_name = "${var.environment}-email-events"
 
   delivery_options {
-    tls_policy = "Require"
+    tls_policy = "REQUIRE"
+  }
+
+  reputation_options {
+    reputation_metrics_enabled = true
+  }
+
+  sending_options {
+    sending_enabled = true
+  }
+}
+
+# CloudWatch Log Group for SES events
+resource "aws_cloudwatch_log_group" "ses_events" {
+  name              = "/aws/ses/${var.environment}-email-events"
+  retention_in_days = 7
+}
+
+# SES Event Destination for CloudWatch
+resource "aws_sesv2_configuration_set_event_destination" "cloudwatch" {
+  configuration_set_name = aws_sesv2_configuration_set.main.configuration_set_name
+  event_destination_name = "cloudwatch-logs"
+
+  event_destination {
+    cloud_watch_destination {
+      dimension_configuration {
+        default_dimension_value = "default"
+        dimension_name          = "ses:configuration-set"
+        dimension_value_source  = "MESSAGE_TAG"
+      }
+    }
+
+    enabled = true
+    matching_event_types = [
+      "SEND",
+      "REJECT",
+      "BOUNCE",
+      "COMPLAINT",
+      "DELIVERY",
+      "OPEN",
+      "CLICK",
+      "RENDERING_FAILURE"
+    ]
   }
 }
 
@@ -67,9 +108,11 @@ resource "aws_iam_user_policy" "smtp" {
 }
 
 # Email Identity for the from address
-resource "aws_ses_email_identity" "from_address" {
-  email = var.from_email_address
-}
+# COMMENTED OUT: Using domain identity instead of email identity
+# Email identities can override domain settings and aren't needed when domain is verified
+# resource "aws_ses_email_identity" "from_address" {
+#   email = var.from_email_address
+# }
 
 # Generate SES SMTP password from IAM secret access key
 # This uses the AWS SES SMTP password conversion algorithm
