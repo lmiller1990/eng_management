@@ -22,12 +22,6 @@ variable "from_email_address" {
   default     = "notifications@notae.dev"
 }
 
-variable "enable_configuration_set" {
-  description = "[DEPRECATED] Configuration set is now always enabled for event tracking"
-  type        = bool
-  default     = true
-}
-
 variable "ssm_parameter_prefix" {
   description = "Prefix for SSM parameter names"
   type        = string
