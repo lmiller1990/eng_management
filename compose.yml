@@ -21,6 +21,9 @@ services:
     environment:
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
       ENG_MANAGEMENT_DATABASE_PASSWORD: ${ENG_MANAGEMENT_DATABASE_PASSWORD}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
     networks:
       - eng_net
     depends_on:
