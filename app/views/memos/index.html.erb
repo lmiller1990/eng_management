@@ -40,7 +40,7 @@
               data-url="<%= edit_memo_path(memo) %>"
             >
               <th><%= index + 1 %></th>
-              <td><a href="<%= edit_memo_path(memo) %>"><%= memo.title.presence || "Untitled" %></a></td>
+              <td><a href="<%= edit_memo_path(memo) %>" class="link"><%= memo.title.presence || "Untitled" %></a></td>
               <td><%= time_ago_in_words(memo.created_at) %>
                 ago</td>
               <td><%= time_ago_in_words(memo.updated_at) %>
