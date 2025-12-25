@@ -8,12 +8,11 @@ terraform {
     }
   }
 
-  # Uncomment and configure this block to use S3 backend for state management
-  # backend "s3" {
-  #   bucket = "your-terraform-state-bucket"
-  #   key    = "ses/terraform.tfstate"
-  #   region = "us-east-1"
-  # }
+  backend "s3" {
+    bucket = "notae-terraform-state"
+    key    = "production.tfstate"
+    region = "ap-southeast-2"
+  }
 }
 
 provider "aws" {
