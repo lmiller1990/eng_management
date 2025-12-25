@@ -9,11 +9,40 @@ This directory contains Terraform configuration for AWS Simple Email Service (SE
    ```bash
    brew install terraform  # macOS
    ```
-3. **AWS CLI**: Configured with credentials
-   ```bash
-   aws configure
-   ```
+3. **AWS Admin Credentials**: For initial bootstrap (see below)
 4. **Domain Access**: Ability to add DNS records for `notae.dev`
+
+## First-Time Setup: Bootstrap Terraform User
+
+**If you haven't created a Terraform IAM user yet**, you need to run the bootstrap first:
+
+```bash
+cd terraform/bootstrap
+terraform init
+terraform apply
+```
+
+This creates a dedicated IAM user (`terraform-notae`) for Terraform operations. See [bootstrap/README.md](./bootstrap/README.md) for detailed instructions.
+
+After bootstrap, configure your environment:
+
+```bash
+export AWS_PROFILE=terraform-notae
+# OR
+export AWS_ACCESS_KEY_ID=<from bootstrap output>
+export AWS_SECRET_ACCESS_KEY=<from bootstrap output>
+```
+
+Then return here to continue with the main infrastructure setup.
+
+## Overview
+
+This Terraform configuration creates:
+- **SES Domain Identity**: Verifies `notae.dev` for sending emails
+- **DKIM & SPF**: Email authentication to prevent spoofing
+- **IAM User**: Dedicated user for Rails application with proper permissions
+- **SSM Parameter Store**: Secure credential storage encrypted with KMS
+- **SMTP Credentials**: For legacy SMTP authentication
 
 ## Quick Start
 
@@ -38,9 +67,24 @@ terraform apply
 
 Type `yes` when prompted to create the resources.
 
-### 4. Get SMTP Credentials
+### 4. Get Rails Application Credentials
 
-After applying, your SMTP credentials are automatically stored in AWS Systems Manager Parameter Store (SSM) for secure access. You can also retrieve them directly:
+After applying, retrieve your Rails application AWS credentials:
+
+```bash
+# Get Rails app credentials (for AWS SDK access)
+terraform output -raw rails_app_access_key_id
+terraform output -raw rails_app_secret_access_key
+
+# View summary
+terraform output rails_app_credentials_summary
+```
+
+**See [AUTHENTICATION.md](./AUTHENTICATION.md) for detailed setup instructions.**
+
+#### Alternative: SMTP Credentials
+
+For SMTP-only access, credentials are also available:
 
 ```bash
 # View all outputs
@@ -58,6 +102,11 @@ terraform output ssm_parameters
 
 The following parameters are automatically created and encrypted with KMS:
 
+**Rails Application Credentials:**
+- `/notae/ses/rails_app_access_key_id` - AWS access key ID
+- `/notae/ses/rails_app_secret_access_key` - AWS secret access key (encrypted)
+
+**SES Configuration:**
 - `/notae/ses/smtp_username` - SMTP username (IAM Access Key ID)
 - `/notae/ses/smtp_password` - SMTP password (encrypted)
 - `/notae/ses/smtp_endpoint` - SMTP server endpoint
@@ -73,12 +122,20 @@ aws ssm get-parameter --name /notae/ses/smtp_username --query 'Parameter.Value' 
 aws ssm get-parameter --name /notae/ses/smtp_password --with-decryption --query 'Parameter.Value' --output text
 ```
 
-**Important**: To allow your application to read these parameters, attach the IAM policy:
+### 5. Configure AWS Credentials
+
+Your Rails application needs AWS credentials to access SES and SSM. See the comprehensive guide:
+
+**[AUTHENTICATION.md](./AUTHENTICATION.md)** - Detailed authentication setup for Rails
+
+Quick setup for environment variables:
 ```bash
-terraform output iam_policy_arn_ssm_read
+export AWS_ACCESS_KEY_ID=$(terraform output -raw rails_app_access_key_id)
+export AWS_SECRET_ACCESS_KEY=$(terraform output -raw rails_app_secret_access_key)
+export AWS_REGION=ap-southeast-2
 ```
 
-### 5. Configure DNS Records
+### 6. Configure DNS Records
 
 Terraform will output DNS records that need to be added to your domain. Get the summary:
 
@@ -122,7 +179,7 @@ Name: mail.notae.dev
 Value: v=spf1 include:amazonses.com ~all
 ```
 
-### 6. Verify Domain
+### 7. Verify Domain
 
 After adding DNS records, verify domain status:
 
@@ -132,7 +189,7 @@ aws ses get-identity-verification-attributes --identities notae.dev
 
 Wait for status to change to "Success" (can take up to 72 hours, usually within minutes).
 
-### 7. Request Production Access
+### 8. Request Production Access
 
 By default, SES accounts are in **sandbox mode**, limiting you to:
 - Verified email addresses only

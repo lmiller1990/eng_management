@@ -83,12 +83,14 @@ output "ssm_parameter_prefix" {
 output "ssm_parameters" {
   description = "SSM parameter names for SES configuration"
   value = {
-    smtp_username = aws_ssm_parameter.smtp_username.name
-    smtp_password = aws_ssm_parameter.smtp_password.name
-    smtp_endpoint = aws_ssm_parameter.smtp_endpoint.name
-    smtp_port     = aws_ssm_parameter.smtp_port.name
-    from_email    = aws_ssm_parameter.from_email.name
-    domain        = aws_ssm_parameter.domain.name
+    smtp_username                  = aws_ssm_parameter.smtp_username.name
+    smtp_password                  = aws_ssm_parameter.smtp_password.name
+    smtp_endpoint                  = aws_ssm_parameter.smtp_endpoint.name
+    smtp_port                      = aws_ssm_parameter.smtp_port.name
+    from_email                     = aws_ssm_parameter.from_email.name
+    domain                         = aws_ssm_parameter.domain.name
+    rails_app_access_key_id        = aws_ssm_parameter.rails_app_access_key_id.name
+    rails_app_secret_access_key    = aws_ssm_parameter.rails_app_secret_access_key.name
   }
 }
 
@@ -100,4 +102,32 @@ output "iam_policy_arn_ssm_read" {
 output "kms_key_id" {
   description = "KMS key ID used for encrypting SSM parameters"
   value       = aws_kms_key.ssm.id
+}
+
+# Rails Application IAM User outputs
+output "rails_app_access_key_id" {
+  description = "Rails application AWS access key ID (use for AWS_ACCESS_KEY_ID)"
+  value       = aws_iam_access_key.rails_app.id
+  sensitive   = true
+}
+
+output "rails_app_secret_access_key" {
+  description = "Rails application AWS secret access key (use for AWS_SECRET_ACCESS_KEY)"
+  value       = aws_iam_access_key.rails_app.secret
+  sensitive   = true
+}
+
+output "rails_app_user_arn" {
+  description = "ARN of the Rails application IAM user"
+  value       = aws_iam_user.rails_app.arn
+}
+
+output "rails_app_credentials_summary" {
+  description = "Summary of credentials needed for Rails application"
+  value = {
+    aws_access_key_id     = "Use: terraform output -raw rails_app_access_key_id"
+    aws_secret_access_key = "Use: terraform output -raw rails_app_secret_access_key"
+    aws_region            = var.aws_region
+    ssm_parameter_prefix  = var.ssm_parameter_prefix
+  }
 }
