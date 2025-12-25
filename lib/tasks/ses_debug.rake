@@ -19,7 +19,6 @@ namespace :ses do
       account = client.get_account
       puts "✓ Account Status:"
       puts "  Production Access: #{account.production_access_enabled ? 'YES ✓' : 'NO - IN SANDBOX ⚠️'}"
-      puts "  Sending Enabled: #{account.send_enabled}"
 
       if account.production_access_enabled
         puts "  Daily Send Quota: #{account.send_quota.max_24_hour_send}"
