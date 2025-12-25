@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   migrate:
-    image: eng_management:latest
+    image: lachlanmillerdev/eng_management:latest
     container_name: eng_management_migrate
     command: bundle exec rails db:migrate
     environment:
@@ -13,7 +13,7 @@ services:
     restart: "no"
 
   app:
-    image: eng_management:latest
+    image: lachlanmillerdev/eng_management:latest
     container_name: eng_management
     command: ./bin/thrust ./bin/rails server
     ports:
