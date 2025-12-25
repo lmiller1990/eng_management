@@ -25,7 +25,7 @@ class TeamInvitationsController < ApplicationController
       account = Account.create!(email: @invitation.email, status: :unverified)
 
       if @invitation.save
-        TeamInvitationMailer.invite_to_team(@invitation).deliver_later
+        TeamInvitationMailer.invite_to_team(@invitation).deliver_now
         redirect_to @team, notice: "Invitation sent to #{@invitation.email}."
       else
         redirect_to @team, alert: @invitation.errors.full_messages.join(", ")

@@ -30,6 +30,23 @@ Rails.application.config.after_initialize do
       end
     end
 
+    # Observer to catch failed email delivery
+    class SesEmailErrorObserver
+      def self.delivered_email(message)
+        # Success case handled by SesEmailObserver
+      end
+
+      def self.failed_delivery(message, exception)
+        Rails.logger.error "=" * 80
+        Rails.logger.error "[SES ERROR] Email delivery failed!"
+        Rails.logger.error "  To: #{message.to}"
+        Rails.logger.error "  Subject: #{message.subject}"
+        Rails.logger.error "  Error: #{exception.class} - #{exception.message}"
+        Rails.logger.error "  Backtrace: #{exception.backtrace.first(3).join("\n  ")}"
+        Rails.logger.error "=" * 80
+      end
+    end
+
     ActionMailer::Base.register_interceptor(SesEmailInterceptor)
     ActionMailer::Base.register_observer(SesEmailObserver)
   end

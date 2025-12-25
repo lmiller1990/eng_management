@@ -75,8 +75,8 @@ class RodauthMain < Rodauth::Rails::Auth
     end
 
     send_email do |email|
-      # queue email delivery on the mailer after the transaction commits
-      db.after_commit { email.deliver_later }
+      # Send email immediately after the transaction commits
+      db.after_commit { email.deliver_now }
     end
 
     # ==> Flash
