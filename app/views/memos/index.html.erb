@@ -36,11 +36,11 @@
           <% @memos.each_with_index do |memo, index| %>
             <tr
               tabindex="0"
-              data-index="<%= index + 1 %>"
+              data-index="<%= index %>"
               data-url="<%= edit_memo_path(memo) %>"
             >
               <th><%= index + 1 %></th>
-              <td><a href="<%= edit_memo_path(memo) %>" class="link"><%= memo.title %></a></td>
+              <td><a href="<%= edit_memo_path(memo) %>"><%= memo.title.presence || "Untitled" %></a></td>
               <td><%= time_ago_in_words(memo.created_at) %>
                 ago</td>
               <td><%= time_ago_in_words(memo.updated_at) %>
@@ -52,7 +52,7 @@
                   <div
                     tabindex="0"
                     role="button"
-                    class="btn m-1 btn-circle btn-sm tooltip tooltip-top"
+                    class="btn btn-circle btn-xs tooltip tooltip-top"
                     data-tip="<%= editor.derive_name.full_name %>"
                   >
                     <%= editor.derive_name.initials %>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= @page_title || content_for(:title) || "Eng Management" %></title>
+    <title><%= @page_title || content_for(:title) || "Notae" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Eng Management">
+    <meta name="application-name" content="Notae">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -39,7 +39,7 @@
         <div class="card bg-base-100 shadow-xl">
           <div class="card-body">
             <h2 class="card-title text-center text-2xl font-bold mb-4 justify-center">
-              <%= @page_title || "Eng Management" %>
+              <%= @page_title || "Notae" %>
             </h2>
             <%= yield %>
           </div>
