@@ -40,18 +40,43 @@ Type `yes` when prompted to create the resources.
 
 ### 4. Get SMTP Credentials
 
-After applying, retrieve your SMTP credentials:
+After applying, your SMTP credentials are automatically stored in AWS Systems Manager Parameter Store (SSM) for secure access. You can also retrieve them directly:
 
 ```bash
 # View all outputs
 terraform output
 
-# Get specific sensitive outputs
+# Get specific sensitive outputs (for testing)
 terraform output -raw smtp_username
 terraform output -raw smtp_password
+
+# View SSM parameter names
+terraform output ssm_parameters
 ```
 
-**Important**: Save these credentials securely. You'll need them for Rails configuration.
+#### SSM Parameter Store
+
+The following parameters are automatically created and encrypted with KMS:
+
+- `/notae/ses/smtp_username` - SMTP username (IAM Access Key ID)
+- `/notae/ses/smtp_password` - SMTP password (encrypted)
+- `/notae/ses/smtp_endpoint` - SMTP server endpoint
+- `/notae/ses/smtp_port` - SMTP port (587)
+- `/notae/ses/from_email` - Default from email address
+- `/notae/ses/domain` - Verified domain
+
+Your Rails application can read these at runtime:
+
+```bash
+# Retrieve parameters using AWS CLI
+aws ssm get-parameter --name /notae/ses/smtp_username --query 'Parameter.Value' --output text
+aws ssm get-parameter --name /notae/ses/smtp_password --with-decryption --query 'Parameter.Value' --output text
+```
+
+**Important**: To allow your application to read these parameters, attach the IAM policy:
+```bash
+terraform output iam_policy_arn_ssm_read
+```
 
 ### 5. Configure DNS Records
 
@@ -89,7 +114,7 @@ Value: <token3>.dkim.amazonses.com
 ```
 Type: MX
 Name: mail.notae.dev
-Value: 10 feedback-smtp.us-east-1.amazonses.com
+Value: 10 feedback-smtp.ap-southeast-2.amazonses.com
 Priority: 10
 
 Type: TXT
@@ -158,6 +183,9 @@ Key outputs for Rails integration:
 - `smtp_endpoint`: SES SMTP server endpoint
 - `smtp_port`: SMTP port (587)
 - `configuration_set_name`: SES configuration set for tracking
+- `ssm_parameters`: Map of SSM parameter names for all SES config
+- `iam_policy_arn_ssm_read`: IAM policy ARN to attach to application role
+- `kms_key_id`: KMS key for decrypting SSM parameters
 
 ## Testing SES
 

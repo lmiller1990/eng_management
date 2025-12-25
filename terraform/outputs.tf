@@ -73,3 +73,31 @@ output "dns_records_summary" {
     }
   }
 }
+
+# SSM Parameter Store outputs
+output "ssm_parameter_prefix" {
+  description = "Prefix for SSM parameters containing SES credentials"
+  value       = var.ssm_parameter_prefix
+}
+
+output "ssm_parameters" {
+  description = "SSM parameter names for SES configuration"
+  value = {
+    smtp_username = aws_ssm_parameter.smtp_username.name
+    smtp_password = aws_ssm_parameter.smtp_password.name
+    smtp_endpoint = aws_ssm_parameter.smtp_endpoint.name
+    smtp_port     = aws_ssm_parameter.smtp_port.name
+    from_email    = aws_ssm_parameter.from_email.name
+    domain        = aws_ssm_parameter.domain.name
+  }
+}
+
+output "iam_policy_arn_ssm_read" {
+  description = "IAM policy ARN for reading SES SSM parameters (attach to application role)"
+  value       = aws_iam_policy.ssm_read_ses.arn
+}
+
+output "kms_key_id" {
+  description = "KMS key ID used for encrypting SSM parameters"
+  value       = aws_kms_key.ssm.id
+}

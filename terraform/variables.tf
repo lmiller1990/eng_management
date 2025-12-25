@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWS region for SES resources"
   type        = string
-  default     = "us-east-1"
+  default     = "ap-southeast-2"
 }
 
 variable "environment" {
@@ -26,4 +26,10 @@ variable "enable_configuration_set" {
   description = "Enable SES configuration set for tracking email events"
   type        = bool
   default     = true
+}
+
+variable "ssm_parameter_prefix" {
+  description = "Prefix for SSM parameter names"
+  type        = string
+  default     = "/notae/ses"
 }
