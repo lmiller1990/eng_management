@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "notifications@notae.com"
+  default from: "notifications@notae.dev"
   layout "mailer"
 end
