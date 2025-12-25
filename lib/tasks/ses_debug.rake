@@ -107,12 +107,18 @@ namespace :ses do
     puts
 
     begin
-      mail = ApplicationMailer.mail(
-        to: to_address,
-        subject: "SES Test Email - #{Time.current}",
-        body: "This is a test email from your Rails app.\n\nSent at: #{Time.current}\n\nIf you received this, SES is working!"
-      )
+      # Create a simple test mailer class
+      class TestMailer < ApplicationMailer
+        def test_email(to_address)
+          mail(
+            to: to_address,
+            subject: "SES Test Email - #{Time.current}",
+            body: "This is a test email from your Rails app.\n\nSent at: #{Time.current}\n\nIf you received this, SES is working!"
+          )
+        end
+      end
 
+      mail = TestMailer.test_email(to_address)
       result = mail.deliver_now
 
       puts "✓ Email sent!"
