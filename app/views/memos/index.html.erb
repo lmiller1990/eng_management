@@ -45,7 +45,17 @@
                 ago</td>
               <td><%= time_ago_in_words(memo.updated_at) %>
                 ago</td>
-              <td><%= memo.owner.derive_name.full_name %></td>
+              <td>
+
+                <div
+                  tabindex="0"
+                  role="button"
+                  class="btn btn-circle btn-xs tooltip tooltip-top"
+                  data-tip="<%= memo.owner.derive_name.full_name %>"
+                >
+                  <%= memo.owner.derive_name.initials %>
+                </div>
+              </td>
               <td>
 
                 <% memo.editors.each do |editor| %>
