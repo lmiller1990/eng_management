@@ -35,7 +35,7 @@ class RodauthMain < Rodauth::Rails::Auth
     rails_controller { RodauthController }
 
     # Make built-in page titles accessible in your views via an instance variable.
-    title_instance_variable :@page_title
+    # title_instance_variable :@page_title
 
     # Store account status in an integer column without foreign key constraint.
     account_status_column :status

@@ -38,9 +38,27 @@
       <div class="w-full max-w-md">
         <div class="card bg-base-100 shadow-xl">
           <div class="card-body">
-            <h2 class="card-title text-center text-2xl font-bold mb-4 justify-center">
-              <%= @page_title || "Notae" %>
-            </h2>
+            <div class="flex flex-col items-center">
+              <div class="h-12 w-12">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="4" y="4" width="16" height="16" rx="2"/>
+                  <path d="M9 16V8"/>
+                  <path d="M9 8l6 8"/>
+                  <path d="M15 8v8"/>
+                </svg>
+              </div>
+              <h2 class="card-title text-center text-2xl mb-4 justify-center uppercase">
+                <%= @page_title || "Notae" %>
+              </h2>
+            </div>
             <%= yield %>
           </div>
         </div>
