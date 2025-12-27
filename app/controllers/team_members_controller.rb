@@ -1,3 +1,4 @@
+class TeamMembersController < ApplicationController
   # Simple struct to hold team and member for authorization
   TeamMemberContext = Struct.new(:team, :member)
 
