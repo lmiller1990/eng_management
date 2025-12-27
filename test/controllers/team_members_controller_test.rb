@@ -13,7 +13,7 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
     )
 
     # Add member to team (simulates invitation acceptance)
-    @team.team_memberships.create!(account: @member, role: 'member')
+    @team.team_memberships.create!(account: @member, role: "member")
 
     # Create team invitation with 1-on-1 memo
     invitation = TeamInvitation.create!(
@@ -54,7 +54,7 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
       password_hash: RodauthApp.rodauth.allocate.password_hash("password"),
       status: :verified
     )
-    @team.team_memberships.create!(account: other_member, role: 'member')
+    @team.team_memberships.create!(account: other_member, role: "member")
 
     # Log in as first member
     post "/login", params: {

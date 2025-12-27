@@ -119,7 +119,7 @@ class TeamInvitationsController < ApplicationController
     end
 
     # Hash the password using BCrypt (same as Rodauth)
-    require 'bcrypt'
+    require "bcrypt"
     password_hash = BCrypt::Password.create(password, cost: BCrypt::Engine::DEFAULT_COST)
     account.update!(password_hash: password_hash, status: :verified)
 

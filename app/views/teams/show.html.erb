@@ -77,20 +77,13 @@
                   (current_membership&.admin? || current_membership&.owner?) ||
                     membership.account == current_account %>
 
-                <% if (can_remove && @team.team_memberships.where(role: 'owner').count > 1) || (!membership.owner? && can_remove) %>
-                  <%= button_to "Remove",
+                <% if can_remove && membership.account != current_account %>
+                  <%= button_to "Remove Team Member",
                   team_membership_path(@team, membership),
                   method: :delete,
                   class: "btn btn-sm btn-error",
                   data: {
-                    turbo_confirm:
-                      (
-                        if membership.account == current_account
-                          "Are you sure you want to leave this team?"
-                        else
-                          "Are you sure you want to remove this member?"
-                        end
-                      ),
+                    turbo_confirm: ("Are you sure you want to remove this member?"),
                   } %>
                 <% end %>
               </div>
@@ -170,6 +163,12 @@
               </td>
 
               <td>
+                <% if current_membership.owner? %>
+                  <%= link_to "View Notes",
+                  team_member_path(@team, invitation.memo),
+                  class: "btn btn-sm btn-ghost" %>
+                <% end %>
+
                 <%= button_to "Cancel",
                 team_invitation_path(@team, invitation),
                 method: :delete,

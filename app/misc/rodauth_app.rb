@@ -21,6 +21,14 @@ class RodauthApp < Rodauth::Rails::App
       # Perform your account lookup.
       account = Account.find(id.to_i)
 
+      # Prevent impersonating unverified accounts
+      # rails_account only loads accounts with status :verified, so attempting
+      # to impersonate :unverified accounts results in current_account being nil
+      if account.unverified?
+        flash[:alert] = "Cannot impersonate #{account.email} - account status is unverified"
+        r.redirect("/")
+      end
+
       # Switch accounts using the become_account feature.
       rodauth.become_account(account)
 

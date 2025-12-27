@@ -1,6 +1,6 @@
 class TeamInvitation < ApplicationRecord
   belongs_to :team
-  belongs_to :inviter, class_name: 'Account'
+  belongs_to :inviter, class_name: "Account"
   belongs_to :memo, optional: true
 
   validates :email, presence: true, format: {
@@ -17,8 +17,8 @@ class TeamInvitation < ApplicationRecord
   before_validation :set_expiration, on: :create
   after_create :create_one_on_one_memo
 
-  scope :pending, -> { where(accepted_at: nil).where('expires_at > ?', Time.current) }
-  scope :expired, -> { where(accepted_at: nil).where('expires_at <= ?', Time.current) }
+  scope :pending, -> { where(accepted_at: nil).where("expires_at > ?", Time.current) }
+  scope :expired, -> { where(accepted_at: nil).where("expires_at <= ?", Time.current) }
   scope :accepted, -> { where.not(accepted_at: nil) }
 
   def pending?
@@ -38,7 +38,7 @@ class TeamInvitation < ApplicationRecord
 
     ActiveRecord::Base.transaction do
       # Create team membership
-      team.team_memberships.create!(account: account, role: 'member')
+      team.team_memberships.create!(account: account, role: "member")
 
       # Mark invitation as accepted
       update!(accepted_at: Time.current)

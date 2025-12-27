@@ -1,5 +1,5 @@
 class Team < ApplicationRecord
-  belongs_to :owner, class_name: 'Account'
+  belongs_to :owner, class_name: "Account"
   has_many :team_memberships, dependent: :destroy
   has_many :accounts, through: :team_memberships
   has_many :team_invitations, dependent: :destroy
@@ -12,6 +12,6 @@ class Team < ApplicationRecord
   private
 
   def add_owner_as_member
-    team_memberships.create!(account: owner, role: 'owner')
+    team_memberships.create!(account: owner, role: "owner")
   end
 end

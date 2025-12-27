@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "esbuild app/javascript/*.ts app/javascript/*/*.ts --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
     "typecheck": "tsc --noEmit",
-    "format": "pnpm prettier app/javascript/**/*.ts package.json --write && erb-format app/views/**/*.html.erb --write"
+    "format": "pnpm prettier app/javascript/**/*.ts package.json --write && erb-format app/views/**/*.html.erb --write && bundle exec rubocop -a"
   },
   "keywords": [],
   "author": "",

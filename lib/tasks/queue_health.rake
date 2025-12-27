@@ -65,7 +65,7 @@ namespace :queue do
     print "Are you sure you want to clear #{pending_count} pending jobs? [y/N] "
     confirmation = STDIN.gets.chomp
 
-    if confirmation.downcase == 'y'
+    if confirmation.downcase == "y"
       SolidQueue::Job.where(finished_at: nil).delete_all
       puts "✓ Cleared #{pending_count} pending jobs"
     else

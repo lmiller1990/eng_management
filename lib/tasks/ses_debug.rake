@@ -1,7 +1,7 @@
 namespace :ses do
   desc "Check SES account status and configuration"
   task check: :environment do
-    require 'aws-sdk-sesv2'
+    require "aws-sdk-sesv2"
 
     client = Aws::SESV2::Client.new(
       region: ENV["AWS_REGION"],
@@ -93,8 +93,8 @@ namespace :ses do
   end
 
   desc "Send a test email"
-  task :test, [:to_address] => :environment do |t, args|
-    to_address = args[:to_address] || ENV['TEST_EMAIL']
+  task :test, [ :to_address ] => :environment do |t, args|
+    to_address = args[:to_address] || ENV["TEST_EMAIL"]
 
     if to_address.blank?
       puts "Usage: rails ses:test[your@email.com]"

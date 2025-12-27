@@ -53,8 +53,8 @@ class AccountTest < ActiveSupport::TestCase
 
     # Custom function that reverses the logic
     custom_fn = lambda do |email|
-      local = email.split('@').first
-      parts = local.split('.')
+      local = email.split("@").first
+      parts = local.split(".")
       {
         first_name: parts.last&.capitalize || "",
         last_name: parts.first&.capitalize || "",

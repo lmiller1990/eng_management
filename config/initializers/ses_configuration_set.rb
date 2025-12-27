@@ -7,7 +7,7 @@ Rails.application.config.after_initialize do
     class SesConfigurationSetInterceptor
       def self.delivering_email(message)
         # Add the configuration set header for SES event tracking
-        message.header['X-SES-CONFIGURATION-SET'] = ENV.fetch("SES_CONFIGURATION_SET", "production-email-events")
+        message.header["X-SES-CONFIGURATION-SET"] = ENV.fetch("SES_CONFIGURATION_SET", "production-email-events")
       end
     end
 

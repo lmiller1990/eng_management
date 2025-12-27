@@ -2,7 +2,7 @@ class TeamMembership < ApplicationRecord
   belongs_to :team
   belongs_to :account
 
-  enum :role, { member: 'member', admin: 'admin', owner: 'owner' }
+  enum :role, { member: "member", admin: "admin", owner: "owner" }
 
   validates :account_id, uniqueness: {
     scope: :team_id,
@@ -16,7 +16,7 @@ class TeamMembership < ApplicationRecord
   private
 
   def ensure_team_has_owner
-    if owner? && team.team_memberships.where(role: 'owner').count == 1
+    if owner? && team.team_memberships.where(role: "owner").count == 1
       errors.add(:base, "Cannot remove the last owner of the team")
       throw :abort
     end
