@@ -15,7 +15,7 @@ class Account < ApplicationRecord
   has_many :action_items, dependent: :destroy
 
   # Memo relationships
-  has_many :owned_memos, class_name: 'Memo', foreign_key: 'account_id', dependent: :destroy
+  has_many :owned_memos, class_name: "Memo", foreign_key: "account_id", dependent: :destroy
   has_many :memo_editors, dependent: :destroy
   has_many :editable_memos, through: :memo_editors, source: :memo
 
@@ -76,7 +76,7 @@ class Account < ApplicationRecord
     raise ArgumentError, "Email cannot be blank" if email.blank?
 
     # Extract the local part (before @)
-    local_part = email.split('@').first.to_s
+    local_part = email.split("@").first.to_s
 
     # Split on dots and underscores, filter empty strings
     parts = local_part.split(/[._]/).reject(&:blank?)
@@ -96,7 +96,7 @@ class Account < ApplicationRecord
     end
 
     # Generate initials from first letter of each name component
-    initials = [first_name, last_name]
+    initials = [ first_name, last_name ]
       .reject(&:blank?)
       .map { |name| name[0].upcase }
       .join
