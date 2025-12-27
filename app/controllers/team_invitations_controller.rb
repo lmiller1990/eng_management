@@ -17,8 +17,13 @@ class TeamInvitationsController < ApplicationController
       if @team.accounts.include?(existing_account)
         redirect_to @team, alert: "#{@invitation.email} is already a member of this team."
       else
-        @team.team_memberships.create!(account: existing_account, role: "member")
-        redirect_to @team, notice: "#{@invitation.email} has been added to the team."
+        # Create and immediately accept invitation to ensure memo is created
+        if @invitation.save
+          @invitation.accept!(existing_account)
+          redirect_to @team, notice: "#{@invitation.email} has been added to the team."
+        else
+          redirect_to @team, alert: @invitation.errors.full_messages.join(", ")
+        end
       end
     else
       # Account doesn't exist, create account and invitation, then send email

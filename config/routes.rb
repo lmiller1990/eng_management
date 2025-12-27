@@ -6,7 +6,9 @@ Rails.application.routes.draw do
 
   resources :teams do
     resources :memberships, controller: "team_memberships", only: [ :destroy ]
-    resources :invitations, controller: "team_invitations", only: [ :create, :destroy ]
+    resources :invitations, controller: "team_invitations", only: [ :create, :destroy ] do
+      get "notes", to: "team_members#show_invitation", on: :member
+    end
     resources :members, only: [ :show ], controller: "team_members"
   end
 
