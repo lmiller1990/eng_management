@@ -33,6 +33,10 @@ class TeamInvitation < ApplicationRecord
     accepted_at.present?
   end
 
+  def invitee
+    Account.find_by(email:)
+  end
+
   def accept!(account)
     return false unless pending?
 
@@ -57,7 +61,7 @@ class TeamInvitation < ApplicationRecord
 
   def create_one_on_one_memo
     # Find the account by email (should exist as a placeholder account created before invitation)
-    account = Account.find_by(email: email)
+    account = Account.find_by(email:)
     return unless account # Safety check
 
     # Create the 1-on-1 memo with inviter as owner
