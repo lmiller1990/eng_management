@@ -1,4 +1,3 @@
-class TeamMembersController < ApplicationController
   # Simple struct to hold team and member for authorization
   TeamMemberContext = Struct.new(:team, :member)
 
@@ -33,7 +32,10 @@ class TeamMembersController < ApplicationController
   def set_member
     @member = Account.find(params[:id])
     # Verify member belongs to team
-    unless @team.accounts.include?(@member)
+    member_in_team = @team.accounts.include?(@member)
+    member_invited = @team.team_invitations.any? { |r| r.email == @member.email }
+
+    if not member_in_team and not member_invited
       flash[:alert] = "Member not found in this team"
       redirect_to team_path(@team)
     end

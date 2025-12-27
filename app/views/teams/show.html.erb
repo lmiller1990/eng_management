@@ -165,7 +165,7 @@
               <td>
                 <% if current_membership.owner? %>
                   <%= link_to "View Notes",
-                  team_member_path(@team, invitation.memo),
+                  team_member_path(@team, invitation.invitee),
                   class: "btn btn-sm btn-ghost" %>
                 <% end %>
 
