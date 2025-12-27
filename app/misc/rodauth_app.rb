@@ -10,6 +10,25 @@ class RodauthApp < Rodauth::Rails::App
 
     r.rodauth # route rodauth requests
 
+
+    r.is "become", :id do |id|
+      # Require authentication and admin privileges
+      rodauth.require_account
+      if not rodauth.account[:admin]
+        r.redirect("/")
+      end
+
+      # Perform your account lookup.
+      account = Account.find(id.to_i)
+
+      # Switch accounts using the become_account feature.
+      rodauth.become_account(account)
+
+      # Set flash message and redirect
+      flash[:notice] = "You've successfully became #{account.email}"
+      r.redirect("/")
+    end
+
     # ==> Authenticating requests
     # Call `rodauth.require_account` for requests that you want to
     # require authentication for. For example:

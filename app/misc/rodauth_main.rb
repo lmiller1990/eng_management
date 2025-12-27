@@ -6,7 +6,8 @@ class RodauthMain < Rodauth::Rails::Auth
     enable :create_account,
       :login, :logout, :remember,
       :reset_password, :change_password,
-      :close_account
+      :close_account,
+      :become_account
 
     # See the Rodauth documentation for the list of available config options:
     # http://rodauth.jeremyevans.net/documentation.html

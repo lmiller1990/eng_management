@@ -36,6 +36,12 @@ class ApplicationPolicy
     false
   end
 
+  private
+
+  def admin?
+    account.admin?
+  end
+
   class Scope
     def initialize(account, scope)
       @account = account
