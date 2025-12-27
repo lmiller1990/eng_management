@@ -27,7 +27,7 @@
   </div>
   <!-- Team Members -->
   <div class="flex justify-between items-center mb-4">
-    <h2 class="font-bold text-2xl">Team Members (<%= @team_memberships.count %>)</h2>
+    <h2 class="font-bold text-2xl">Team Members (<%= @team_memberships.count + @pending_invitations.count %>)</h2>
   </div>
 
   <div class="overflow-x-auto mb-6">
@@ -36,6 +36,7 @@
         <tr>
           <th></th>
           <th>Member</th>
+          <th>Status</th>
           <th>Role</th>
           <th>Actions</th>
         </tr>
@@ -49,6 +50,10 @@
 
             <td>
               <div class="font-medium"><%= membership.account.email %></div>
+            </td>
+
+            <td>
+              <span class="badge badge-success badge-sm">Active</span>
             </td>
 
             <td>
@@ -97,6 +102,53 @@
             </td>
           </tr>
         <% end %>
+
+        <% @pending_invitations.each_with_index do |invitation, index| %>
+          <tr class="opacity-70">
+            <th><%= @team_memberships.count + index + 1 %></th>
+
+            <td>
+              <div class="font-medium"><%= invitation.email %></div>
+              <div class="text-sm opacity-70">
+                <span class="opacity-70">Invited by</span>
+                <%= invitation.inviter.email %>
+                <span class="opacity-70">·</span>
+                <%= time_ago_in_words(invitation.created_at) %>
+                ago
+              </div>
+            </td>
+
+            <td>
+              <% if invitation.expired? %>
+                <span class="badge badge-error badge-sm">Expired</span>
+              <% else %>
+                <span class="badge badge-warning badge-sm">Pending</span>
+              <% end %>
+            </td>
+
+            <td>
+              <span class="badge badge-ghost badge-sm">Member</span>
+            </td>
+
+            <td>
+              <div class="flex flex-wrap gap-2">
+                <% if current_membership&.owner? %>
+                  <%= link_to "View Notes",
+                  notes_team_invitation_path(@team, invitation),
+                  class: "btn btn-sm btn-ghost" %>
+                <% end %>
+
+                <%= button_to "Cancel Invite",
+                team_invitation_path(@team, invitation),
+                method: :delete,
+                class: "btn btn-sm btn-ghost",
+                data: {
+                  turbo_confirm: "Are you sure you want to cancel this invitation?",
+                } %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   </div>
@@ -119,69 +171,4 @@
     If the user already has an account, they'll be added immediately.
     Otherwise, we'll send them an email invitation.
   </p>
-  <!-- Pending Invitations -->
-  <% if @pending_invitations.any? %>
-    <div class="divider"></div>
-
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="font-bold text-2xl">Pending Invitations (<%= @pending_invitations.count %>)</h2>
-    </div>
-
-    <div class="overflow-x-auto mb-6">
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Email</th>
-            <th>Invited</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @pending_invitations.each_with_index do |invitation, index| %>
-            <tr>
-              <th><%= index + 1 %></th>
-
-              <td>
-                <div class="font-medium"><%= invitation.email %></div>
-              </td>
-
-              <td>
-                <div class="text-sm opacity-70">
-                  <span class="opacity-70">by</span>
-                  <%= invitation.inviter.email %>
-                  <span class="opacity-70">·</span>
-                  <%= time_ago_in_words(invitation.created_at) %>
-                  ago
-                </div>
-              </td>
-
-              <td>
-                <% if invitation.expired? %>
-                  <span class="badge badge-error badge-sm">Expired</span>
-                <% else %>
-                  <span class="text-sm opacity-70">
-                    Expires
-                    <%= time_ago_in_words(invitation.expires_at) %>
-                    from now
-                  </span>
-                <% end %>
-              </td>
-
-              <td>
-                <%= button_to "Cancel",
-                team_invitation_path(@team, invitation),
-                method: :delete,
-                class: "btn btn-sm btn-ghost",
-                data: {
-                  turbo_confirm: "Are you sure you want to cancel this invitation?",
-                } %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  <% end %>
 </div>

@@ -3,7 +3,8 @@ class TeamMembersController < ApplicationController
   TeamMemberContext = Struct.new(:team, :member)
 
   before_action :set_team
-  before_action :set_member
+  before_action :set_member, only: [ :show ]
+  before_action :set_invitation, only: [ :show_invitation ]
   after_action :verify_authorized
 
   def show
@@ -24,10 +25,35 @@ class TeamMembersController < ApplicationController
     end
   end
 
+  def show_invitation
+    # Find the account associated with the invitation (may be unverified)
+    @member = Account.find_by(email: @invitation.email)
+
+    # Authorize: only team owner can view pending invitation notes
+    context = TeamMemberContext.new(@team, @member)
+    authorize context, policy_class: TeamMemberPolicy
+
+    # Get the memo from the invitation
+    @memo = @invitation.memo
+
+    if @memo.nil?
+      # Handle case where no memo exists (shouldn't happen for new invites)
+      flash[:alert] = "No 1-on-1 memo found for this invitation"
+      redirect_to team_path(@team)
+    else
+      @initial_yjs_state = encode_yjs_state(@memo.yjs_state)
+      render :show
+    end
+  end
+
   private
 
   def set_team
     @team = Team.find(params[:team_id])
+  end
+
+  def set_invitation
+    @invitation = @team.team_invitations.find(params[:id])
   end
 
   def set_member
@@ -43,7 +69,6 @@ class TeamMembersController < ApplicationController
     # Find the invitation that created the relationship
     invitation = TeamInvitation.where(
       team: @team,
-      inviter: @team.owner,
       email: @member.email
     ).first
 

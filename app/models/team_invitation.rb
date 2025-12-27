@@ -60,9 +60,9 @@ class TeamInvitation < ApplicationRecord
     account = Account.find_by(email: email)
     return unless account # Safety check
 
-    # Create the 1-on-1 memo with inviter as owner
+    # Create the 1-on-1 memo with team owner as owner (for owner notes about member)
     one_on_one_memo = Memo.create!(
-      owner: inviter,
+      owner: team.owner,
       title: "Notes",
       memo_type: :team_one_on_one
     )

@@ -8,6 +8,11 @@ class TeamMemberPolicy < ApplicationPolicy
     team_owner? || viewing_own_notes?
   end
 
+  def show_invitation?
+    # Only team owner can view pending invitation notes
+    team_owner?
+  end
+
   private
 
   def team
@@ -26,6 +31,7 @@ class TeamMemberPolicy < ApplicationPolicy
 
   def viewing_own_notes?
     # Member can view their own 1-on-1 with the owner
-    member == account
+    # member might be nil for pending invitations
+    member && member == account
   end
 end
