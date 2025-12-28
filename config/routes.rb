@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   # Public memo invitation acceptance routes (no auth required)
   get "/memo-invitations/:token/accept", to: "memo_invitations#accept", as: :accept_memo_invitation
   get "/memo-invitations/:token/setup-password", to: "memo_invitations#setup_password", as: :setup_password_memo_invitation
+  resources :debug, only: [ :index ]
   post "/memo-invitations/:token/complete-setup", to: "memo_invitations#complete_setup", as: :complete_setup_memo_invitation
 
   resources :meetings do

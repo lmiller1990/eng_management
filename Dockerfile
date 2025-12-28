@@ -9,6 +9,8 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
 ARG RUBY_VERSION=3.4.8
+ARG GIT_COMMIT=unknown
+ARG GIT_MESSAGE=unknown
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 # Rails app lives here
@@ -80,6 +82,10 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 # Final stage for app image
 FROM base
+
+# Set git version info from build args
+ENV GIT_COMMIT=${GIT_COMMIT} \
+    GIT_MESSAGE=${GIT_MESSAGE}
 
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \

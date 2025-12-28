@@ -28,6 +28,9 @@ jobs:
           tags: notate_app_test:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            GIT_COMMIT=${{ github.sha }}
+            GIT_MESSAGE=${{ github.event.head_commit.message }}
 
       - name: Start Docker Compose stack
         run: docker compose -f docker-compose.test.yml up -d
@@ -101,3 +104,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            GIT_COMMIT=${{ github.sha }}
+            GIT_MESSAGE=${{ github.event.head_commit.message }}
