@@ -45,3 +45,9 @@ node_modules
 # Ignore key files for decrypting credentials and more.
 /config/credentials/*.key
 
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

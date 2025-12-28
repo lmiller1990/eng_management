@@ -3,9 +3,9 @@
 one:
   title: MyString
   content: MyText
-  owner: one
+  owner: owner
 
 two:
   title: MyString
   content: MyText
-  owner: two
+  owner: owner

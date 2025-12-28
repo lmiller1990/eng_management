@@ -40,7 +40,7 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody data-testid="team-members">
         <% current_membership = @team.team_memberships.find_by(account: current_account) %>
 
         <% @team_memberships.each_with_index do |membership, index| %>
@@ -112,7 +112,7 @@
     If the user already has an account, they'll be added immediately.
     Otherwise, we'll send them an email invitation.
   </p>
-  <!-- Pending Invitations -->
+
   <% if @pending_invitations.any? %>
     <div class="divider"></div>
 
@@ -121,7 +121,7 @@
     </div>
 
     <div class="overflow-x-auto mb-6">
-      <table class="table">
+      <table class="table" data-testid="pending-invites">
         <thead>
           <tr>
             <th></th>
