@@ -1,13 +1,8 @@
 #!/bin/bash -e
 
-echo "Starting rails app!"
-
-echo "Entrypoint argv: $@" >&2
-
-if [ "$RAILS_ENV" = "test" ]; then
-  echo "Preparing test database…" >&2
+# If running the rails server then create or migrate existing database
+if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
   ./bin/rails db:prepare
-  ./bin/rails db:fixtures:load
 fi
 
-exec "$@"
+exec "${@}"
