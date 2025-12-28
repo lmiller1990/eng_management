@@ -125,22 +125,8 @@ class TeamInvitationsController < ApplicationController
 
     # Accept the invitation
     if @invitation.accept!(account)
-      # Log the user in by setting session
+      # Log the user in
       session[:account_id] = account.id
-
-      # Create remember token if remember feature is enabled
-      if defined?(rodauth) && rodauth.respond_to?(:remember_login)
-        begin
-          rodauth.instance_exec do
-            @account = account
-            remember_login
-          end
-        rescue => e
-          # If remember fails, that's okay, user is still logged in
-          Rails.logger.warn("Failed to set remember token: #{e.message}")
-        end
-      end
-
       redirect_to @invitation.team, notice: "Welcome to #{@invitation.team.name}!"
     else
       redirect_to root_path, alert: "Could not accept invitation."
