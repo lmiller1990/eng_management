@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
-# If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+if [[ "$*" == *"./bin/rails server"* ]]; then
   ./bin/rails db:prepare
 fi
 
@@ -9,4 +8,4 @@ if [ "$RAILS_ENV" = "test" ]; then
   ./bin/rails db:fixtures:load
 fi
 
-exec "${@}"
+exec "$@"
