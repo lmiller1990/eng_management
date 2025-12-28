@@ -83,6 +83,10 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 # Final stage for app image
 FROM base
 
+# Redeclare build args for this stage
+ARG GIT_COMMIT=unknown
+ARG GIT_MESSAGE=unknown
+
 # Set git version info from build args
 ENV GIT_COMMIT=${GIT_COMMIT} \
     GIT_MESSAGE=${GIT_MESSAGE}
