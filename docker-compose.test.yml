@@ -11,19 +11,24 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-    volumes:
-      - postgres_test_data:/var/lib/postgresql/data
 
   app:
     container_name: notae_app_test
-    image: notate_app_test
+    image: notate_app_test:ci
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      /bin/bash -c "
+      bundle exec rails db:migrate &&
+      bundle exec rails server -b 0.0.0.0
+      "
     environment: 
-      RAILS_ENV: test
       SECRET_KEY_BASE_DUMMY: 1
+      RAILS_ENV: test
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
     ports:
       - 3000:3000
-
-
-volumes:
-  postgres_test_data:
-
