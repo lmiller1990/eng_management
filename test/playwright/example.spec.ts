@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 const ranNum = Math.round(Math.random() * 10000)
 
 test('has title', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+  await page.goto('/');
 
   await page.getByPlaceholder("Work email").fill("owner@test.com")
   await page.getByPlaceholder("Password").fill("password")
