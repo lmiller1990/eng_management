@@ -16,37 +16,39 @@ import TiptapEditorController from "./controllers/tiptap_editor_controller";
 import KeyboardShortcutsController from "./controllers/keyboard_shortcuts_controller";
 import DrawerController from "./controllers/drawer_controller";
 import MemosController from "./controllers/memos_controller";
+import ToastController from "./controllers/toast_controller";
 
 application.register("autosave", AutosaveController);
 application.register("tiptap-editor", TiptapEditorController);
 application.register("keyboard-shortcuts", KeyboardShortcutsController);
 application.register("drawer", DrawerController);
 application.register("memos-table", MemosController);
+application.register("toast", ToastController);
 
 // Icon
 class NotaeIcon extends HTMLElement {
-    static get observedAttributes() {
-        return ['size', 'stroke'];
-    }
+  static get observedAttributes() {
+    return ['size', 'stroke'];
+  }
 
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-    }
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
 
-    connectedCallback() {
-        this.render();
-    }
+  connectedCallback() {
+    this.render();
+  }
 
-    attributeChangedCallback() {
-        this.render();
-    }
+  attributeChangedCallback() {
+    this.render();
+  }
 
-    render() {
-        const size = this.getAttribute('size') ?? 24;
-        const stroke = this.getAttribute('stroke') ?? 'currentColor';
+  render() {
+    const size = this.getAttribute('size') ?? 24;
+    const stroke = this.getAttribute('stroke') ?? 'currentColor';
 
-        this.shadowRoot!.innerHTML = `
+    this.shadowRoot!.innerHTML = `
       <style>
         :host {
           display: inline-block;
@@ -71,7 +73,7 @@ class NotaeIcon extends HTMLElement {
         <path d="M15 8v8"/>
       </svg>
     `;
-    }
+  }
 }
 
 customElements.define('notae-icon', NotaeIcon);

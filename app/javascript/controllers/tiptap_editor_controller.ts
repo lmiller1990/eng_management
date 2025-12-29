@@ -12,22 +12,31 @@ import * as Y from "yjs";
 import { fromBase64 } from "lib0/buffer";
 import { MarkdownExtension } from "./markdown_extension";
 import { Markdown } from "@tiptap/markdown";
-import { Mark } from "@tiptap/pm/model";
+import ToastController from "./toast_controller";
+import { throttle } from "@/utils/throttle";
 
 export default class extends Controller {
+  static outlets = ["toast"];
+
+  declare readonly toastOutlet: ToastController;
+
   static values = {
     memoId: String,
     initialState: String,
-    url: String,
   };
 
   declare readonly memoIdValue: string;
   declare readonly initialStateValue: string;
-  declare readonly urlValue: string;
 
   private editor: Editor | null = null;
   private provider: WebsocketProvider | null = null;
   private doc: Y.Doc | null = null;
+
+  private debouncedSaveNotification = throttle(() => {
+    if (this.provider?.synced) {
+      this.toastOutlet.show("Changes saved");
+    }
+  }, 1000);
 
   connect() {
     // Initialize Y.js document
@@ -45,6 +54,9 @@ export default class extends Controller {
       id: this.memoIdValue,
     });
 
+    // Show notification when changes are synced
+    this.doc.on("update", this.debouncedSaveNotification);
+
     // Initialize TipTap editor
     this.editor = new Editor({
       element: this.element as HTMLElement,
@@ -59,13 +71,15 @@ export default class extends Controller {
         Placeholder.configure({ placeholder: "Enter some text..." }),
         MarkdownExtension,
       ],
-      onUpdate: ({ editor }) => {
-        this.save(editor.getHTML());
-      },
     });
   }
 
   disconnect() {
+    // Remove update listener
+    if (this.doc) {
+      this.doc.off("update", this.debouncedSaveNotification);
+    }
+
     // Cleanup
     this.editor?.destroy();
     this.provider?.destroy();
@@ -74,40 +88,5 @@ export default class extends Controller {
     this.editor = null;
     this.provider = null;
     this.doc = null;
-  }
-
-  private save(content: string) {
-    fetch(this.urlValue, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "X-CSRF-Token": this.csrfToken(),
-      },
-      body: JSON.stringify({
-        memo: {
-          content,
-        },
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(() => {
-        // console.log("Content saved successfully");
-      })
-      .catch((error) => {
-        console.error("Save failed:", error);
-      });
-  }
-
-  private csrfToken(): string {
-    const meta = document.querySelector(
-      'meta[name="csrf-token"]',
-    ) as HTMLMetaElement;
-    return meta?.content || "";
   }
 }
