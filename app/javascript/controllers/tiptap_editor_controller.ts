@@ -10,6 +10,9 @@ import { WebsocketProvider } from "@y-rb/actioncable";
 import { createConsumer } from "@rails/actioncable";
 import * as Y from "yjs";
 import { fromBase64 } from "lib0/buffer";
+import { MarkdownExtension } from "./markdown_extension";
+import { Markdown } from "@tiptap/markdown";
+import { Mark } from "@tiptap/pm/model";
 
 export default class extends Controller {
   static values = {
@@ -47,12 +50,14 @@ export default class extends Controller {
       element: this.element as HTMLElement,
       extensions: [
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
+        Markdown,
         TableKit,
         StarterKit.configure({ undoRedo: false }),
         Collaboration.configure({
           document: this.doc,
         }),
         Placeholder.configure({ placeholder: "Enter some text..." }),
+        MarkdownExtension,
       ],
       onUpdate: ({ editor }) => {
         this.save(editor.getHTML());
@@ -92,7 +97,7 @@ export default class extends Controller {
         return response.json();
       })
       .then(() => {
-        console.log("Content saved successfully");
+        // console.log("Content saved successfully");
       })
       .catch((error) => {
         console.error("Save failed:", error);
