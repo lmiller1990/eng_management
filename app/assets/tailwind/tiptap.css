@@ -8,6 +8,10 @@ input {
     margin-top: 0;
   }
 
+  a {
+    @apply underline cursor-pointer;
+  }
+
   /* List styles */
   ul,
   ol {
