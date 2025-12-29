@@ -13,7 +13,7 @@ import { fromBase64 } from "lib0/buffer";
 import { MarkdownExtension } from "./markdown_extension";
 import { Markdown } from "@tiptap/markdown";
 import ToastController from "./toast_controller";
-import { throttle } from "@/utils/throttle";
+import { throttle } from "../utils/throttle";
 
 export default class extends Controller {
   static outlets = ["toast"];
