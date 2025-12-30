@@ -9,11 +9,12 @@ import Collaboration from "@tiptap/extension-collaboration";
 import { WebsocketProvider } from "@y-rb/actioncable";
 import { createConsumer } from "@rails/actioncable";
 import * as Y from "yjs";
+import { IndexeddbPersistence } from "y-indexeddb";
 import { fromBase64 } from "lib0/buffer";
 import { MarkdownExtension } from "./markdown_extension";
 import { Markdown } from "@tiptap/markdown";
 import ToastController from "./toast_controller";
-import { throttle } from "../utils/throttle";
+import { csrfToken } from "../utils/csrf";
 
 export default class extends Controller {
   static outlets = ["toast"];
@@ -28,19 +29,72 @@ export default class extends Controller {
   declare readonly memoIdValue: string;
   declare readonly initialStateValue: string;
 
-  private editor: Editor | null = null;
-  private provider: WebsocketProvider | null = null;
-  private doc: Y.Doc | null = null;
+  #editor?: Editor;
+  #provider?: WebsocketProvider;
+  doc = new Y.Doc();
 
-  private debouncedSaveNotification = throttle(() => {
-    if (this.provider?.synced) {
-      this.toastOutlet.show("Changes saved");
+  get editor() {
+    if (this.#editor) {
+      throw new Error(`#editor is not init. It should be init in connect()`);
     }
-  }, 1000);
+    return this.#editor;
+  }
+
+  get provider() {
+    if (!this.#provider) {
+      throw new Error(`#provider is not init. It should be init in connect()`);
+    }
+    return this.#provider;
+  }
+
+  heartbeatInterval?: number;
+  syncMetadata: {
+    online: boolean;
+    lastHeartbeatTime: string;
+  } = {
+    online: false,
+    lastHeartbeatTime: new Date().toLocaleTimeString(),
+  };
+
+  get onlineMsg() {
+    return this.syncMetadata.online
+      ? "Online"
+      : "Offline. Changes will be persisted when reconnected";
+  }
+
+  initHeartbeat() {
+    this.heartbeatInterval = window.setInterval(async () => {
+      this.syncMetadata.online = this.provider.synced;
+      try {
+        const res = await fetch(`/heartbeat/ping`, {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-CSRF-Token": csrfToken(),
+          },
+        });
+        const json = (await res.json()) as { timestamp: string };
+        this.syncMetadata.lastHeartbeatTime = new Date(
+          json.timestamp,
+        ).toLocaleTimeString();
+        this.toastOutlet.show(
+          `${this.onlineMsg}.<br> Last heartbeat: ${this.syncMetadata.lastHeartbeatTime}`,
+        );
+      } catch (e) {
+        console.error(e);
+        this.syncMetadata.online = false;
+        this.toastOutlet.show(
+          `${this.onlineMsg}.<br> Last heartbeat: ${this.syncMetadata.lastHeartbeatTime}`,
+        );
+      }
+    }, 5000);
+  }
 
   connect() {
     // Initialize Y.js document
-    this.doc = new Y.Doc();
+    new IndexeddbPersistence(`memo-${this.memoIdValue}`, this.doc);
+
+    this.initHeartbeat();
 
     // Apply initial state if exists
     if (this.initialStateValue && this.initialStateValue.length > 0) {
@@ -50,15 +104,12 @@ export default class extends Controller {
 
     // Setup ActionCable consumer and provider
     const consumer = createConsumer();
-    this.provider = new WebsocketProvider(this.doc, consumer, "SyncChannel", {
+    this.#provider = new WebsocketProvider(this.doc, consumer, "SyncChannel", {
       id: this.memoIdValue,
     });
 
-    // Show notification when changes are synced
-    this.doc.on("update", this.debouncedSaveNotification);
-
     // Initialize TipTap editor
-    this.editor = new Editor({
+    this.#editor = new Editor({
       element: this.element as HTMLElement,
       extensions: [
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -75,18 +126,6 @@ export default class extends Controller {
   }
 
   disconnect() {
-    // Remove update listener
-    if (this.doc) {
-      this.doc.off("update", this.debouncedSaveNotification);
-    }
-
-    // Cleanup
-    this.editor?.destroy();
     this.provider?.destroy();
-    this.doc?.destroy();
-
-    this.editor = null;
-    this.provider = null;
-    this.doc = null;
   }
 }

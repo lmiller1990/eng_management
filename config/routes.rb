@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "heartbeat/ping", to: "heartbeat#ping"
+
   resources :memos do
     resources :invitations, controller: "memo_invitations", only: [ :create, :destroy ]
   end

@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
+import { csrfToken } from "../utils/csrf";
 
 export default class extends Controller {
   static values = {
@@ -19,13 +20,12 @@ export default class extends Controller {
       },
     });
 
-    console.log(body);
     fetch(this.urlValue, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        "X-CSRF-Token": this.csrfToken(),
+        "X-CSRF-Token": csrfToken(),
       },
       body,
     })
@@ -42,12 +42,5 @@ export default class extends Controller {
       .catch((error) => {
         console.error("Save failed:", error);
       });
-  }
-
-  private csrfToken(): string {
-    const meta = document.querySelector(
-      'meta[name="csrf-token"]',
-    ) as HTMLMetaElement;
-    return meta?.content || "";
   }
 }
