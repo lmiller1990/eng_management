@@ -15,7 +15,7 @@
       <ul>
       <%= dimension.expectations.each do |expectation| %>
 
-<li><%= expectation.description %></li>
+<li><%= expectation.description %>. Job Title: <%= expectation.job_title.name %></li>
   <% end %>
       </ul>
     </li>
