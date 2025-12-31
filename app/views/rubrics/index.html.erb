@@ -1,0 +1,30 @@
+<% content_for :title, "Rubrics" %>
+
+<div class="w-full">
+
+  <% if notice.present? %>
+    <p
+      class="
+        py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block
+      "
+      id="notice"
+    ><%= notice %></p>
+  <% end %>
+
+  <table>
+    <thead>
+        <th>Rubric</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        <% @rubrics.each do |rubric| %>
+        <tr>
+            <td><a href="<%= rubric_path(rubric) %>"><%= rubric.name %></a></td>
+            <td><%= rubric.description %></td>
+            <td>...</td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>

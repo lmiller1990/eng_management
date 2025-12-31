@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     resources :members, only: [ :show ], controller: "team_members"
   end
 
+  resources :rubrics, only: [ :new, :create, :show, :edit, :index ]
+
   resources :accounts, only: [ :index ]
 
   # Public invitation acceptance routes (no auth required)
