@@ -25,6 +25,9 @@ class Account < ApplicationRecord
   has_many :owned_teams, class_name: "Team", foreign_key: "owner_id", dependent: :destroy
   has_many :sent_team_invitations, class_name: "TeamInvitation", foreign_key: "inviter_id", dependent: :nullify
 
+  # Competency / Rubric
+  has_one :role_level
+
   # Memo invitation relationships
   has_many :sent_memo_invitations, class_name: "MemoInvitation", foreign_key: "inviter_id", dependent: :nullify
 
