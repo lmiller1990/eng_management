@@ -3,3 +3,19 @@
 <div class="w-full">
   <%= @rubric.name %>
 </div>
+
+<ul>
+  <% @rubric.categories.each do |category| %>
+  <li>
+    <%= category.name %>
+    <ul>
+  <% category.dimensions.each do |dimension| %>
+    <li>
+      <%= dimension.name %>
+    </li>
+    <br >
+  <% end %>
+    </ul>
+  </li>
+  <% end %>
+</ul>
