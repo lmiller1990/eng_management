@@ -12,6 +12,12 @@
   <% category.dimensions.each do |dimension| %>
     <li>
       <%= dimension.name %>
+      <ul>
+      <%= dimension.expectations.each do |expectation| %>
+
+<li><%= expectation.description %></li>
+  <% end %>
+      </ul>
     </li>
     <br >
   <% end %>
