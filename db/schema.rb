@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_27_090853) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_31_063147) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -58,6 +58,42 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_27_090853) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_action_items_on_account_id"
     t.index ["meeting_id"], name: "index_action_items_on_meeting_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "name", null: false
+    t.bigint "rubric_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rubric_id"], name: "index_categories_on_rubric_id"
+  end
+
+  create_table "dimensions", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.text "name", null: false
+    t.bigint "rubric_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_dimensions_on_category_id"
+    t.index ["rubric_id", "category_id", "name"], name: "index_dimensions_on_rubric_category_name", unique: true
+    t.index ["rubric_id"], name: "index_dimensions_on_rubric_id"
+  end
+
+  create_table "expectations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description", null: false
+    t.bigint "dimension_id", null: false
+    t.bigint "job_title_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dimension_id", "job_title_id"], name: "index_expectations_on_dimension_id_and_job_title_id", unique: true
+    t.index ["dimension_id"], name: "index_expectations_on_dimension_id"
+    t.index ["job_title_id"], name: "index_expectations_on_job_title_id"
+  end
+
+  create_table "job_titles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "name"
+    t.datetime "updated_at", null: false
   end
 
   create_table "meeting_participants", force: :cascade do |t|
@@ -124,6 +160,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_27_090853) do
     t.index ["meeting_id"], name: "index_notes_on_meeting_id"
   end
 
+  create_table "rubrics", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.text "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "team_invitations", force: :cascade do |t|
     t.datetime "accepted_at"
     t.datetime "created_at", null: false
@@ -169,6 +212,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_27_090853) do
   add_foreign_key "account_verification_keys", "accounts", column: "id"
   add_foreign_key "action_items", "accounts"
   add_foreign_key "action_items", "meetings"
+  add_foreign_key "categories", "rubrics"
+  add_foreign_key "dimensions", "categories"
+  add_foreign_key "dimensions", "rubrics"
+  add_foreign_key "expectations", "dimensions"
+  add_foreign_key "expectations", "job_titles"
   add_foreign_key "meeting_participants", "accounts"
   add_foreign_key "meeting_participants", "meetings"
   add_foreign_key "memo_editors", "accounts"
