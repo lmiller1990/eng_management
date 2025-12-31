@@ -5,8 +5,8 @@
 </div>
 
 <% @rubric.categories.each do |category| %>
-  <div class="mb-12">
-    <h2 class="text-2xl font-semibold mb-4"><%= category.name %></h2>
+  <div>
+    <h2><%= category.name %></h2>
 
     <%
       dimensions = category.dimensions
@@ -17,22 +17,24 @@
     %>
 
     <% if dimensions.any? && job_titles.any? %>
-      <table class="w-full border-collapse border border-gray-300">
+    <div class="overflow-x-auto">
+
+      <table class="table table-xs">
         <thead>
-          <tr class="bg-gray-100">
-            <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Dimension</th>
+          <tr>
+            <th>Dimension</th>
             <% job_titles.each do |job_title| %>
-              <th class="border border-gray-300 px-4 py-2 text-left font-semibold"><%= job_title.name %></th>
+              <th><%= job_title.name %></th>
             <% end %>
           </tr>
         </thead>
         <tbody>
           <% dimensions.each do |dimension| %>
             <tr>
-              <td class="border border-gray-300 px-4 py-2 font-semibold"><%= dimension.name %></td>
+              <td><%= dimension.name %></td>
               <% job_titles.each do |job_title| %>
                 <% expectation = expectations_by_dimension_and_job[dimension.id][job_title.id] %>
-                <td class="border border-gray-300 px-4 py-2">
+                <td>
                   <% if expectation %>
                     <%= expectation.description %>
                   <% end %>
@@ -42,6 +44,7 @@
           <% end %>
         </tbody>
       </table>
+    </div>
     <% else %>
       <p class="text-gray-500">No dimensions or job titles defined for this category.</p>
     <% end %>
