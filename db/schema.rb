@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_025818) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_01_102741) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -66,6 +66,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_025818) do
     t.bigint "rubric_id", null: false
     t.datetime "updated_at", null: false
     t.index ["rubric_id"], name: "index_categories_on_rubric_id"
+  end
+
+  create_table "dimension_scores", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "dimension_id", null: false
+    t.text "notes"
+    t.integer "rubric_evaluation_id", null: false
+    t.integer "score", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "dimensions", force: :cascade do |t|
@@ -161,6 +170,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_025818) do
     t.index ["meeting_id"], name: "index_notes_on_meeting_id"
   end
 
+  create_table "rubric_evaluations", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "rubric_id", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "rubrics", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -214,6 +230,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_025818) do
   add_foreign_key "action_items", "accounts"
   add_foreign_key "action_items", "meetings"
   add_foreign_key "categories", "rubrics"
+  add_foreign_key "dimension_scores", "dimensions"
+  add_foreign_key "dimension_scores", "rubric_evaluations"
   add_foreign_key "dimensions", "categories"
   add_foreign_key "dimensions", "rubrics"
   add_foreign_key "expectations", "dimensions"
@@ -227,6 +245,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_025818) do
   add_foreign_key "memos", "accounts"
   add_foreign_key "notes", "accounts"
   add_foreign_key "notes", "meetings"
+  add_foreign_key "rubric_evaluations", "accounts"
+  add_foreign_key "rubric_evaluations", "rubrics"
   add_foreign_key "team_invitations", "accounts", column: "inviter_id"
   add_foreign_key "team_invitations", "memos"
   add_foreign_key "team_invitations", "teams"

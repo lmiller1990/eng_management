@@ -1,0 +1,50 @@
+<div class="w-full mb-8">
+  <h1 class="text-3xl font-bold"><%= @rubric.name %></h1>
+</div>
+
+<% @rubric.categories.each do |category| %>
+  <div>
+    <h2><%= category.name %></h2>
+
+    <%
+      dimensions = category.dimensions
+      job_titles = dimensions.flat_map(&:job_titles).uniq.sort_by(&:name)
+      expectations_by_dimension_and_job = dimensions.each_with_object({}) do |dim, hash|
+        hash[dim.id] = dim.expectations.index_by { |exp| exp.job_title_id }
+      end
+    %>
+
+    <% if dimensions.any? && job_titles.any? %>
+    <div class="overflow-x-auto">
+
+      <table class="table table-xs">
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <% job_titles.sort_by(&:order).each do |job_title| %>
+              <th id="<%= job_title.name.parameterize.underscore %>"><%= job_title.name %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% dimensions.each do |dimension| %>
+            <tr>
+              <td><%= dimension.name %></td>
+              <% job_titles.each do |job_title| %>
+                <% expectation = expectations_by_dimension_and_job[dimension.id][job_title.id] %>
+                <td>
+                  <% if expectation %>
+                    <%= expectation.description %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <% else %>
+      <p class="text-gray-500">No dimensions or job titles defined for this category.</p>
+    <% end %>
+  </div>
+<% end %>

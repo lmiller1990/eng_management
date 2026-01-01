@@ -14,7 +14,9 @@ Rails.application.routes.draw do
 
   resources :rubrics, only: [ :new, :create, :show, :edit, :index ]
 
-  resources :accounts, only: [ :index ]
+  resources :accounts, only: [ :index, :show ] do
+    resources :evaluations, only: [ :new, :create, :index, :edit ]
+  end
 
   # Public invitation acceptance routes (no auth required)
   get "/invitations/:token/accept", to: "team_invitations#accept", as: :accept_team_invitation
