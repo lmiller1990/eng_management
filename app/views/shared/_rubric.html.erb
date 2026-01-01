@@ -1,4 +1,4 @@
-<div class="w-full mb-8">
+<div class="w-full mb-8" data-controller="rubric-evaluation" data-rubric-evaluation-evaluation-id-value="<%= @evaluation&.id %>">
   <h1 class="text-3xl font-bold"><%= @rubric.name %></h1>
 </div>
 
@@ -32,7 +32,10 @@
               <td><%= dimension.name %></td>
               <% job_titles.each do |job_title| %>
                 <% expectation = expectations_by_dimension_and_job[dimension.id][job_title.id] %>
-                <td>
+                <td data-dimension-id="<%= dimension.id %>"
+                    data-job-title-id="<%= job_title.id %>"
+                    data-action="click->rubric-evaluation#openCell"
+                    class="cursor-pointer">
                   <% if expectation %>
                     <%= expectation.description %>
                   <% end %>

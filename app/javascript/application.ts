@@ -17,6 +17,7 @@ import KeyboardShortcutsController from "./controllers/keyboard_shortcuts_contro
 import DrawerController from "./controllers/drawer_controller";
 import MemosController from "./controllers/memos_controller";
 import ToastController from "./controllers/toast_controller";
+import RubricEvaluationController from "./controllers/rubric_evaluation_controller"
 
 application.register("autosave", AutosaveController);
 application.register("tiptap-editor", TiptapEditorController);
@@ -24,6 +25,7 @@ application.register("keyboard-shortcuts", KeyboardShortcutsController);
 application.register("drawer", DrawerController);
 application.register("memos-table", MemosController);
 application.register("toast", ToastController);
+application.register("rubric-evaluation", RubricEvaluationController);
 
 // Icon
 class NotaeIcon extends HTMLElement {
