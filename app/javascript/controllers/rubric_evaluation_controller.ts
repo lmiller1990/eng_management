@@ -8,7 +8,6 @@ export default class extends Controller {
   declare readonly evaluationIdValue: string;
 
   openCell(event: Event) {
-    console.log('yeah')
     const cell = event.currentTarget as HTMLElement;
     const dimensionId = cell.dataset.dimensionId;
     const jobTitleId = cell.dataset.jobTitleId;

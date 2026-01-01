@@ -13,18 +13,18 @@
 
   <table>
     <thead>
-        <th>Rubric</th>
-        <th>Description</th>
-        <th>Actions</th>
+      <th>Rubric</th>
+      <th>Description</th>
+      <th>Actions</th>
     </thead>
     <tbody>
-        <% @rubrics.each do |rubric| %>
+      <% @rubrics.each do |rubric| %>
         <tr>
-            <td><a href="<%= rubric_path(rubric) %>"><%= rubric.name %></a></td>
-            <td><%= rubric.description %></td>
-            <td>...</td>
+          <td><a href="<%= rubric_path(rubric) %>"><%= rubric.name %></a></td>
+          <td><%= rubric.description %></td>
+          <td>...</td>
         </tr>
-        <% end %>
+      <% end %>
     </tbody>
   </table>
 </div>

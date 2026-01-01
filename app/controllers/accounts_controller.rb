@@ -5,5 +5,7 @@ class AccountsController < ApplicationController
 
   def show
     @account = Account.find(params.expect(:id))
+    @rubrics = Rubric.all
+    @rubric_evaluation = RubricEvaluation.new(account: @account)
   end
 end
