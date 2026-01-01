@@ -23,8 +23,8 @@
         <thead>
           <tr>
             <th>Dimension</th>
-            <% job_titles.each do |job_title| %>
-              <th><%= job_title.name %></th>
+            <% job_titles.sort_by(&:order).each do |job_title| %>
+              <th id="<%= job_title.name.parameterize.underscore %>"><%= job_title.name %></th>
             <% end %>
           </tr>
         </thead>
