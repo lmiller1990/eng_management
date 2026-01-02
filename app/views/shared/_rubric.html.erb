@@ -6,7 +6,7 @@
   <div class="w-full mb-8">
     <h1 class="text-3xl font-bold"><%= @rubric.name %></h1>
   </div>
-  .<div class="flex justify-end">
+  <div class="flex justify-end">
 
     <button class="btn" popovertarget="popover-1" style="anchor-name:--anchor-1">
       Toggle Levels
@@ -39,30 +39,35 @@
 
   </div>
 
-  <% @rubric.categories.each do |category| %>
-    <div>
-      <h2><%= category.name %></h2>
+  <%
+    all_dimensions = @rubric.categories.flat_map(&:dimensions)
+    job_titles = all_dimensions.flat_map(&:job_titles).uniq.sort_by(&:order)
+    expectations_by_dimension_and_job =
+      all_dimensions.each_with_object({}) do |dim, hash|
+        hash[dim.id] = dim.expectations.index_by { |exp| exp.job_title_id }
+      end
+  %>
 
-      <% dimensions = category.dimensions
-      job_titles = dimensions.flat_map(&:job_titles).uniq.sort_by(&:name)
-      expectations_by_dimension_and_job =
-        dimensions.each_with_object({}) do |dim, hash|
-          hash[dim.id] = dim.expectations.index_by { |exp| exp.job_title_id }
-        end %>
-
-      <% if dimensions.any? && job_titles.any? %>
-        <div class="overflow-x-auto">
-
-          <table class="table table-xs">
-            <thead>
+  <% if all_dimensions.any? && job_titles.any? %>
+    <div class="overflow-x-auto">
+      <table class="table table-xs">
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <% job_titles.each do |job_title| %>
+              <th data-job-name="<%= job_title.name.parameterize.underscore %>"><%= job_title.name %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @rubric.categories.each do |category| %>
+            <% dimensions = category.dimensions %>
+            <% if dimensions.any? %>
               <tr>
-                <th>Dimension</th>
-                <% job_titles.sort_by(&:order).each do |job_title| %>
-                  <th data-job-name="<%= job_title.name.parameterize.underscore %>"><%= job_title.name %></th>
-                <% end %>
+                <td colspan="<%= job_titles.length + 1 %>" class="font-bold bg-base-200 py-4">
+                  <%= category.name %>
+                </td>
               </tr>
-            </thead>
-            <tbody>
               <% dimensions.each do |dimension| %>
                 <tr>
                   <td><%= dimension.name %></td>
@@ -73,7 +78,7 @@
                       data-dimension-id="<%= dimension.id %>"
                       data-job-title-id="<%= job_title.id %>"
                       data-action="click->rubric-evaluation#openCell"
-                      class="cursor-pointer"
+                      class="cursor-pointer p-4"
                     >
                       <% if expectation %>
                         <%= expectation.description %>
@@ -82,13 +87,13 @@
                   <% end %>
                 </tr>
               <% end %>
-            </tbody>
-          </table>
-        </div>
-      <% else %>
-        <p class="text-gray-500">No dimensions or job titles defined for this category.</p>
-      <% end %>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
     </div>
+  <% else %>
+    <p class="text-gray-500">No dimensions or job titles defined for this rubric.</p>
   <% end %>
 
 </div>
