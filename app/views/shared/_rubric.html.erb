@@ -27,7 +27,9 @@
               type="checkbox"
               checked="checked"
               class="checkbox"
-              id="<%= job_title.id %>"
+              data-class="job-filter"
+              data-action="change->rubric-evaluation#toggleColumn"
+              id="<%= job_title.name.parameterize.underscore %>"
             />
             <%= job_title.name %>
           </label>
@@ -56,7 +58,7 @@
               <tr>
                 <th>Dimension</th>
                 <% job_titles.sort_by(&:order).each do |job_title| %>
-                  <th id="<%= job_title.name.parameterize.underscore %>"><%= job_title.name %></th>
+                  <th data-job-name="<%= job_title.name.parameterize.underscore %>"><%= job_title.name %></th>
                 <% end %>
               </tr>
             </thead>
@@ -67,6 +69,7 @@
                   <% job_titles.each do |job_title| %>
                     <% expectation = expectations_by_dimension_and_job[dimension.id][job_title.id] %>
                     <td
+                      data-job-name="<%= job_title.name.parameterize.underscore %>"
                       data-dimension-id="<%= dimension.id %>"
                       data-job-title-id="<%= job_title.id %>"
                       data-action="click->rubric-evaluation#openCell"
