@@ -5,7 +5,7 @@ class MemosController < ApplicationController
 
   # GET /memos or /memos.json
   def index
-    @memos = policy_scope(Memo).order(created_at: :desc)
+    @memos = policy_scope(Memo).order(updated_at: :desc)
   end
 
   # GET /memos/1 or /memos/1.json
