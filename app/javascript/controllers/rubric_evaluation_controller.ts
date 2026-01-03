@@ -5,7 +5,11 @@ export default class extends Controller {
     evaluationId: String,
   };
 
+  static targets = ["modal"]
+
+
   declare readonly evaluationIdValue: string;
+  declare readonly modalTarget: HTMLDialogElement;
 
   getStoredFilters(): string[] {
     let filters = window.localStorage.getItem("rubric_filter");
@@ -45,6 +49,8 @@ export default class extends Controller {
       dimensionId,
       jobTitleId,
     });
+
+    this.modalTarget.showModal()
   }
 
   hideByJobName(jobName: string) {
