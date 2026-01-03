@@ -5,11 +5,11 @@ export default class extends Controller {
     evaluationId: String,
   };
 
-  static targets = ["modal"]
-
+  static targets = ["modal", "frame"];
 
   declare readonly evaluationIdValue: string;
   declare readonly modalTarget: HTMLDialogElement;
+  declare readonly frameTarget: HTMLElement;
 
   getStoredFilters(): string[] {
     let filters = window.localStorage.getItem("rubric_filter");
@@ -43,14 +43,26 @@ export default class extends Controller {
     const cell = event.currentTarget as HTMLElement;
     const dimensionId = cell.dataset.dimensionId;
     const jobTitleId = cell.dataset.jobTitleId;
-
-    console.log("Cell clicked:", {
-      evaluationId: this.evaluationIdValue,
-      dimensionId,
+    console.log({
+      cell,
       jobTitleId,
+      dimensionId,
     });
 
-    this.modalTarget.showModal()
+    const url = `/dimension_scores/new?dimension_id=${dimensionId}&job_title_id=${jobTitleId}&evaluation_id=${this.evaluationIdValue}`;
+
+    // Set the Turbo Frame src to load the form
+    this.frameTarget.setAttribute("src", url);
+
+    this.modalTarget.showModal();
+  }
+
+  closeModal() {
+    this.modalTarget.close();
+    // Clear the frame src to reset for next use
+    this.frameTarget.removeAttribute("src");
+    // Clear the frame content
+    this.frameTarget.innerHTML = "<!-- Form will load here dynamically -->";
   }
 
   hideByJobName(jobName: string) {

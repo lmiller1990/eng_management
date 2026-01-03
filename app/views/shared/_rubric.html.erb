@@ -2,6 +2,22 @@
   data-controller="rubric-evaluation"
   data-rubric-evaluation-evaluation-id-value="<%= @evaluation.id %>"
 >
+  <!-- Open the modal using ID.showModal() method -->
+  <dialog
+    id="expectation_modal"
+    class="modal"
+    data-rubric-evaluation-target="modal"
+  >
+    <div class="modal-box">
+      <h3 class="text-lg font-bold">Enter Notes</h3>
+      <turbo-frame id="rubric_evaluation_form" data-rubric-evaluation-target="frame">
+        <!-- Form will load here dynamically -->
+      </turbo-frame>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
 
 <!-- Open the modal using ID.showModal() method -->
   <%# <button class="btn" onclick="my_modal_2.showModal()">open modal</button> %>
@@ -56,14 +72,12 @@
 
   </div>
 
-  <%
-    all_dimensions = @rubric.categories.flat_map(&:dimensions)
-    job_titles = all_dimensions.flat_map(&:job_titles).uniq.sort_by(&:order)
-    expectations_by_dimension_and_job =
-      all_dimensions.each_with_object({}) do |dim, hash|
-        hash[dim.id] = dim.expectations.index_by { |exp| exp.job_title_id }
-      end
-  %>
+  <% all_dimensions = @rubric.categories.flat_map(&:dimensions)
+  job_titles = all_dimensions.flat_map(&:job_titles).uniq.sort_by(&:order)
+  expectations_by_dimension_and_job =
+    all_dimensions.each_with_object({}) do |dim, hash|
+      hash[dim.id] = dim.expectations.index_by { |exp| exp.job_title_id }
+    end %>
 
   <% if all_dimensions.any? && job_titles.any? %>
     <div class="overflow-x-auto">
