@@ -3,7 +3,7 @@ require "test_helper"
 class TeamInvitationTest < ActiveSupport::TestCase
   test "creates a 1-on-1 memo when invitation is created" do
     team = teams(:one)
-    inviter = accounts(:one)
+    inviter = accounts(:owner)
     invitee_email = "new.member@example.com"
 
     # Create placeholder account (simulates what happens in controller)
@@ -27,7 +27,7 @@ class TeamInvitationTest < ActiveSupport::TestCase
 
   test "1-on-1 memo has inviter as owner" do
     team = teams(:one)
-    inviter = accounts(:one)
+    inviter = accounts(:owner)
     invitee_email = "new.member@example.com"
     invitee = Account.create!(email: invitee_email, status: :unverified)
 
@@ -42,7 +42,7 @@ class TeamInvitationTest < ActiveSupport::TestCase
 
   test "1-on-1 memo has invitee as editor" do
     team = teams(:one)
-    inviter = accounts(:one)
+    inviter = accounts(:owner)
     invitee_email = "new.member@example.com"
     invitee = Account.create!(email: invitee_email, status: :unverified)
 
@@ -57,7 +57,7 @@ class TeamInvitationTest < ActiveSupport::TestCase
 
   test "does not create memo if invitee account does not exist" do
     team = teams(:one)
-    inviter = accounts(:one)
+    inviter = accounts(:owner)
     # Intentionally don't create the account
 
     memo_count_before = Memo.count
@@ -75,7 +75,7 @@ class TeamInvitationTest < ActiveSupport::TestCase
 
   test "1-on-1 memo has team_one_on_one type" do
     team = teams(:one)
-    inviter = accounts(:one)
+    inviter = accounts(:owner)
     invitee_email = "new.member@example.com"
     invitee = Account.create!(email: invitee_email, status: :unverified)
 

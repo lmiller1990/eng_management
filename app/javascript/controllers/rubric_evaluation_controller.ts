@@ -30,7 +30,10 @@ export default class extends Controller {
     for (const element of this.element.querySelectorAll<HTMLInputElement>(
       "[data-class='job-filter']",
     )) {
-      if (filters.includes(element.id)) {
+      if (!filters.length) {
+        // show all
+        element!.checked = true;
+      } else if (filters.includes(element.id)) {
         element!.checked = true;
       } else {
         element!.checked = false;

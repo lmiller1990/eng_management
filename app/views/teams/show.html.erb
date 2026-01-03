@@ -73,9 +73,10 @@
                   class: "btn btn-sm btn-ghost" %>
                 <% end %>
 
+                <%= current_membership.owner? %>
                 <% if current_membership.owner? %>
                   <%= link_to "Rubric",
-                  team_member_path(@team, current_account),
+                  account_path(membership.account),
                   class: "btn btn-sm btn-info" %>
                 <% end %>
 
