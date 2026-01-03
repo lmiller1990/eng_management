@@ -2,7 +2,7 @@ require "test_helper"
 
 class AccountTest < ActiveSupport::TestCase
   test "derive_name with standard dot-separated email" do
-    account = accounts(:one)
+    account = accounts(:owner)
     account.email = "john.doe@example.com"
 
     result = account.derive_name
@@ -14,7 +14,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "derive_name with underscore-separated email" do
-    account = accounts(:one)
+    account = accounts(:owner)
     account.email = "jane_smith@example.com"
 
     result = account.derive_name
@@ -25,7 +25,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "derive_name with single name (no separator)" do
-    account = accounts(:one)
+    account = accounts(:owner)
     account.email = "freddie@queen.com"
 
     result = account.derive_name
@@ -37,7 +37,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "derive_name with multiple dots uses first and last" do
-    account = accounts(:one)
+    account = accounts(:owner)
     account.email = "j.d.smith@example.com"
 
     result = account.derive_name
@@ -48,7 +48,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "derive_name with custom derivation function" do
-    account = accounts(:one)
+    account = accounts(:owner)
     account.email = "john.doe@example.com"
 
     # Custom function that reverses the logic
@@ -70,7 +70,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "derive_name handles emails with numbers" do
-    account = accounts(:one)
+    account = accounts(:owner)
     account.email = "john.doe123@example.com"
 
     result = account.derive_name
@@ -81,7 +81,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "derive_name handles all caps email" do
-    account = accounts(:one)
+    account = accounts(:owner)
     account.email = "JOHN.DOE@EXAMPLE.COM"
 
     result = account.derive_name
@@ -93,7 +93,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "derive_name with custom function that returns nil values" do
-    account = accounts(:one)
+    account = accounts(:owner)
     account.email = "test@example.com"
 
     # Malformed custom function that might return nils

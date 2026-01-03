@@ -1,0 +1,31 @@
+<%# Update the frame to show success message %>
+<turbo-stream action="update" target="rubric_evaluation_form">
+  <template>
+    <div class="alert alert-success">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>Evaluation saved successfully!</span>
+    </div>
+  </template>
+</turbo-stream>
+
+<%# Close the modal and log to console %>
+<turbo-stream action="after" target="rubric_evaluation_form">
+  <template>
+    <script>
+      // Log to console to demonstrate Turbo Stream
+      console.log('Turbo Stream executed!', {
+        dimensionId: <%= @dimension_score.dimension_id %>,
+        evaluationId: <%= @dimension_score.rubric_evaluation_id %>,
+        score: <%= @dimension_score.score %>,
+        notes: <%= @dimension_score.notes.to_json.html_safe %>
+      });
+
+      // Close the modal after a brief delay to show success message
+      setTimeout(() => {
+        document.getElementById('expectation_modal').close();
+      }, 1500);
+    </script>
+  </template>
+</turbo-stream>

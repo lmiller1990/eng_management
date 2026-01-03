@@ -2,7 +2,7 @@ require "test_helper"
 
 class MemosControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @account = accounts(:one)
+    @account = accounts(:owner)
     # Simulate logged in user by setting session
     post "/login", params: {
       email: @account.email,
@@ -49,7 +49,7 @@ class MemosControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index shows shared memos where account is editor" do
-    other_account = accounts(:two)
+    other_account = accounts(:existing_member)
     shared_memo = Memo.create!(
       owner: other_account,
       title: "Shared with Me",
@@ -65,7 +65,7 @@ class MemosControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index does not show team_one_on_one memos even if account is editor" do
-    other_account = accounts(:two)
+    other_account = accounts(:existing_member)
     one_on_one_memo = Memo.create!(
       owner: other_account,
       title: "1-on-1 with Other",

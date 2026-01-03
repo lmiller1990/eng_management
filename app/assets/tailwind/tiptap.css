@@ -1,5 +1,5 @@
 .ProseMirror:focus,
-input {
+input, textarea {
   outline: none;
 }
 

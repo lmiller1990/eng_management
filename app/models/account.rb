@@ -13,6 +13,7 @@ class Account < ApplicationRecord
   has_many :meetings, through: :meeting_participants
   has_many :notes, dependent: :destroy
   has_many :action_items, dependent: :destroy
+  has_many :rubric_evaluations
 
   # Memo relationships
   has_many :owned_memos, class_name: "Memo", foreign_key: "account_id", dependent: :destroy

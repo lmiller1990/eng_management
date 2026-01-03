@@ -1,0 +1,2 @@
+class DimensionScore < ApplicationRecord
+end

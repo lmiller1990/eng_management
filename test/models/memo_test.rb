@@ -3,7 +3,7 @@ require "test_helper"
 class MemoTest < ActiveSupport::TestCase
   test "defaults to shared memo_type" do
     memo = Memo.create!(
-      owner: accounts(:one),
+      owner: accounts(:owner),
       title: "Test Memo"
     )
 
@@ -13,7 +13,7 @@ class MemoTest < ActiveSupport::TestCase
 
   test "can create team_one_on_one memo" do
     memo = Memo.create!(
-      owner: accounts(:one),
+      owner: accounts(:owner),
       title: "1-on-1 Notes",
       memo_type: :team_one_on_one
     )
@@ -24,13 +24,13 @@ class MemoTest < ActiveSupport::TestCase
 
   test "shared scope returns only shared memos" do
     shared_memo = Memo.create!(
-      owner: accounts(:one),
+      owner: accounts(:owner),
       title: "Shared Memo",
       memo_type: :shared
     )
 
     one_on_one_memo = Memo.create!(
-      owner: accounts(:one),
+      owner: accounts(:owner),
       title: "1-on-1 Memo",
       memo_type: :team_one_on_one
     )
@@ -42,13 +42,13 @@ class MemoTest < ActiveSupport::TestCase
 
   test "team_one_on_one scope returns only team 1-on-1 memos" do
     shared_memo = Memo.create!(
-      owner: accounts(:one),
+      owner: accounts(:owner),
       title: "Shared Memo",
       memo_type: :shared
     )
 
     one_on_one_memo = Memo.create!(
-      owner: accounts(:one),
+      owner: accounts(:owner),
       title: "1-on-1 Memo",
       memo_type: :team_one_on_one
     )

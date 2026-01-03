@@ -1,0 +1,9 @@
+junior_exp:
+  dimension_id: 1
+  job_title_id: 1
+  description: Learning to code
+
+senior_exp:
+  dimension_id: 1
+  job_title_id: 2
+  description: Skilled at coding

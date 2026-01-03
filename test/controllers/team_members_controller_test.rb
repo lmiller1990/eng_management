@@ -2,8 +2,8 @@ require "test_helper"
 
 class TeamMembersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @owner = accounts(:one)
-    @member = accounts(:two)
+    @owner = accounts(:owner)
+    @member = accounts(:existing_member)
 
     # Create a team with owner
     @team = Team.create!(

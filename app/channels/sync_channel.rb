@@ -32,6 +32,6 @@ class SyncChannel < ApplicationCable::Channel
     memo = Memo.find_by(id: params[:id])
     return if memo.nil?
 
-    memo.update_column(:yjs_state, state.pack("C*"))
+    memo.update(yjs_state: state.pack("C*"))
   end
 end

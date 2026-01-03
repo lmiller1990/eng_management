@@ -12,7 +12,16 @@ Rails.application.routes.draw do
     resources :members, only: [ :show ], controller: "team_members"
   end
 
-  resources :accounts, only: [ :index ]
+  resources :rubrics, only: [ :new, :create, :show, :edit, :index ]
+
+  # Dimension scores for modal form
+  resources :dimension_scores, only: [ :new, :create ]
+
+  resources :accounts, only: [ :index, :show ] do
+    resources :rubric_evaluations, only: [ :new, :create, :index, :edit ] do
+      resources :dimensions, controller: "evaluation_dimensions", only: [ :create, :update ]
+    end
+  end
 
   # Public invitation acceptance routes (no auth required)
   get "/invitations/:token/accept", to: "team_invitations#accept", as: :accept_team_invitation
