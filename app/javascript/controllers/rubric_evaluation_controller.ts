@@ -5,8 +5,7 @@ export default class extends Controller {
     evaluationId: String,
   };
 
-  static targets = ["modal", "frame"]
-
+  static targets = ["modal", "frame"];
 
   declare readonly evaluationIdValue: string;
   declare readonly modalTarget: HTMLDialogElement;
@@ -45,8 +44,10 @@ export default class extends Controller {
     const dimensionId = cell.dataset.dimensionId;
     const jobTitleId = cell.dataset.jobTitleId;
     console.log({
-      cell, jobTitleId, dimensionId
-    })
+      cell,
+      jobTitleId,
+      dimensionId,
+    });
 
     const url = `/dimension_scores/new?dimension_id=${dimensionId}&job_title_id=${jobTitleId}&evaluation_id=${this.evaluationIdValue}`;
 

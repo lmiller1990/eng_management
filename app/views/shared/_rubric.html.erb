@@ -2,9 +2,10 @@
   data-controller="rubric-evaluation"
   data-rubric-evaluation-evaluation-id-value="<%= @evaluation.id %>"
 >
-
-<!-- Open the modal using ID.showModal() method -->
-  <dialog id="expectation_modal" class="modal"
+  <!-- Open the modal using ID.showModal() method -->
+  <dialog
+    id="expectation_modal"
+    class="modal"
     data-rubric-evaluation-target="modal"
   >
     <div class="modal-box">
@@ -54,14 +55,12 @@
 
   </div>
 
-  <%
-    all_dimensions = @rubric.categories.flat_map(&:dimensions)
-    job_titles = all_dimensions.flat_map(&:job_titles).uniq.sort_by(&:order)
-    expectations_by_dimension_and_job =
-      all_dimensions.each_with_object({}) do |dim, hash|
-        hash[dim.id] = dim.expectations.index_by { |exp| exp.job_title_id }
-      end
-  %>
+  <% all_dimensions = @rubric.categories.flat_map(&:dimensions)
+  job_titles = all_dimensions.flat_map(&:job_titles).uniq.sort_by(&:order)
+  expectations_by_dimension_and_job =
+    all_dimensions.each_with_object({}) do |dim, hash|
+      hash[dim.id] = dim.expectations.index_by { |exp| exp.job_title_id }
+    end %>
 
   <% if all_dimensions.any? && job_titles.any? %>
     <div class="overflow-x-auto">

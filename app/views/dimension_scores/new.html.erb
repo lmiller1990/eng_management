@@ -8,24 +8,26 @@
         <span class="label-text">Score</span>
       </label>
       <%= f.number_field :score,
-          class: "input input-bordered w-full mb-4",
-          placeholder: "Enter score...",
-          required: true %>
+                     class: "input input-bordered w-full mb-4",
+                     placeholder: "Enter score...",
+                     required: true %>
 
       <label class="label">
         <span class="label-text">Notes</span>
       </label>
       <%= f.text_area :notes,
-          class: "textarea textarea-bordered w-full",
-          placeholder: "Enter notes...",
-          rows: 6 %>
+                  class: "textarea textarea-bordered w-full",
+                  placeholder: "Enter notes...",
+                  rows: 6 %>
     </div>
 
     <div class="modal-action">
       <%= f.submit "Save", class: "btn btn-primary" %>
-      <button type="button"
-              class="btn"
-              data-action="click->rubric-evaluation#closeModal">
+      <button
+        type="button"
+        class="btn"
+        data-action="click->rubric-evaluation#closeModal"
+      >
         Cancel
       </button>
     </div>
