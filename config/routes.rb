@@ -14,6 +14,9 @@ Rails.application.routes.draw do
 
   resources :rubrics, only: [ :new, :create, :show, :edit, :index ]
 
+  # Dimension scores for modal form
+  resources :dimension_scores, only: [ :new, :create ]
+
   resources :accounts, only: [ :index, :show ] do
     resources :rubric_evaluations, only: [ :new, :create, :index, :edit ] do
       resources :dimensions, controller: "evaluation_dimensions", only: [ :create, :update ]
