@@ -3,7 +3,7 @@
     <%= f.hidden_field :dimension_id, value: @dimension_id %>
     <%= f.hidden_field :rubric_evaluation_id, value: @evaluation_id %>
 
-    <div class="py-4">
+    <div class="pb-4">
 
       <%= f.select :score,
                DimensionScore.format_for_select,

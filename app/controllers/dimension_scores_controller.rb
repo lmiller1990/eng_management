@@ -21,7 +21,9 @@ class DimensionScoresController < ApplicationController
 
     if @dimension_score.save
       respond_to do |format|
-        format.turbo_stream
+        format.turbo_stream do
+            flash.now[:notice] = "Evaluation saved successfully"
+        end
         format.html { redirect_to root_path, notice: "Evaluation saved successfully!" }
       end
     else
