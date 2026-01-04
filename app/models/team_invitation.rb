@@ -4,14 +4,14 @@ class TeamInvitation < ApplicationRecord
   belongs_to :memo, optional: true
 
   validates :email, presence: true, format: {
-            with: URI::MailTo::EMAIL_REGEXP,
-            message: "must be a valid email address",
-          }
+                      with: URI::MailTo::EMAIL_REGEXP,
+                      message: "must be a valid email address",
+                    }
   validates :email, uniqueness: {
-            scope: :team_id,
-            conditions: -> { where(accepted_at: nil) },
-            message: "already has a pending invitation to this team",
-          }
+                      scope: :team_id,
+                      conditions: -> { where(accepted_at: nil) },
+                      message: "already has a pending invitation to this team",
+                    }
 
   before_validation :generate_token, on: :create
   before_validation :set_expiration, on: :create

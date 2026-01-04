@@ -5,9 +5,9 @@ class MemosControllerTest < ActionDispatch::IntegrationTest
     @account = accounts(:owner)
     # Simulate logged in user by setting session
     post "/login", params: {
-                email: @account.email,
-                password: "password",
-              }
+                     email: @account.email,
+                     password: "password",
+                   }
   end
 
   test "index only shows shared memos, not team_one_on_one memos" do

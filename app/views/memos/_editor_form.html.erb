@@ -1,18 +1,18 @@
 <div class="max-w-lg w-full">
   <div class="my-5">
     <%= form.text_field :title,
-                        type: "text",
-                        id: "memo_title",
-                        placeholder: "Title...",
-                        autofocus: local_assigns.fetch(:autofocus, false),
-                        class: "input mb-4 w-full",
-                        data: {
-                          controller: "autosave",
-                          autosave_url_value: memo_path(memo),
-                          autosave_field_value: "title",
-                          autosave_target: "field",
-                          action: "input->autosave#save",
-                        } %>
+                    type: "text",
+                    id: "memo_title",
+                    placeholder: "Title...",
+                    autofocus: local_assigns.fetch(:autofocus, false),
+                    class: "input mb-4 w-full",
+                    data: {
+                      controller: "autosave",
+                      autosave_url_value: memo_path(memo),
+                      autosave_field_value: "title",
+                      autosave_target: "field",
+                      action: "input->autosave#save",
+                    } %>
     <div id="toast" data-controller="toast">
     </div>
 

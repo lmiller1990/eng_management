@@ -7,4 +7,9 @@ class DimensionScore < ApplicationRecord
     not_attempting: 1,
     not_applicable: 0,
   }
+
+  def self.format_for_select
+    scores.sort_by { |_k, v| -v }
+      .map { |k, _v| [k.humanize, k] }
+  end
 end

@@ -17,8 +17,8 @@
 
   <%= form_with url: memo_invitations_path(@memo), method: :post, class: "flex gap-2 mb-6" do |form| %>
     <%= form.email_field :email,
-                         placeholder: "email@example.com",
-                         class: "input input-bordered flex-1" %>
+                     placeholder: "email@example.com",
+                     class: "input input-bordered flex-1" %>
     <%= form.submit "Send Invitation", class: "btn btn-primary" %>
   <% end %>
 
@@ -43,9 +43,9 @@
                 from now</td>
               <td>
                 <%= button_to "Cancel",
-                              memo_invitation_path(@memo, invitation),
-                              method: :delete,
-                              class: "btn btn-error btn-xs" %>
+                memo_invitation_path(@memo, invitation),
+                method: :delete,
+                class: "btn btn-error btn-xs" %>
               </td>
             </tr>
           <% end %>

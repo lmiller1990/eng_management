@@ -27,12 +27,12 @@
                 <%= link_to "Show", meeting, class: "btn btn-sm btn-ghost" %>
                 <%= link_to "Edit", edit_meeting_path(meeting), class: "btn btn-sm btn-ghost" %>
                 <%= button_to "Destroy",
-                              meeting,
-                              method: :delete,
-                              class: "btn btn-sm btn-error",
-                              data: {
-                                      turbo_confirm: "Are you sure?",
-                                    } %>
+                meeting,
+                method: :delete,
+                class: "btn btn-sm btn-error",
+                data: {
+                  turbo_confirm: "Are you sure?",
+                } %>
               </div>
             </div>
           </div>

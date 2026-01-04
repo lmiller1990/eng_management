@@ -5,9 +5,9 @@ class TeamMembership < ApplicationRecord
   enum :role, { member: "member", admin: "admin", owner: "owner" }
 
   validates :account_id, uniqueness: {
-                 scope: :team_id,
-                 message: "is already a member of this team",
-               }
+                           scope: :team_id,
+                           message: "is already a member of this team",
+                         }
   validates :role, presence: true, inclusion: { in: roles.keys }
 
   # Prevent removing the last owner

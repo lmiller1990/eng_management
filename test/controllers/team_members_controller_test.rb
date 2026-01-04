@@ -27,9 +27,9 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
   test "owner can view member's notes" do
     # Log in as owner
     post "/login", params: {
-                email: @owner.email,
-                password: "password",
-              }
+                     email: @owner.email,
+                     password: "password",
+                   }
 
     get team_member_url(@team, @member)
     assert_response :success
@@ -38,9 +38,9 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
   test "member can view their own notes with owner" do
     # Log in as member
     post "/login", params: {
-                email: @member.email,
-                password: "password",
-              }
+                     email: @member.email,
+                     password: "password",
+                   }
 
     # Member viewing their own notes
     get team_member_url(@team, @member)
@@ -58,9 +58,9 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
 
     # Log in as first member
     post "/login", params: {
-                email: @member.email,
-                password: "password",
-              }
+                     email: @member.email,
+                     password: "password",
+                   }
 
     # Try to view other member's notes - should raise Pundit::NotAuthorizedError
     assert_raises(Pundit::NotAuthorizedError) do
@@ -77,9 +77,9 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
 
     # Log in as non-member
     post "/login", params: {
-                email: non_member.email,
-                password: "password",
-              }
+                     email: non_member.email,
+                     password: "password",
+                   }
 
     # Try to view member notes - should raise Pundit::NotAuthorizedError
     assert_raises(Pundit::NotAuthorizedError) do
@@ -90,9 +90,9 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
   test "displays 1-on-1 memo when it exists" do
     # Log in as owner
     post "/login", params: {
-                email: @owner.email,
-                password: "password",
-              }
+                     email: @owner.email,
+                     password: "password",
+                   }
 
     get team_member_url(@team, @member)
     assert_response :success

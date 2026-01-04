@@ -16,7 +16,8 @@
   <div class="form-control">
     <%= form.label :title, class: "label" %>
     <%= form.text_field :title,
-                        class: "input input-bordered w-full #{action_item.errors[:title].any? ? "input-error" : ""}" %>
+                    class:
+                      "input input-bordered w-full #{action_item.errors[:title].any? ? "input-error" : ""}" %>
   </div>
 
   <div>

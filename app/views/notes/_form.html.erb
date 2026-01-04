@@ -16,8 +16,9 @@
   <div class="form-control">
     <%= form.label :content, class: "label" %>
     <%= form.text_area :content,
-                       rows: 8,
-                       class: "textarea textarea-bordered w-full #{note.errors[:content].any? ? "textarea-error" : ""}" %>
+                   rows: 8,
+                   class:
+                     "textarea textarea-bordered w-full #{note.errors[:content].any? ? "textarea-error" : ""}" %>
   </div>
 
   <div>

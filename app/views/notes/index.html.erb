@@ -21,15 +21,15 @@
               <span class="text-sm opacity-60"><%= note.created_at.strftime("%B %d, %Y") %></span>
               <div class="flex gap-2">
                 <%= link_to "Edit",
-                            edit_meeting_note_path(@meeting, note),
-                            class: "btn btn-sm btn-ghost" %>
+                edit_meeting_note_path(@meeting, note),
+                class: "btn btn-sm btn-ghost" %>
                 <%= button_to "Delete",
-                              meeting_note_path(@meeting, note),
-                              method: :delete,
-                              class: "btn btn-sm btn-error",
-                              data: {
-                                      turbo_confirm: "Are you sure?",
-                                    } %>
+                meeting_note_path(@meeting, note),
+                method: :delete,
+                class: "btn btn-sm btn-error",
+                data: {
+                  turbo_confirm: "Are you sure?",
+                } %>
               </div>
             </div>
             <p class="whitespace-pre-wrap"><%= note.content %></p>

@@ -7,18 +7,20 @@
       <label class="label">
         <span class="label-text">Score</span>
       </label>
-      <%= f.number_field :score,
-                         class: "input input-bordered w-full mb-4",
-                         placeholder: "Enter score...",
-                         required: true %>
+      <%= f.select :score,
+               DimensionScore.format_for_select,
+               { include_blank: false, prompt: "Select level" },
+               class: "select select-sm" %>
 
-      <label class="label">
-        <span class="label-text">Notes</span>
-      </label>
-      <%= f.text_area :notes,
-                      class: "textarea textarea-bordered w-full",
-                      placeholder: "Enter notes...",
-                      rows: 6 %>
+      <div>
+        <label class="label">
+          <span class="label-text">Notes</span>
+        </label>
+        <%= f.text_area :notes,
+                    class: "textarea textarea-bordered w-full",
+                    placeholder: "Enter notes...",
+                    rows: 6 %>
+      </div>
     </div>
 
     <div class="modal-action">

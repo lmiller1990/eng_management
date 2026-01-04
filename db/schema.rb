@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_102741) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_04_115757) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -73,7 +73,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_102741) do
     t.integer "dimension_id", null: false
     t.text "notes"
     t.integer "rubric_evaluation_id", null: false
-    t.integer "score", null: false
+    t.integer "score", default: 0, null: false
     t.datetime "updated_at", null: false
   end
 

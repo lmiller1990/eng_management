@@ -3,8 +3,8 @@ class MemoInvitation < ApplicationRecord
   belongs_to :inviter, class_name: "Account"
 
   validates :email, presence: true,
-            format: { with: URI::MailTo::EMAIL_REGEXP },
-            uniqueness: { scope: :memo_id, conditions: -> { where(accepted_at: nil) } }
+                    format: { with: URI::MailTo::EMAIL_REGEXP },
+                    uniqueness: { scope: :memo_id, conditions: -> { where(accepted_at: nil) } }
 
   before_validation :generate_token, on: :create
   before_validation :set_expires_at, on: :create

@@ -18,12 +18,13 @@
     <div class="flex gap-2">
       <%= link_to "Edit", edit_meeting_path(@meeting), class: "btn btn-ghost" %>
       <%= button_to "Delete",
-                    @meeting,
-                    method: :delete,
-                    class: "btn btn-error",
-                    data: {
-                      turbo_confirm: "Are you sure? This will delete all notes, action items, and participants.",
-                    } %>
+      @meeting,
+      method: :delete,
+      class: "btn btn-error",
+      data: {
+        turbo_confirm:
+          "Are you sure? This will delete all notes, action items, and participants.",
+      } %>
     </div>
   </div>
   <!-- Participants Section -->
@@ -36,11 +37,11 @@
           <div class="form-control flex-1">
             <%= form.label :account_id, "Add Participant", class: "label" %>
             <%= form.collection_select :account_id,
-                                       Account.where(status: :verified).order(:email),
-                                       :id,
-                                       :email,
-                                       { prompt: "Select a user..." },
-                                       class: "select select-bordered w-full" %>
+                                   Account.where(status: :verified).order(:email),
+                                   :id,
+                                   :email,
+                                   { prompt: "Select a user..." },
+                                   class: "select select-bordered w-full" %>
           </div>
           <%= form.submit "Add Participant", class: "btn btn-primary" %>
         <% end %>
@@ -52,12 +53,12 @@
             <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
               <span class="font-medium"><%= participant.account.email %></span>
               <%= button_to "Remove",
-                            meeting_participant_path(@meeting, participant),
-                            method: :delete,
-                            class: "btn btn-sm btn-error",
-                            data: {
-                              turbo_confirm: "Remove this participant?",
-                            } %>
+              meeting_participant_path(@meeting, participant),
+              method: :delete,
+              class: "btn btn-sm btn-error",
+              data: {
+                turbo_confirm: "Remove this participant?",
+              } %>
             </div>
           <% end %>
         </div>
@@ -85,15 +86,15 @@
                   <%= note.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
                 <div class="flex gap-2">
                   <%= link_to "Edit",
-                              edit_meeting_note_path(@meeting, note),
-                              class: "btn btn-sm btn-ghost" %>
+                  edit_meeting_note_path(@meeting, note),
+                  class: "btn btn-sm btn-ghost" %>
                   <%= button_to "Delete",
-                                meeting_note_path(@meeting, note),
-                                method: :delete,
-                                class: "btn btn-sm btn-error",
-                                data: {
-                                  turbo_confirm: "Delete this note?",
-                                } %>
+                  meeting_note_path(@meeting, note),
+                  method: :delete,
+                  class: "btn btn-sm btn-error",
+                  data: {
+                    turbo_confirm: "Delete this note?",
+                  } %>
                 </div>
               </div>
               <p class="whitespace-pre-wrap"><%= note.content %></p>
@@ -111,8 +112,8 @@
       <div class="flex justify-between items-center mb-4">
         <h2 class="card-title">Action Items</h2>
         <%= link_to "Add Action Item",
-                    new_meeting_action_item_path(@meeting),
-                    class: "btn btn-primary" %>
+        new_meeting_action_item_path(@meeting),
+        class: "btn btn-primary" %>
       </div>
 
       <% if @action_items.any? %>
@@ -126,15 +127,15 @@
               </div>
               <div class="flex gap-2">
                 <%= link_to "Edit",
-                            edit_meeting_action_item_path(@meeting, action_item),
-                            class: "btn btn-sm btn-ghost" %>
+                edit_meeting_action_item_path(@meeting, action_item),
+                class: "btn btn-sm btn-ghost" %>
                 <%= button_to "Delete",
-                              meeting_action_item_path(@meeting, action_item),
-                              method: :delete,
-                              class: "btn btn-sm btn-error",
-                              data: {
-                                      turbo_confirm: "Delete this action item?",
-                                    } %>
+                meeting_action_item_path(@meeting, action_item),
+                method: :delete,
+                class: "btn btn-sm btn-error",
+                data: {
+                  turbo_confirm: "Delete this action item?",
+                } %>
               </div>
             </div>
           <% end %>
