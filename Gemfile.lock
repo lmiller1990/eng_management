@@ -386,6 +386,7 @@ GEM
       ffi (~> 1.12)
       logger
     rubyzip (3.2.2)
+    rufo (0.18.2)
     securerandom (0.4.1)
     selenium-webdriver (4.39.0)
       base64 (~> 0.2)
@@ -525,6 +526,7 @@ DEPENDENCIES
   rodauth-become_account
   rodauth-rails (~> 2.1)
   rubocop-rails-omakase
+  rufo
   selenium-webdriver
   sequel-activerecord_connection (~> 2.0)
   solid_cable
