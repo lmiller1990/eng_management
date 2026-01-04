@@ -15,7 +15,7 @@ class Memo < ApplicationRecord
   # Memo types
   enum :memo_type, {
     shared: "shared",                    # Default collaborative memos
-    team_one_on_one: "team_one_on_one"   # Special 1-on-1 memos between owner/member
+    team_one_on_one: "team_one_on_one",   # Special 1-on-1 memos between owner/member
   }
 
   # Scopes

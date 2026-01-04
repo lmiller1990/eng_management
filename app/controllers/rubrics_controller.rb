@@ -25,6 +25,6 @@ class RubricsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def rubric_params
-    params.expect(rubric: [ :name, :description ])
+    params.expect(rubric: [:name, :description])
   end
 end

@@ -2,13 +2,13 @@ hello
 <%= form_with(model: @rubric) do |form| %>
 
   <%= form.text_field :name,
-                  class: "input input-bordered w-full",
-                  placeholder: "Rubric name",
-                  required: true %>
+                      class: "input input-bordered w-full",
+                      placeholder: "Rubric name",
+                      required: true %>
 
   <%= form.text_area :description,
-                 class: "textarea w-full",
-                 placeholder: "Description" %>
+                     class: "textarea w-full",
+                     placeholder: "Description" %>
 
   <div class="flex gap-2">
     <%= form.submit class: "btn btn-primary btn-sm" %>

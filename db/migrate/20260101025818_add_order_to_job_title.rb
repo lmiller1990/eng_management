@@ -1,7 +1,7 @@
 class AddOrderToJobTitle < ActiveRecord::Migration[8.1]
-    class JobTitle < ApplicationRecord
-      self.table_name = "job_titles"
-    end
+  class JobTitle < ApplicationRecord
+    self.table_name = "job_titles"
+  end
 
   def change
     add_column :job_titles, :order, :integer, default: 0

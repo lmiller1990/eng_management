@@ -26,9 +26,9 @@
   <div class="w-full flex flex-col items-center">
     <%= form_with(model: @memo, class: "contents") do |form| %>
       <%= render "memos/editor_form",
-      form: form,
-      memo: @memo,
-      initial_yjs_state: @initial_yjs_state %>
+                 form: form,
+                 memo: @memo,
+                 initial_yjs_state: @initial_yjs_state %>
     <% end %>
   </div>
 </div>

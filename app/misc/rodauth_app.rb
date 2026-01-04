@@ -10,7 +10,6 @@ class RodauthApp < Rodauth::Rails::App
 
     r.rodauth # route rodauth requests
 
-
     r.is "become", :id do |id|
       # Require authentication and admin privileges
       rodauth.require_account

@@ -10,7 +10,7 @@ class MeetingParticipantsController < ApplicationController
         format.html { redirect_to @meeting, notice: "Participant was successfully added." }
         format.json { render :show, status: :created, location: @meeting }
       else
-        format.html { redirect_to @meeting, alert: "Could not add participant: #{@meeting_participant.errors.full_messages.join(', ')}", status: :unprocessable_entity }
+        format.html { redirect_to @meeting, alert: "Could not add participant: #{@meeting_participant.errors.full_messages.join(", ")}", status: :unprocessable_entity }
         format.json { render json: @meeting_participant.errors, status: :unprocessable_entity }
       end
     end
@@ -28,11 +28,12 @@ class MeetingParticipantsController < ApplicationController
   end
 
   private
-    def set_meeting
-      @meeting = Meeting.find(params[:meeting_id])
-    end
 
-    def meeting_participant_params
-      params.expect(meeting_participant: [ :account_id ])
-    end
+  def set_meeting
+    @meeting = Meeting.find(params[:meeting_id])
+  end
+
+  def meeting_participant_params
+    params.expect(meeting_participant: [:account_id])
+  end
 end

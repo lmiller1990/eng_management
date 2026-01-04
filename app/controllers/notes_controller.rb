@@ -24,7 +24,7 @@ class NotesController < ApplicationController
     respond_to do |format|
       if @note.save
         format.html { redirect_to @meeting, notice: "Note was successfully created." }
-        format.json { render :show, status: :created, location: [ @meeting, @note ] }
+        format.json { render :show, status: :created, location: [@meeting, @note] }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @note.errors, status: :unprocessable_entity }
@@ -37,7 +37,7 @@ class NotesController < ApplicationController
     respond_to do |format|
       if @note.update(note_params)
         format.html { redirect_to @meeting, notice: "Note was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: [ @meeting, @note ] }
+        format.json { render :show, status: :ok, location: [@meeting, @note] }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @note.errors, status: :unprocessable_entity }
@@ -56,15 +56,16 @@ class NotesController < ApplicationController
   end
 
   private
-    def set_meeting
-      @meeting = Meeting.find(params[:meeting_id])
-    end
 
-    def set_note
-      @note = @meeting.notes.find(params[:id])
-    end
+  def set_meeting
+    @meeting = Meeting.find(params[:meeting_id])
+  end
 
-    def note_params
-      params.expect(note: [ :content ])
-    end
+  def set_note
+    @note = @meeting.notes.find(params[:id])
+  end
+
+  def note_params
+    params.expect(note: [:content])
+  end
 end

@@ -4,7 +4,7 @@ class MemoTest < ActiveSupport::TestCase
   test "defaults to shared memo_type" do
     memo = Memo.create!(
       owner: accounts(:owner),
-      title: "Test Memo"
+      title: "Test Memo",
     )
 
     assert_equal "shared", memo.memo_type
@@ -15,7 +15,7 @@ class MemoTest < ActiveSupport::TestCase
     memo = Memo.create!(
       owner: accounts(:owner),
       title: "1-on-1 Notes",
-      memo_type: :team_one_on_one
+      memo_type: :team_one_on_one,
     )
 
     assert_equal "team_one_on_one", memo.memo_type
@@ -26,13 +26,13 @@ class MemoTest < ActiveSupport::TestCase
     shared_memo = Memo.create!(
       owner: accounts(:owner),
       title: "Shared Memo",
-      memo_type: :shared
+      memo_type: :shared,
     )
 
     one_on_one_memo = Memo.create!(
       owner: accounts(:owner),
       title: "1-on-1 Memo",
-      memo_type: :team_one_on_one
+      memo_type: :team_one_on_one,
     )
 
     shared_memos = Memo.shared
@@ -44,13 +44,13 @@ class MemoTest < ActiveSupport::TestCase
     shared_memo = Memo.create!(
       owner: accounts(:owner),
       title: "Shared Memo",
-      memo_type: :shared
+      memo_type: :shared,
     )
 
     one_on_one_memo = Memo.create!(
       owner: accounts(:owner),
       title: "1-on-1 Memo",
-      memo_type: :team_one_on_one
+      memo_type: :team_one_on_one,
     )
 
     one_on_one_memos = Memo.team_one_on_one

@@ -7,7 +7,7 @@ class TeamInvitationMailer < ApplicationMailer
 
     mail(
       to: @invitation.email,
-      subject: "#{@inviter.email} invited you to join #{@team.name}"
+      subject: "#{@inviter.email} invited you to join #{@team.name}",
     )
   end
 end

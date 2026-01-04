@@ -8,8 +8,8 @@ class CreateDimension < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :dimensions, [ :rubric_id, :category_id, :name ],
-          unique: true,
-          name: 'index_dimensions_on_rubric_category_name'
+    add_index :dimensions, [:rubric_id, :category_id, :name],
+              unique: true,
+              name: "index_dimensions_on_rubric_category_name"
   end
 end

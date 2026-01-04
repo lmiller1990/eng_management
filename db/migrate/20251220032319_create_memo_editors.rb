@@ -7,6 +7,6 @@ class CreateMemoEditors < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :memo_editors, [ :memo_id, :account_id ], unique: true
+    add_index :memo_editors, [:memo_id, :account_id], unique: true
   end
 end

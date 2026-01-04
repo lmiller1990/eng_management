@@ -47,7 +47,7 @@ class TeamMembersController < ApplicationController
     invitation = TeamInvitation.where(
       team: @team,
       inviter: @team.owner,
-      email: @member.email
+      email: @member.email,
     ).first
 
     invitation&.memo

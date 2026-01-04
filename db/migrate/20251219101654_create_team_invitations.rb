@@ -12,7 +12,7 @@ class CreateTeamInvitations < ActiveRecord::Migration[8.1]
     end
 
     add_index :team_invitations, :token, unique: true
-    add_index :team_invitations, [ :team_id, :email ], unique: true, where: "accepted_at IS NULL"
+    add_index :team_invitations, [:team_id, :email], unique: true, where: "accepted_at IS NULL"
     add_index :team_invitations, :email
   end
 end

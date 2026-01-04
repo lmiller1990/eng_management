@@ -6,7 +6,7 @@ namespace :ses do
     client = Aws::SESV2::Client.new(
       region: ENV["AWS_REGION"],
       access_key_id: ENV["AWS_ACCESS_KEY_ID"],
-      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
+      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
     )
 
     puts "=" * 80
@@ -18,7 +18,7 @@ namespace :ses do
     begin
       account = client.get_account
       puts "✓ Account Status:"
-      puts "  Production Access: #{account.production_access_enabled ? 'YES ✓' : 'NO - IN SANDBOX ⚠️'}"
+      puts "  Production Access: #{account.production_access_enabled ? "YES ✓" : "NO - IN SANDBOX ⚠️"}"
 
       if account.production_access_enabled
         puts "  Daily Send Quota: #{account.send_quota.max_24_hour_send}"
@@ -29,7 +29,7 @@ namespace :ses do
         puts "  ⚠️  WARNING: You are in SES SANDBOX mode!"
         puts "  This means you can ONLY send to verified email addresses."
         puts "  To request production access:"
-        puts "  https://console.aws.amazon.com/ses/home?region=#{ENV['AWS_REGION']}#/account"
+        puts "  https://console.aws.amazon.com/ses/home?region=#{ENV["AWS_REGION"]}#/account"
       end
       puts
     rescue => e
@@ -41,8 +41,8 @@ namespace :ses do
     begin
       domain = client.get_email_identity(email_identity: "notae.dev")
       puts "✓ Domain Identity (notae.dev):"
-      puts "  Verified: #{domain.verified_for_sending_status ? 'YES ✓' : 'NO ✗'}"
-      puts "  DKIM Status: #{domain.dkim_attributes&.status || 'Not configured'}"
+      puts "  Verified: #{domain.verified_for_sending_status ? "YES ✓" : "NO ✗"}"
+      puts "  DKIM Status: #{domain.dkim_attributes&.status || "Not configured"}"
       puts
     rescue => e
       puts "✗ Domain identity check failed: #{e.message}"
@@ -93,7 +93,7 @@ namespace :ses do
   end
 
   desc "Send a test email"
-  task :test, [ :to_address ] => :environment do |t, args|
+  task :test, [:to_address] => :environment do |t, args|
     to_address = args[:to_address] || ENV["TEST_EMAIL"]
 
     if to_address.blank?
@@ -113,7 +113,7 @@ namespace :ses do
           mail(
             to: to_address,
             subject: "SES Test Email - #{Time.current}",
-            body: "This is a test email from your Rails app.\n\nSent at: #{Time.current}\n\nIf you received this, SES is working!"
+            body: "This is a test email from your Rails app.\n\nSent at: #{Time.current}\n\nIf you received this, SES is working!",
           )
         end
       end

@@ -11,12 +11,12 @@ class RodauthController < ApplicationController
 
   # Use authentication layout for auth pages, application layout for account management
   layout -> do
-    case rodauth.current_route
-    when :login, :create_account, :verify_account, :verify_account_resend,
-         :reset_password, :reset_password_request
-      "authentication"
-    else
-      "application"
-    end
-  end
+           case rodauth.current_route
+           when :login, :create_account, :verify_account, :verify_account_resend,
+                :reset_password, :reset_password_request
+             "authentication"
+           else
+             "application"
+           end
+         end
 end

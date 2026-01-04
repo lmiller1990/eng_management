@@ -1,16 +1,16 @@
 class MemoInvitationsController < ApplicationController
-  skip_before_action :authenticate, only: [ :accept, :setup_password, :complete_setup ]
-  layout "authentication", only: [ :setup_password ]
+  skip_before_action :authenticate, only: [:accept, :setup_password, :complete_setup]
+  layout "authentication", only: [:setup_password]
 
-  before_action :set_memo, only: [ :create, :destroy ]
-  before_action :set_invitation_by_token, only: [ :accept, :setup_password, :complete_setup ]
+  before_action :set_memo, only: [:create, :destroy]
+  before_action :set_invitation_by_token, only: [:accept, :setup_password, :complete_setup]
 
   # POST /memos/:memo_id/invitations
   def create
     email = params[:email]&.downcase&.strip
 
     # Check if account already exists
-    existing_account = Account.where(status: [ :verified, :unverified ]).find_by(email: email)
+    existing_account = Account.where(status: [:verified, :unverified]).find_by(email: email)
 
     if existing_account
       # Check if already an editor
@@ -29,7 +29,7 @@ class MemoInvitationsController < ApplicationController
       # Create invitation
       @invitation = @memo.memo_invitations.build(
         email: email,
-        inviter: current_account
+        inviter: current_account,
       )
 
       if @invitation.save
@@ -38,7 +38,7 @@ class MemoInvitationsController < ApplicationController
         redirect_to @memo, notice: "Invitation sent to #{email}."
       else
         account.destroy if account.persisted? && account.owned_memos.none? && account.editable_memos.none?
-        redirect_to @memo, alert: "Failed to send invitation: #{@invitation.errors.full_messages.join(', ')}"
+        redirect_to @memo, alert: "Failed to send invitation: #{@invitation.errors.full_messages.join(", ")}"
       end
     end
   end
@@ -137,7 +137,7 @@ class MemoInvitationsController < ApplicationController
     # Update account with password and verify
     @account.update!(
       password_hash: BCrypt::Password.create(password, cost: BCrypt::Engine::DEFAULT_COST),
-      status: :verified
+      status: :verified,
     )
 
     # Accept invitation

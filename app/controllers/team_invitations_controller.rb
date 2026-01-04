@@ -1,16 +1,16 @@
 class TeamInvitationsController < ApplicationController
-  before_action :set_team, only: [ :create, :destroy ]
-  before_action :authorize_team_member, only: [ :create, :destroy ]
-  skip_before_action :authenticate, only: [ :accept, :setup_password, :complete_setup ]
-  before_action :load_invitation, only: [ :accept, :setup_password, :complete_setup ]
-  layout "authentication", only: [ :setup_password ]
+  before_action :set_team, only: [:create, :destroy]
+  before_action :authorize_team_member, only: [:create, :destroy]
+  skip_before_action :authenticate, only: [:accept, :setup_password, :complete_setup]
+  before_action :load_invitation, only: [:accept, :setup_password, :complete_setup]
+  layout "authentication", only: [:setup_password]
 
   def create
     @invitation = @team.team_invitations.build(invitation_params)
     @invitation.inviter = current_account
 
     # Check if account with this email already exists
-    existing_account = Account.where(status: [ :verified, :unverified ]).find_by(email: @invitation.email)
+    existing_account = Account.where(status: [:verified, :unverified]).find_by(email: @invitation.email)
 
     if existing_account
       # Account exists, add them directly to the team

@@ -1,27 +1,27 @@
 <div class="max-w-lg w-full">
   <div class="my-5">
     <%= form.text_field :title,
-                    type: "text",
-                    id: "memo_title",
-                    placeholder: "Title...",
-                    autofocus: local_assigns.fetch(:autofocus, false),
-                    class: "input mb-4 w-full",
-                    data: {
-                      controller: "autosave",
-                      autosave_url_value: memo_path(memo),
-                      autosave_field_value: "title",
-                      autosave_target: "field",
-                      action: "input->autosave#save",
-                    } %>
+                        type: "text",
+                        id: "memo_title",
+                        placeholder: "Title...",
+                        autofocus: local_assigns.fetch(:autofocus, false),
+                        class: "input mb-4 w-full",
+                        data: {
+                          controller: "autosave",
+                          autosave_url_value: memo_path(memo),
+                          autosave_field_value: "title",
+                          autosave_target: "field",
+                          action: "input->autosave#save",
+                        } %>
     <div id="toast" data-controller="toast">
     </div>
 
     <div
       id="tiptap-editor"
-      class="<%= memo.errors[:content].any? ? 'tiptap-error' : '' %>"
+      class="<%= memo.errors[:content].any? ? "tiptap-error" : "" %>"
       data-controller="tiptap-editor"
       data-tiptap-editor-memo-id-value="<%= memo.id %>"
-      data-tiptap-editor-initial-state-value="<%= initial_yjs_state || '' %>"
+      data-tiptap-editor-initial-state-value="<%= initial_yjs_state || "" %>"
       data-tiptap-editor-toast-outlet="#toast"
     >
     </div>

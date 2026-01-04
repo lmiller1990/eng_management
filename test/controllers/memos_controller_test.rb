@@ -5,9 +5,9 @@ class MemosControllerTest < ActionDispatch::IntegrationTest
     @account = accounts(:owner)
     # Simulate logged in user by setting session
     post "/login", params: {
-      email: @account.email,
-      password: "password"
-    }
+                email: @account.email,
+                password: "password",
+              }
   end
 
   test "index only shows shared memos, not team_one_on_one memos" do
@@ -15,14 +15,14 @@ class MemosControllerTest < ActionDispatch::IntegrationTest
     shared_memo = Memo.create!(
       owner: @account,
       title: "Shared Memo Test",
-      memo_type: :shared
+      memo_type: :shared,
     )
 
     # Create a team_one_on_one memo owned by the account
     one_on_one_memo = Memo.create!(
       owner: @account,
       title: "One-on-One Memo Test",
-      memo_type: :team_one_on_one
+      memo_type: :team_one_on_one,
     )
 
     get memos_url
@@ -38,7 +38,7 @@ class MemosControllerTest < ActionDispatch::IntegrationTest
     shared_memo = Memo.create!(
       owner: @account,
       title: "My Shared Memo",
-      memo_type: :shared
+      memo_type: :shared,
     )
 
     get memos_url
@@ -53,7 +53,7 @@ class MemosControllerTest < ActionDispatch::IntegrationTest
     shared_memo = Memo.create!(
       owner: other_account,
       title: "Shared with Me",
-      memo_type: :shared
+      memo_type: :shared,
     )
     shared_memo.editors << @account
 
@@ -69,7 +69,7 @@ class MemosControllerTest < ActionDispatch::IntegrationTest
     one_on_one_memo = Memo.create!(
       owner: other_account,
       title: "1-on-1 with Other",
-      memo_type: :team_one_on_one
+      memo_type: :team_one_on_one,
     )
     one_on_one_memo.editors << @account
 

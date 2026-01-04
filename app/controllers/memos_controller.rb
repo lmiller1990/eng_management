@@ -71,19 +71,20 @@ class MemosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_memo
-      @memo = Memo.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def memo_params
-      params.expect(memo: [ :title, :content ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_memo
+    @memo = Memo.find(params.expect(:id))
+  end
 
-    def encode_yjs_state(state)
-      return "" if state.nil?
+  # Only allow a list of trusted parameters through.
+  def memo_params
+    params.expect(memo: [:title, :content])
+  end
 
-      Y::Lib0::Encoding.encode_uint8_array_to_base64(state.unpack("C*"))
-    end
+  def encode_yjs_state(state)
+    return "" if state.nil?
+
+    Y::Lib0::Encoding.encode_uint8_array_to_base64(state.unpack("C*"))
+  end
 end

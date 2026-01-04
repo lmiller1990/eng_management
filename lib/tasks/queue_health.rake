@@ -31,8 +31,8 @@ namespace :queue do
           .order(created_at: :desc)
           .limit(5)
           .each do |job|
-            puts "  - #{job.class_name} (queued #{((Time.current - job.created_at) / 60).round} minutes ago)"
-          end
+          puts "  - #{job.class_name} (queued #{((Time.current - job.created_at) / 60).round} minutes ago)"
+        end
         puts
         puts "This usually means no worker process is running."
         puts "Start a worker with: rails solid_queue:start"
@@ -48,7 +48,6 @@ namespace :queue do
           puts "  - #{failure.job.class_name}: #{failure.error&.first(100)}"
         end
       end
-
     rescue => e
       puts "✗ Error checking queue: #{e.message}"
       puts "Make sure solid_queue is configured and database is migrated."

@@ -65,35 +65,35 @@
               <div class="flex flex-wrap gap-2">
                 <% if current_membership&.owner? && membership.account != current_account %>
                   <%= link_to "View Notes",
-                  team_member_path(@team, membership.account),
-                  class: "btn btn-sm btn-ghost" %>
+                              team_member_path(@team, membership.account),
+                              class: "btn btn-sm btn-ghost" %>
                 <% elsif !current_membership&.owner? && membership.owner? %>
                   <%= link_to "View Notes",
-                  team_member_path(@team, current_account),
-                  class: "btn btn-sm btn-ghost" %>
+                              team_member_path(@team, current_account),
+                              class: "btn btn-sm btn-ghost" %>
                 <% end %>
 
                 <% if current_membership.account.has_evalution_rubric? && current_membership.owner? && membership.account.current_rubric || membership.account == current_account %>
                   <%= link_to "Rubric",
-                  edit_account_rubric_evaluation_path(
-                    membership.account,
-                    membership.account.current_rubric,
-                  ),
-                  class: "btn btn-sm btn-info" %>
+                              edit_account_rubric_evaluation_path(
+                                membership.account,
+                                membership.account.current_rubric,
+                              ),
+                              class: "btn btn-sm btn-info" %>
                 <% end %>
 
                 <% can_remove =
-                  (current_membership&.admin? || current_membership&.owner?) ||
-                    membership.account == current_account %>
+                     (current_membership&.admin? || current_membership&.owner?) ||
+                       membership.account == current_account %>
 
                 <% if can_remove && membership.account != current_account %>
                   <%= button_to "Remove Team Member",
-                  team_membership_path(@team, membership),
-                  method: :delete,
-                  class: "btn btn-sm btn-error",
-                  data: {
-                    turbo_confirm: ("Are you sure you want to remove this member?"),
-                  } %>
+                                team_membership_path(@team, membership),
+                                method: :delete,
+                                class: "btn btn-sm btn-error",
+                                data: {
+                                  turbo_confirm: ("Are you sure you want to remove this member?"),
+                                } %>
                 <% end %>
               </div>
             </td>
@@ -111,9 +111,9 @@
 
   <%= form_with model: TeamInvitation.new, url: team_invitations_path(@team), method: :post, class: "flex gap-2 mb-2" do |form| %>
     <%= form.email_field :email,
-                     placeholder: "Email address",
-                     required: true,
-                     class: "input input-bordered flex-1 input-sm" %>
+                         placeholder: "Email address",
+                         required: true,
+                         class: "input input-bordered flex-1 input-sm" %>
     <%= form.submit "Send Invite", class: "btn btn-primary btn-sm" %>
   <% end %>
 
@@ -174,17 +174,17 @@
               <td>
                 <% if current_membership.owner? %>
                   <%= link_to "View Notes",
-                  team_member_path(@team, invitation.invitee),
-                  class: "btn btn-sm btn-ghost" %>
+                              team_member_path(@team, invitation.invitee),
+                              class: "btn btn-sm btn-ghost" %>
                 <% end %>
 
                 <%= button_to "Cancel",
-                team_invitation_path(@team, invitation),
-                method: :delete,
-                class: "btn btn-sm btn-ghost",
-                data: {
-                  turbo_confirm: "Are you sure you want to cancel this invitation?",
-                } %>
+                              team_invitation_path(@team, invitation),
+                              method: :delete,
+                              class: "btn btn-sm btn-ghost",
+                              data: {
+                                      turbo_confirm: "Are you sure you want to cancel this invitation?",
+                                    } %>
               </td>
             </tr>
           <% end %>

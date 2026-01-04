@@ -2,24 +2,24 @@ Rails.application.routes.draw do
   get "heartbeat/ping", to: "heartbeat#ping"
 
   resources :memos do
-    resources :invitations, controller: "memo_invitations", only: [ :create, :destroy ]
+    resources :invitations, controller: "memo_invitations", only: [:create, :destroy]
   end
-  resources :team, only: [ :index ]
+  resources :team, only: [:index]
 
   resources :teams do
-    resources :memberships, controller: "team_memberships", only: [ :destroy ]
-    resources :invitations, controller: "team_invitations", only: [ :create, :destroy ]
-    resources :members, only: [ :show ], controller: "team_members"
+    resources :memberships, controller: "team_memberships", only: [:destroy]
+    resources :invitations, controller: "team_invitations", only: [:create, :destroy]
+    resources :members, only: [:show], controller: "team_members"
   end
 
-  resources :rubrics, only: [ :new, :create, :show, :edit, :index ]
+  resources :rubrics, only: [:new, :create, :show, :edit, :index]
 
   # Dimension scores for modal form
-  resources :dimension_scores, only: [ :new, :create ]
+  resources :dimension_scores, only: [:new, :create]
 
-  resources :accounts, only: [ :index, :show ] do
-    resources :rubric_evaluations, only: [ :new, :create, :index, :edit ] do
-      resources :dimensions, controller: "evaluation_dimensions", only: [ :create, :update ]
+  resources :accounts, only: [:index, :show] do
+    resources :rubric_evaluations, only: [:new, :create, :index, :edit] do
+      resources :dimensions, controller: "evaluation_dimensions", only: [:create, :update]
     end
   end
 
@@ -31,13 +31,13 @@ Rails.application.routes.draw do
   # Public memo invitation acceptance routes (no auth required)
   get "/memo-invitations/:token/accept", to: "memo_invitations#accept", as: :accept_memo_invitation
   get "/memo-invitations/:token/setup-password", to: "memo_invitations#setup_password", as: :setup_password_memo_invitation
-  resources :debug, only: [ :index ]
+  resources :debug, only: [:index]
   post "/memo-invitations/:token/complete-setup", to: "memo_invitations#complete_setup", as: :complete_setup_memo_invitation
 
   resources :meetings do
-    resources :notes, only: [ :index, :new, :create, :edit, :update, :destroy ]
-    resources :action_items, only: [ :index, :new, :create, :edit, :update, :destroy ]
-    resources :participants, controller: "meeting_participants", only: [ :create, :destroy ]
+    resources :notes, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :action_items, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :participants, controller: "meeting_participants", only: [:create, :destroy]
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

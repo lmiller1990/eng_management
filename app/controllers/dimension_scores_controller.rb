@@ -7,14 +7,14 @@ class DimensionScoresController < ApplicationController
     # Find or initialize the dimension score
     @dimension_score = DimensionScore.find_or_initialize_by(
       rubric_evaluation_id: @evaluation_id,
-      dimension_id: @dimension_id
+      dimension_id: @dimension_id,
     )
   end
 
   def create
     @dimension_score = DimensionScore.find_or_initialize_by(
       rubric_evaluation_id: dimension_score_params[:rubric_evaluation_id],
-      dimension_id: dimension_score_params[:dimension_id]
+      dimension_id: dimension_score_params[:dimension_id],
     )
 
     @dimension_score.assign_attributes(dimension_score_params)

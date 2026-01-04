@@ -7,7 +7,7 @@ class MemoInvitationMailer < ApplicationMailer
 
     mail(
       to: invitation.email,
-      subject: "#{@inviter.email} invited you to edit a memo"
+      subject: "#{@inviter.email} invited you to edit a memo",
     )
   end
 end

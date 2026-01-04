@@ -61,7 +61,7 @@ class Account < ApplicationRecord
     DerivedName.new(
       first_name: result[:first_name].to_s,
       last_name: result[:last_name].to_s,
-      initials: result[:initials].to_s
+      initials: result[:initials].to_s,
     )
   end
 
@@ -105,7 +105,7 @@ class Account < ApplicationRecord
     end
 
     # Generate initials from first letter of each name component
-    initials = [ first_name, last_name ]
+    initials = [first_name, last_name]
       .reject(&:blank?)
       .map { |name| name[0].upcase }
       .join

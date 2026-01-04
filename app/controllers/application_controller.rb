@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   private
 
   def current_account
-    account =rodauth.rails_account
+    account = rodauth.rails_account
     Rails.logger.debug "🔍 current_account called: account=#{account.inspect}, session[:account_id]=#{session[:account_id]}, logged_in=#{rodauth.logged_in?}"
     account
   end

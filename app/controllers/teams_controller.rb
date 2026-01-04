@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: [ :show, :edit, :update, :destroy ]
-  before_action :authorize_team_access, only: [ :show ]
-  before_action :authorize_team_admin, only: [ :edit, :update, :destroy ]
+  before_action :set_team, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_team_access, only: [:show]
+  before_action :authorize_team_admin, only: [:edit, :update, :destroy]
 
   def index
     @teams = current_account.teams.order(created_at: :desc)

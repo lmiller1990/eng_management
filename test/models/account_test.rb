@@ -58,7 +58,7 @@ class AccountTest < ActiveSupport::TestCase
       {
         first_name: parts.last&.capitalize || "",
         last_name: parts.first&.capitalize || "",
-        initials: "X"
+        initials: "X",
       }
     end
 

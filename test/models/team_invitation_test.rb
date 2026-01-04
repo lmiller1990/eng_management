@@ -16,7 +16,7 @@ class TeamInvitationTest < ActiveSupport::TestCase
     invitation = TeamInvitation.create!(
       team: team,
       inviter: inviter,
-      email: invitee_email
+      email: invitee_email,
     )
 
     # Verify memo was created
@@ -34,7 +34,7 @@ class TeamInvitationTest < ActiveSupport::TestCase
     invitation = TeamInvitation.create!(
       team: team,
       inviter: inviter,
-      email: invitee_email
+      email: invitee_email,
     )
 
     assert_equal inviter, invitation.memo.owner
@@ -49,7 +49,7 @@ class TeamInvitationTest < ActiveSupport::TestCase
     invitation = TeamInvitation.create!(
       team: team,
       inviter: inviter,
-      email: invitee_email
+      email: invitee_email,
     )
 
     assert_includes invitation.memo.editors, invitee
@@ -65,7 +65,7 @@ class TeamInvitationTest < ActiveSupport::TestCase
     invitation = TeamInvitation.create!(
       team: team,
       inviter: inviter,
-      email: "nonexistent@example.com"
+      email: "nonexistent@example.com",
     )
 
     # Should not create memo if account doesn't exist
@@ -82,7 +82,7 @@ class TeamInvitationTest < ActiveSupport::TestCase
     invitation = TeamInvitation.create!(
       team: team,
       inviter: inviter,
-      email: invitee_email
+      email: invitee_email,
     )
 
     assert_equal "team_one_on_one", invitation.memo.memo_type
