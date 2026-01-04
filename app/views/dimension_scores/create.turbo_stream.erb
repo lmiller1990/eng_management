@@ -17,7 +17,7 @@
       console.log('Turbo Stream executed!', {
         dimensionId: <%= @dimension_score.dimension_id %>,
         evaluationId: <%= @dimension_score.rubric_evaluation_id %>,
-        score: <%= @dimension_score.score %>,
+        score: <%= @dimension_score.score.to_json.html_safe %>,
         notes: <%= @dimension_score.notes.to_json.html_safe %>
       });
 
