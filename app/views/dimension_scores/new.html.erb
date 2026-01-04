@@ -4,18 +4,13 @@
     <%= f.hidden_field :rubric_evaluation_id, value: @evaluation_id %>
 
     <div class="py-4">
-      <label class="label">
-        <span class="label-text">Score</span>
-      </label>
+
       <%= f.select :score,
                DimensionScore.format_for_select,
                { include_blank: false, prompt: "Select level" },
                class: "select select-sm" %>
 
-      <div>
-        <label class="label">
-          <span class="label-text">Notes</span>
-        </label>
+      <div class="py-4">
         <%= f.text_area :notes,
                     class: "textarea textarea-bordered w-full",
                     placeholder: "Enter notes...",
