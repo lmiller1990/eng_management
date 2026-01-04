@@ -18,16 +18,17 @@
       <button>close</button>
     </form>
   </dialog>
-
-<!-- Open the modal using ID.showModal() method -->
+  <!-- Open the modal using ID.showModal() method -->
   <%# <button class="btn" onclick="my_modal_2.showModal()">open modal</button> %>
-  <dialog id="expectation_modal" class="modal"
+  <dialog
+    id="expectation_modal"
+    class="modal"
     data-rubric-evaluation-target="modal"
   >
     <div class="modal-box">
       <h3 class="text-lg font-bold">Enter Notes</h3>
       <p class="py-4">
-         <textarea class="textarea w-full" placeholder="Notes..."></textarea>
+        <textarea class="textarea w-full" placeholder="Notes..."></textarea>
 
       </p>
     </div>
@@ -100,7 +101,7 @@
                 </td>
               </tr>
               <% dimensions.each do |dimension| %>
-                <tr>
+                <tr class="hover:bg-base-300">
                   <td><%= dimension.name %></td>
                   <% job_titles.each do |job_title| %>
                     <% expectation = expectations_by_dimension_and_job[dimension.id][job_title.id] %>

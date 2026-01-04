@@ -108,4 +108,17 @@ class AccountTest < ActiveSupport::TestCase
     assert_equal "", result.last_name
     assert_equal "", result.initials
   end
+
+  test "current_rubric" do
+    rubric = rubrics(:engineering)
+    account = Account.create!(email: "foo@bar.com")
+    _old = RubricEvaluation.create!(account:, rubric:, created_at: 1.year.ago)
+    curr = RubricEvaluation.create!(account:, rubric:, created_at: 1.day.ago)
+    assert account.current_rubric == curr
+  end
+
+  test "current_rubric - nil case" do
+    account = Account.create!(email: "foo@bar.com")
+    assert account.current_rubric == nil
+  end
 end

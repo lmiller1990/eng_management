@@ -73,10 +73,12 @@
                   class: "btn btn-sm btn-ghost" %>
                 <% end %>
 
-                <%= current_membership.owner? %>
-                <% if current_membership.owner? %>
+                <% if current_membership.account.has_evalution_rubric? && current_membership.owner? && membership.account.current_rubric || membership.account == current_account %>
                   <%= link_to "Rubric",
-                  account_path(membership.account),
+                  edit_account_rubric_evaluation_path(
+                    membership.account,
+                    membership.account.current_rubric,
+                  ),
                   class: "btn btn-sm btn-info" %>
                 <% end %>
 

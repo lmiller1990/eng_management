@@ -65,6 +65,14 @@ class Account < ApplicationRecord
     )
   end
 
+  def has_evalution_rubric?
+    rubric_evaluations.count
+  end
+
+  def current_rubric
+    rubric_evaluations.order(created_at: :desc).first
+  end
+
   private
 
   # Default strategy for deriving names from email addresses
