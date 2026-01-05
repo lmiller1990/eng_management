@@ -66,7 +66,7 @@ class Account < ApplicationRecord
   end
 
   def has_evalution_rubric?
-    rubric_evaluations.count
+    current_rubric != nil
   end
 
   def current_rubric

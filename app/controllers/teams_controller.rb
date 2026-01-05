@@ -8,6 +8,7 @@ class TeamsController < ApplicationController
   end
 
   def show
+    @current_membership = @team.team_memberships.find_by(account: current_account)
     @team_memberships = @team.team_memberships.includes(:account).order(created_at: :asc)
     @pending_invitations = @team.team_invitations.pending.order(created_at: :desc)
   end

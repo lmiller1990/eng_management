@@ -41,8 +41,6 @@
         </tr>
       </thead>
       <tbody data-testid="team-members">
-        <% current_membership = @team.team_memberships.find_by(account: current_account) %>
-
         <% @team_memberships.each do |membership| %>
           <tr>
             <th><%= membership.account.id %></th>
@@ -63,17 +61,17 @@
 
             <td>
               <div class="flex flex-wrap gap-2">
-                <% if current_membership&.owner? && membership.account != current_account %>
+                <% if @current_membership&.owner? && membership.account != current_account %>
                   <%= link_to "View Notes",
                   team_member_path(@team, membership.account),
                   class: "btn btn-sm btn-ghost" %>
-                <% elsif !current_membership&.owner? && membership.owner? %>
+                <% elsif !@current_membership&.owner? && membership.owner? %>
                   <%= link_to "View Notes",
                   team_member_path(@team, current_account),
                   class: "btn btn-sm btn-ghost" %>
                 <% end %>
 
-                <% if current_membership.account.has_evalution_rubric? && current_membership.owner? && membership.account.current_rubric || membership.account == current_account %>
+                <% if membership.account.current_rubric && (@current_membership.owner? || member.account == current_account) %>
                   <%= link_to "Rubric",
                   edit_account_rubric_evaluation_path(
                     membership.account,
@@ -83,9 +81,9 @@
                 <% end %>
 
                 <% can_remove =
-                  (current_membership&.admin? || current_membership&.owner?) ||
+                  (@current_membership&.admin? || @current_membership&.owner?) ||
                     membership.account == current_account %>
-
+                <!--
                 <% if can_remove && membership.account != current_account %>
                   <%= button_to "Remove Team Member",
                   team_membership_path(@team, membership),
@@ -95,6 +93,7 @@
                     turbo_confirm: ("Are you sure you want to remove this member?"),
                   } %>
                 <% end %>
+                -->
               </div>
             </td>
           </tr>
@@ -172,7 +171,7 @@
               </td>
 
               <td>
-                <% if current_membership.owner? %>
+                <% if @current_membership.owner? %>
                   <%= link_to "View Notes",
                   team_member_path(@team, invitation.invitee),
                   class: "btn btn-sm btn-ghost" %>
