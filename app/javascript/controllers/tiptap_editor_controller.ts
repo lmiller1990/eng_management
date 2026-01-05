@@ -127,5 +127,7 @@ export default class extends Controller {
 
   disconnect() {
     this.provider?.destroy();
+    this.#editor?.destroy();
+    window.clearInterval(this.heartbeatInterval);
   }
 }
