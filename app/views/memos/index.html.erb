@@ -26,7 +26,6 @@
           <tr>
             <th></th>
             <th>Title</th>
-            <th>Created</th>
             <th>Last Updated</th>
             <th>Owner</th>
             <th>Editors</th>
@@ -41,8 +40,6 @@
             >
               <th><%= index + 1 %></th>
               <td><a href="<%= edit_memo_path(memo) %>" class="link"><%= memo.title.presence || "Untitled" %></a></td>
-              <td><%= time_ago_in_words(memo.created_at) %>
-                ago</td>
               <td><%= time_ago_in_words(memo.updated_at) %>
                 ago</td>
               <td>
