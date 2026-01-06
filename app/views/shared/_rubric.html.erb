@@ -65,7 +65,8 @@
   <% if all_dimensions.any? && job_titles.any? %>
     <!-- Header Grid -->
     <div
-      class="grid gap-px bg-base-300 border border-base-300 rounded-t-lg overflow-hidden mb-px"
+      class="rubric-grid grid gap-px bg-base-300 border border-base-300 rounded-t-lg overflow-hidden mb-px"
+      data-rubric-evaluation-target="grid"
       style="grid-template-columns: minmax(200px, 1fr) repeat(<%= job_titles.length %>, minmax(150px, 1fr));"
     >
       <div class="bg-base-100 p-3 font-semibold text-sm">
@@ -73,7 +74,7 @@
       </div>
       <% job_titles.each do |job_title| %>
         <div
-          class="bg-base-100 p-3 font-semibold text-sm"
+          class="bg-base-100 p-3 font-semibold text-sm grid-column-item"
           data-job-name="<%= job_title.name.parameterize.underscore %>"
         >
           <%= job_title.name %>
@@ -89,7 +90,8 @@
           <div class="overflow-x-auto">
             <!-- Category Grid -->
             <div
-              class="grid gap-px bg-base-300 border border-base-300 rounded-lg overflow-hidden"
+              class="rubric-grid grid gap-px bg-base-300 border border-base-300 rounded-lg overflow-hidden"
+              data-rubric-evaluation-target="grid"
               style="grid-template-columns: minmax(200px, 1fr) repeat(<%= job_titles.length %>, minmax(150px, 1fr));"
             >
               <!-- Category Header -->
@@ -115,7 +117,7 @@
                     data-dimension-id="<%= dimension.id %>"
                     data-job-title-id="<%= job_title.id %>"
                     data-action="click->rubric-evaluation#openCell"
-                    class="bg-base-100 p-3 cursor-pointer hover:bg-base-200 transition-colors text-sm border-t border-base-300"
+                    class="bg-base-100 p-3 cursor-pointer hover:bg-base-200 transition-colors text-sm border-t border-base-300 grid-column-item"
                   >
                     <% if expectation %>
                       <%= expectation.description %>
