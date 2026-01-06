@@ -1,3 +1,13 @@
+<style>
+  .dimension-column {
+    width: 150px;
+  }
+
+  .job-column {
+    width: 250px;
+  }
+</style>
+
 <div
   data-controller="rubric-evaluation"
   data-rubric-evaluation-evaluation-id-value="<%= @evaluation.id %>"
@@ -63,70 +73,68 @@
     end %>
 
   <% if all_dimensions.any? && job_titles.any? %>
-    <!-- Header Grid -->
-    <div
-      class="rubric-grid grid gap-px bg-base-300 border border-base-300 rounded-t-lg overflow-hidden mb-px"
-      data-rubric-evaluation-target="grid"
-      style="grid-template-columns: minmax(200px, 1fr) repeat(<%= job_titles.length %>, minmax(150px, 1fr));"
-    >
-      <div class="bg-base-100 p-3 font-semibold text-sm">
-        Dimension
-      </div>
-      <% job_titles.each do |job_title| %>
+    <div class="rounded-lg overflow-hidden">
+      <!-- Header Row -->
+      <div class="flex bg-base-200 border-b border-base-300">
         <div
-          class="bg-base-100 p-3 font-semibold text-sm grid-column-item"
-          data-job-name="<%= job_title.name.parameterize.underscore %>"
+          class="
+            dimension-column p-3 font-semibold text-sm border-r border-base-300
+          "
         >
-          <%= job_title.name %>
+          Dimension
         </div>
-      <% end %>
-    </div>
-
-    <!-- Categories as Separate Grids -->
-    <div class="space-y-4">
+        <% job_titles.each do |job_title| %>
+          <div
+            class="
+              job-column p-3 font-semibold text-sm border-r border-base-300 last:border-r-0
+            "
+            data-job-name="<%= job_title.name.parameterize.underscore %>"
+          >
+            <%= job_title.name %>
+          </div>
+        <% end %>
+      </div>
+      <!-- Categories -->
       <% @rubric.categories.each do |category| %>
         <% dimensions = category.dimensions %>
         <% if dimensions.any? %>
-          <div class="overflow-x-auto">
-            <!-- Category Grid -->
-            <div
-              class="rubric-grid grid gap-px bg-base-300 border border-base-300 rounded-lg overflow-hidden"
-              data-rubric-evaluation-target="grid"
-              style="grid-template-columns: minmax(200px, 1fr) repeat(<%= job_titles.length %>, minmax(150px, 1fr));"
-            >
-              <!-- Category Header -->
-              <div
-                class="bg-base-200 p-4 font-bold text-base"
-                style="grid-column: 1 / -1;"
-              >
-                <%= category.name %>
-              </div>
-
-              <!-- Dimension Rows -->
-              <% dimensions.each do |dimension| %>
-                <!-- Dimension Name -->
-                <div class="bg-base-100 p-3 font-medium text-sm border-t border-base-300">
-                  <%= dimension.name %>
-                </div>
-
-                <!-- Expectations for each Job Title -->
-                <% job_titles.each do |job_title| %>
-                  <% expectation = expectations_by_dimension_and_job[dimension.id][job_title.id] %>
-                  <div
-                    data-job-name="<%= job_title.name.parameterize.underscore %>"
-                    data-dimension-id="<%= dimension.id %>"
-                    data-job-title-id="<%= job_title.id %>"
-                    data-action="click->rubric-evaluation#openCell"
-                    class="bg-base-100 p-3 cursor-pointer hover:bg-base-200 transition-colors text-sm border-t border-base-300 grid-column-item"
-                  >
-                    <% if expectation %>
-                      <%= expectation.description %>
-                    <% end %>
-                  </div>
-                <% end %>
-              <% end %>
+          <!-- Category Header -->
+          <div class="flex bg-base-200 border-b border-base-300">
+            <div class="p-4 font-bold text-base w-full">
+              <%= category.name %>
             </div>
           </div>
+          <!-- Dimension Rows -->
+          <% dimensions.each do |dimension| %>
+            <div class="flex border-b border-base-300 last:border-b-0">
+              <!-- Dimension Name -->
+              <div
+                class="
+                  dimension-column p-3 font-medium text-sm bg-base-100 border-r border-base-300
+                "
+              >
+                <%= dimension.name %>
+              </div>
+              <!-- Expectations for each Job Title -->
+              <% job_titles.each do |job_title| %>
+                <% expectation = expectations_by_dimension_and_job[dimension.id][job_title.id] %>
+                <div
+                  class="
+                    job-column p-3 bg-base-100 cursor-pointer hover:bg-base-200 transition-colors
+                    text-sm border-r border-base-300 last:border-r-0
+                  "
+                  data-job-name="<%= job_title.name.parameterize.underscore %>"
+                  data-dimension-id="<%= dimension.id %>"
+                  data-job-title-id="<%= job_title.id %>"
+                  data-action="click->rubric-evaluation#openCell"
+                >
+                  <% if expectation %>
+                    <%= expectation.description %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
     </div>

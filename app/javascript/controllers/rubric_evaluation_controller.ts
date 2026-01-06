@@ -5,12 +5,11 @@ export default class extends Controller {
     evaluationId: String,
   };
 
-  static targets = ["modal", "frame", "grid"];
+  static targets = ["modal", "frame"];
 
   declare readonly evaluationIdValue: string;
   declare readonly modalTarget: HTMLDialogElement;
   declare readonly frameTarget: HTMLElement;
-  declare readonly gridTargets: HTMLElement[];
 
   getStoredFilters(): string[] {
     let filters = window.localStorage.getItem("rubric_filter");
@@ -41,28 +40,6 @@ export default class extends Controller {
         this.hideByJobName(element.id);
       }
     }
-    this.updateGridColumns();
-  }
-
-  updateGridColumns(): void {
-    // Count visible columns by checking grid items with data-job-name that are not hidden
-    const visibleColumns = this.element.querySelectorAll<HTMLElement>(
-      ".grid-column-item:not(.hidden)",
-    );
-
-    // Get unique job names from visible columns
-    const visibleJobNames = new Set<string>();
-    visibleColumns.forEach((col) => {
-      const jobName = col.dataset.jobName;
-      if (jobName) visibleJobNames.add(jobName);
-    });
-
-    const columnCount = visibleJobNames.size;
-
-    // Update all grids with new column template
-    this.gridTargets.forEach((grid) => {
-      grid.style.gridTemplateColumns = `minmax(200px, 1fr) repeat(${columnCount}, minmax(150px, 1fr))`;
-    });
   }
 
   openCell(event: Event) {
@@ -92,24 +69,23 @@ export default class extends Controller {
   }
 
   hideByJobName(jobName: string) {
-    const cells = this.element.querySelectorAll<HTMLElement>(
+    const columns = this.element.querySelectorAll<HTMLElement>(
       `[data-job-name="${jobName}"]`,
     );
-    cells.forEach((cell) => cell.classList.add("hidden"));
-    // Note: updateGridColumns is called once after all columns are processed in connect()
+    columns.forEach((col) => col.classList.add("hidden"));
   }
 
   toggleColumn(event: MouseEvent) {
     const id = (event.currentTarget as HTMLInputElement).id;
     const checked = (event.currentTarget as HTMLInputElement).checked;
-    const cells = this.element.querySelectorAll<HTMLElement>(
+    const columns = this.element.querySelectorAll<HTMLElement>(
       `[data-job-name="${id}"]`,
     );
-    cells.forEach((cell) => {
+    columns.forEach((col) => {
       if (checked) {
-        cell.classList.remove("hidden");
+        col.classList.remove("hidden");
       } else {
-        cell.classList.add("hidden");
+        col.classList.add("hidden");
       }
     });
 
@@ -122,6 +98,5 @@ export default class extends Controller {
     }
 
     this.setStoredFilters(filters);
-    this.updateGridColumns();
   }
 }
