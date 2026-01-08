@@ -31,13 +31,13 @@ export default class extends Controller {
     // Global shortcuts
     if (event.key === "m") {
       event.preventDefault();
-      visit("/memos");
+      visit("/app/memos");
       return;
     }
 
     if (event.key === "t") {
       event.preventDefault();
-      visit("/teams");
+      visit("/app/teams");
       return;
     }
 
@@ -45,7 +45,7 @@ export default class extends Controller {
     if (this.pageValue === "memos-index") {
       if (event.key === "n") {
         event.preventDefault();
-        visit("/memos/new");
+        visit("/app/memos/new");
         return;
       }
     }
