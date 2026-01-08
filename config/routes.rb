@@ -51,4 +51,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "memos#index"
+
+  # Temporary marketing landing page
+  get "/landing", to: "home#index"
 end
