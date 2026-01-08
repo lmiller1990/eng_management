@@ -1,1 +1,256 @@
-hi there
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Notae - Engineering Management Made Simple</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  </head>
+
+  <body class="bg-base-100">
+    <!-- Navigation -->
+    <nav class="navbar bg-base-200 shadow-sm px-4">
+      <div class="flex-1">
+        <a href="/" class="btn btn-ghost text-xl">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-8 h-8 mr-2"
+          >
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <path d="M9 16V8"/>
+            <path d="M9 8l6 8"/>
+            <path d="M15 8v8"/>
+          </svg>
+          Notae
+        </a>
+      </div>
+      <div class="flex-none">
+        <div class="flex gap-2">
+          <a href="/login" class="btn btn-ghost">Log In</a>
+          <a href="/create-account" class="btn btn-primary">Get Started</a>
+        </div>
+      </div>
+    </nav>
+    <!-- Hero Section -->
+    <section class="hero min-h-[600px] bg-base-200">
+      <div class="hero-content text-center">
+        <div class="max-w-4xl">
+          <h1 class="text-5xl font-bold mb-6">
+            Engineering Management<br>Made Simple
+          </h1>
+          <p class="text-xl mb-8 opacity-80">
+            Note-taking and performance management tools built specifically for
+            engineering managers. Real-time collaboration, structured 1-on-1s,
+            and actionable insights all in one place.
+          </p>
+          <div class="flex gap-4 justify-center">
+            <a href="/create-account" class="btn btn-primary btn-lg">
+              Start Free Trial
+            </a>
+            <a href="#features" class="btn btn-outline btn-lg">
+              Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-base-100">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-16">Everything You Need</h2>
+
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <!-- Feature 1 -->
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <div class="text-primary mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-12 h-12"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Real-time Memos</h3>
+              <p>Collaborative note-taking with CRDT technology. Multiple people
+                can edit simultaneously without conflicts.</p>
+            </div>
+          </div>
+          <!-- Feature 2 -->
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <div class="text-primary mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-12 h-12"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Structured 1-on-1s</h3>
+              <p>Keep track of regular check-ins with your team. Never lose
+                context between meetings.</p>
+            </div>
+          </div>
+          <!-- Feature 3 -->
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <div class="text-primary mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-12 h-12"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Action Items</h3>
+              <p>Track follow-ups and action items from every meeting. Nothing
+                falls through the cracks.</p>
+            </div>
+          </div>
+          <!-- Feature 4 -->
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <div class="text-primary mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-12 h-12"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Team Management</h3>
+              <p>Organize your teams with role-based access. Invite members
+                seamlessly via email.</p>
+            </div>
+          </div>
+          <!-- Feature 5 -->
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <div class="text-primary mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-12 h-12"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Performance Reviews</h3>
+              <p>Built-in rubrics and evaluation tools to make performance
+                reviews more objective and fair.</p>
+            </div>
+          </div>
+          <!-- Feature 6 -->
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <div class="text-primary mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-12 h-12"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Secure & Private</h3>
+              <p>Your data is encrypted and secure. Role-based permissions
+                ensure information stays confidential.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- CTA Section -->
+    <section class="py-20 bg-base-200">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-6">Ready to Get Started?</h2>
+        <p class="text-xl mb-8 opacity-80 max-w-2xl mx-auto">
+          Join engineering managers who are already using Notae to build better
+          teams.
+        </p>
+        <a href="/create-account" class="btn btn-primary btn-lg">
+          Start Your Free Trial
+        </a>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="footer footer-center p-10 bg-base-300 text-base-content">
+      <aside>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-12 h-12"
+        >
+          <rect x="4" y="4" width="16" height="16" rx="2"/>
+          <path d="M9 16V8"/>
+          <path d="M9 8l6 8"/>
+          <path d="M15 8v8"/>
+        </svg>
+        <p class="font-bold">Notae</p>
+        <p>Engineering Management Made Simple</p>
+        <p>&copy;
+          <%= Time.current.year %>
+          Notae. All rights reserved.</p>
+      </aside>
+    </footer>
+  </body>
+</html>

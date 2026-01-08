@@ -68,7 +68,7 @@ class RodauthMain < Rodauth::Rails::Auth
     # delete_account_on_close? true
 
     # Redirect to the app from login and registration pages if already logged in.
-    # already_logged_in { redirect login_redirect }
+    already_logged_in { redirect "/app/memos" }
 
     # ==> Emails
     create_reset_password_email do
@@ -160,13 +160,16 @@ class RodauthMain < Rodauth::Rails::Auth
     # end
 
     # ==> Redirects
-    # Redirect to home page after logout.
+    # Redirect to landing page after logout.
     logout_redirect "/"
+
+    # Redirect to app after successful login.
+    login_redirect "/app/memos"
 
     # Redirect to login page after password reset.
     reset_password_redirect { login_path }
 
-    # Redirect to home page after account creation.
+    # Redirect to app after account creation.
     create_account_redirect { login_redirect }
 
     # ==> Deadlines
