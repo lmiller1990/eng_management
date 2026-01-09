@@ -52,7 +52,7 @@ export default class extends Controller {
       dimensionId,
     });
 
-    const url = `/dimension_scores/new?dimension_id=${dimensionId}&job_title_id=${jobTitleId}&evaluation_id=${this.evaluationIdValue}`;
+    const url = `/app/dimension_scores/new?dimension_id=${dimensionId}&job_title_id=${jobTitleId}&evaluation_id=${this.evaluationIdValue}`;
 
     // Set the Turbo Frame src to load the form
     this.frameTarget.setAttribute("src", url);
