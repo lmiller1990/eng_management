@@ -35,7 +35,6 @@ Rails.application.routes.draw do
 
     resources :accounts, only: [:index, :show] do
       resources :rubric_evaluations, only: [:new, :create, :index, :edit] do
-        resources :dimensions, controller: "evaluation_dimensions", only: [:create, :update]
       end
     end
 
