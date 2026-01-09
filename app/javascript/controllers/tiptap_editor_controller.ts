@@ -64,7 +64,6 @@ export default class extends Controller {
 
   initHeartbeat() {
     this.heartbeatInterval = window.setInterval(async () => {
-      this.syncMetadata.online = this.provider.synced;
       try {
         const res = await fetch(`/heartbeat/ping`, {
           headers: {
@@ -73,7 +72,11 @@ export default class extends Controller {
             "X-CSRF-Token": csrfToken(),
           },
         });
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
         const json = (await res.json()) as { timestamp: string };
+        this.syncMetadata.online = true;
         this.syncMetadata.lastHeartbeatTime = new Date(
           json.timestamp,
         ).toLocaleTimeString();
