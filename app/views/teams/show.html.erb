@@ -71,7 +71,7 @@
                   class: "btn btn-sm btn-ghost" %>
                 <% end %>
 
-                <% if membership.account.current_rubric && (@current_membership.owner? || member.account == current_account) %>
+                <% if membership.account.current_rubric && (@current_membership.owner? || membership.account == current_account) %>
                   <%= link_to "Rubric",
                   edit_account_rubric_evaluation_path(
                     membership.account,
