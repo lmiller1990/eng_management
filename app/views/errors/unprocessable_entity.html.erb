@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>422 - Unprocessable Request | Notae</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  </head>
+
+  <body class="bg-base-100">
+    <!-- Navigation -->
+    <nav class="navbar bg-base-200 shadow-sm px-4">
+      <div class="flex-1">
+        <a href="/" class="btn btn-ghost text-xl">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-8 h-8 mr-2"
+          >
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <path d="M9 16V8"/>
+            <path d="M9 8l6 8"/>
+            <path d="M15 8v8"/>
+          </svg>
+          Notae
+        </a>
+      </div>
+    </nav>
+
+    <!-- Error Content -->
+    <div class="hero min-h-[80vh]">
+      <div class="hero-content text-center">
+        <div class="max-w-2xl">
+          <h1 class="text-6xl font-bold text-warning mb-4">422</h1>
+          <h2 class="text-3xl font-bold mb-4">Unable to Process Request</h2>
+          <p class="text-lg mb-8 opacity-80">
+            The change you wanted was rejected. Please try again.
+          </p>
+
+          <div class="card bg-base-200 shadow-md mb-8">
+            <div class="card-body">
+              <p class="text-sm opacity-70 mb-3">
+                If you need to contact support, please reference this ID:
+              </p>
+              <div class="bg-base-100 rounded-lg p-4 border border-base-300">
+                <code class="text-lg font-mono font-semibold select-all">
+                  <%= @request_id %>
+                </code>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-4 justify-center">
+            <a href="/" class="btn btn-primary">
+              Return Home
+            </a>
+            <a href="javascript:history.back()" class="btn btn-ghost">
+              Go Back
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

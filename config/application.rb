@@ -23,5 +23,8 @@ module EngManagement
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Use dynamic error pages that show request IDs
+    config.exceptions_app = self.routes
   end
 end

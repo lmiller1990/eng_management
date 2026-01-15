@@ -5,6 +5,11 @@ Rails.application.routes.draw do
   get "heartbeat/ping", to: "heartbeat#ping"
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # Error pages
+  match "/404", to: "errors#not_found", via: :all
+  match "/422", to: "errors#unprocessable_entity", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
+
   # Public invitation acceptance routes (no auth required)
   get "/invitations/:token/accept", to: "team_invitations#accept", as: :accept_team_invitation
   get "/invitations/:token/setup-password", to: "team_invitations#setup_password", as: :setup_password_team_invitation
